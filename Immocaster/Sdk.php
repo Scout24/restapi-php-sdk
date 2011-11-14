@@ -139,10 +139,10 @@ class Immocaster_Sdk
      */
 	public function setDataStorage($aConnection,$sSessionNamespace=null,$sTableName=null)
 	{
-		require_once('Data/Session.php');
+		require_once(dirname(__FILE__).'/Data/Session.php');
 		Immocaster_Data_Session::getInstance($sSessionNamespace);
 		$sFileName = ucfirst(strtolower($aConnection[0]));
-		require_once('Data/'.$sFileName.'.php');
+		require_once(dirname(__FILE__).'/Data/'.$sFileName.'.php');
 		$this->oDataStorage = call_user_func(array('Immocaster_Data_'.$sFileName,'getInstance'),$aConnection,$sTableName);
 		return $this->oDataStorage;
 	}

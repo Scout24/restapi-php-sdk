@@ -152,46 +152,51 @@ class Immocaster_Immobilienscout
 		if($this->_sAuthType=='oauth')
 		{
 			$req->sign_request($this->_oSignatureMethod,$this->_oConsumer,NULL);
-			if($sSecret)
+
+			$sNewHeader = $this->getContentRequestHeaderArray($req,$sSecret=null);
+
+			if($this->_sUrlReadingType=='none')
 			{
-				$sConsKey = rawurlencode($this->_sConsumerSecret).'&'.$sSecret;
-				$sSignature = urlencode(base64_encode(hash_hmac('sha1',$req->get_signature_base_string(),$sConsKey,true)));
-				$sNewHeader = $req->to_header().',oauth_signature_method="HMAC-SHA1",oauth_signature="'.
-				$sSignature.'"'."\r\n".'User-Agent: '.IMMOCASTER_USER_AGENT;
-				$opts = array('http'=>array('ignore_errors'=>true,'header'=>$sNewHeader));
-				if($this->_sUrlReadingType=='none')
-				{
-					$result = file_get_contents($req->to_url(),false,stream_context_create($opts));
-				}
-				if($this->_sUrlReadingType=='curl')
-				{
-					$ch = curl_init();
-					curl_setopt($ch,CURLOPT_HTTPHEADER,array($sNewHeader));
-					curl_setopt($ch,CURLOPT_URL,$req->to_url());
-					curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-					$result = curl_exec($ch);
-					curl_close($ch);
-				}
+				$opts = array('http'=>array('ignore_errors'=>true,'header'=>implode("\r\n", $sNewHeader)));
+				$result = file_get_contents($req->to_url(),false,stream_context_create($opts));
 			}
-			else
+			if($this->_sUrlReadingType=='curl')
 			{
-				$opts = array('http'=>array('ignore_errors'=>true,'header'=>$req->to_header()."\r\n".'User-Agent: '.IMMOCASTER_USER_AGENT));
-				if($this->_sUrlReadingType=='none')
-				{
-					$result = file_get_contents($req->to_url(),false,stream_context_create($opts));
-				}
-				if($this->_sUrlReadingType=='curl')
-				{
-					$ch = curl_init();
-					curl_setopt($ch,CURLOPT_URL,$req->to_url());
-					curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-					$result = curl_exec($ch);
-					curl_close($ch);
-				}
+				$ch = curl_init();
+				curl_setopt($ch,CURLOPT_HTTPHEADER,$sNewHeader);
+				curl_setopt($ch,CURLOPT_URL,$req->to_url());
+				curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+				$result = curl_exec($ch);
+				curl_close($ch);
 			}
 			return $result;
 		}
 		return false;
 	}
 	
+	/**
+	 * Header Array für aktuellen Request erstellen
+	 *
+	 * @param object oAuth Objekt
+	 * @param string Secret des Accesstoken
+	 * @return array
+	 */
+	protected function getContentRequestHeaderArray($req,$sSecret=null) {
+		$sAccessTokenSignature = '';
+		if($sSecret)
+		{
+			$sConsKey = rawurlencode($this->_sConsumerSecret).'&'.$sSecret;
+			$sSignature = urlencode(base64_encode(hash_hmac('sha1',$req->get_signature_base_string(),$sConsKey,true)));
+			$sAccessTokenSignature = ',oauth_signature_method="HMAC-SHA1",oauth_signature="'.$sSignature.'"';
+		}
+		$sNewHeader = array(
+			$req->to_header().$sAccessTokenSignature,
+			'User-Agent: '.IMMOCASTER_USER_AGENT
+		);
+		if($this->_sContentResultType=='json')
+		{
+			$sNewHeader[] = 'Accept: application/json';
+		}
+		return $sNewHeader;
+	}
 }

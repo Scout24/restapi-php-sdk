@@ -20,6 +20,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 protected $_sUrlReadingType = 'none';
 	
 	/**
+	 * Ergebnisformat: JSON oder standardmäßig XML
+	 */
+	 protected $_sContentResultType = 'none';
+
+	/**
      * Der Constructor legt die Einstellungen für die 
 	 * Verbindung fest und startet diese.
      *
@@ -51,6 +56,23 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		return true;
     }
 	
+	/**
+	 * Ergebnisformat setzen (z.B. 'none','json').
+	 *
+	 * @param string $sContentResultType Formatierung des Ergebnisses
+	 * @return boolean
+	 */
+	public function setContentResultType($sContentResultType='none')
+	{
+		if(strtolower($sContentResultType)=='json')
+		{
+			$this->_sContentResultType = 'json';
+			return true;
+		}
+		$this->_sContentResultType = 'none';
+		return true;
+	}
+
 	/**
      * Haupt-URL für Requests zum Service ändern.
 	 *
