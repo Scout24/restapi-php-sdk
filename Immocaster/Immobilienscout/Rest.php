@@ -212,18 +212,9 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$aRequired = array('exposeid');
 		$oToken = null;
 		$sSecret = null;
-		if(class_exists('Immocaster_Data_Mysql'))
-		{
-			if($oData = Immocaster_Data_Mysql::getInstance()->getApplicationToken())
-			{
-				$oToken = new OAuthToken
-				(
-					$oData->ic_key,
-					$oData->ic_secret
-				);
-				$sSecret = $oData->ic_secret;	
-			}
-		}
+
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+
 		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
 		return parent::getContent($req,$sSecret);
 	}
@@ -274,17 +265,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(isset($aArgs['username']))
 		{
-			if(!class_exists(Immocaster_Data_Mysql)){return false;}
-			if($oData = Immocaster_Data_Mysql::getInstance()->getApplicationToken())
-			{
-				$oToken = new OAuthToken
-				(
-					$oData->ic_key,
-					$oData->ic_secret
-				);
-				$sSecret = $oData->ic_secret;	
-			}
-			else
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			if($oToken === NULL || $sSecret === NULL)
 			{
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 			}
@@ -307,17 +289,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(isset($aArgs['username']))
 		{
-			if(!class_exists(Immocaster_Data_Mysql)){return false;}
-			if($oData = Immocaster_Data_Mysql::getInstance()->getApplicationToken())
-			{
-				$oToken = new OAuthToken
-				(
-					$oData->ic_key,
-					$oData->ic_secret
-				);
-				$sSecret = $oData->ic_secret;	
-			}
-			else
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			if($oToken === NULL || $sSecret === NULL)
 			{
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 			}
@@ -431,5 +404,25 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Application Accesstoken aus der Datenbank holen
+	 * (3-legged-oauth)
+	 *
+	 * @return array (token, secret)
+	 */
+	private function getApplicationTokenAndSecret() {
+		$oToken = NULL;
+		$sSecret = NULL;
+		if(class_exists('Immocaster_Data_Mysql') && $oData = Immocaster_Data_Mysql::getInstance()->getApplicationToken())
+		{
+			$oToken = new OAuthToken
+			(
+				$oData->ic_key,
+				$oData->ic_secret
+			);
+			$sSecret = $oData->ic_secret;
+		}
+		return array($oToken, $sSecret);
+	}
 }
