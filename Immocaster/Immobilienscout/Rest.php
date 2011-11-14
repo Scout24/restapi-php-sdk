@@ -165,21 +165,25 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		if(isset($aArgs['country-id']))
 		{
 			$sSearchQuery .= '/'.$aArgs['country-id'];
+			unset($aArgs['country-id']);
 			$iSearchOption = 1;
 		}
 		if(isset($aArgs['region-id']))
 		{
 			$sSearchQuery .= '/region/'.$aArgs['region-id'];
+			unset($aArgs['region-id']);
 			$iSearchOption++;
 		}
 		if(isset($aArgs['city-id']))
 		{
 			$sSearchQuery .= '/city/'.$aArgs['city-id'];
+			unset($aArgs['city-id']);
 			$iSearchOption++;
 		}
 		if(isset($aArgs['quarter-id']))
 		{
 			$sSearchQuery .= '/quarter/'.$aArgs['quarter-id'];
+			unset($aArgs['quarter-id']);
 			$iSearchOption++;
 		}
 		if($aArgs['list'])
@@ -216,6 +220,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
 
 		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('exposeid');
 		return parent::getContent($req,$sSecret);
 	}
 	
@@ -232,8 +237,10 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		if(isset($aArgs['attachmentid']))
 		{
 			$sSearchQuery .= '/'.$aArgs['attachmentid'];
+			unset($aArgs['attachmentid']);
 		}
 		$req = $this->doRequest($sSearchQuery,$aArgs,$aRequired,__FUNCTION__);
+		$req->unset_parameter('exposeid');
 		return parent::getContent($req);
 	}
 	
