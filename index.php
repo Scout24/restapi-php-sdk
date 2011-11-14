@@ -36,6 +36,11 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
 // $oImmocaster->setReadingType('curl');
 
 /**
+ * JSON verwenden
+ */
+// $oImmocaster->setContentResultType('json');
+
+/**
  * Auf Live-System arbeiten.
  * Für die Arbeit mit Livedaten, muss man von
  * ImmobilienScout24 extra freigeschaltet werden.
