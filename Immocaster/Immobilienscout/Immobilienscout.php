@@ -153,7 +153,7 @@ class Immocaster_Immobilienscout
 		{
 			$req->sign_request($this->_oSignatureMethod,$this->_oConsumer,NULL);
 
-			$sNewHeader = $this->getContentRequestHeaderArray($req,$sSecret=null);
+			$sNewHeader = $this->getContentRequestHeaderArray($req,$sSecret);
 
 			if($this->_sUrlReadingType=='none')
 			{
