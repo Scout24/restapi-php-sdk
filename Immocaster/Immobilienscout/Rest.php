@@ -25,6 +25,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 protected $_sContentResultType = 'none';
 
 	/**
+	 * Anfrageformat: JSON oder standardmäßig XML
+	 */
+	 protected $_sContentRequestType = 'none';
+
+	/**
      * Der Constructor legt die Einstellungen für die 
 	 * Verbindung fest und startet diese.
      *
@@ -70,6 +75,23 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			return true;
 		}
 		$this->_sContentResultType = 'none';
+		return true;
+	}
+
+	/**
+	 * Anfrageformat setzen (z.B. 'none','json').
+	 *
+	 * @param string $sContentRequestType Formatierung der POST-Anfragen
+	 * @return boolean
+	 */
+	public function setContentRequestType($sContentRequestType='none')
+	{
+		if(strtolower($sContentRequestType)=='json')
+		{
+			$this->_sContentRequestType = 'json';
+			return true;
+		}
+		$this->_sContentRequestType = 'none';
 		return true;
 	}
 
@@ -122,15 +144,17 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 * @param array $aRequired Benötigte Parameter für den Request
 	 * @param string $sFunctionName Name der Funktion aus der doRequest aufgerufen wird
 	 * @param object $oToken Accesstoken für den 3-Legged-Oauth
+	 * @param boolean $postRequest TRUE, wenn der Request ein POST-Request sein soll
      * @return mixed
      */
-	private function doRequest($sPath,$aArgs,$aRequired=array(),$sFunctionName,$oToken=null)
+	private function doRequest($sPath,$aArgs,$aRequired=array(),$sFunctionName,$oToken=null,$postRequest=FALSE)
 	{
+		$requestType = $postRequest ? 'POST' : 'GET';
 		try
 		{
 			if(parent::requiredArgs($aArgs,$aRequired,$sFunctionName))
 			{
-				return parent::restRequest($sPath,$aArgs,false,$oToken);
+				return parent::restRequest($sPath,$aArgs,false,$oToken,$requestType);
 			}
 		}
 		catch (Exception $e)
@@ -306,6 +330,56 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		return parent::getContent($req,$sSecret);
 	}
 	
+	/**
+	 * Kontaktanfrage an den Anbieter eines Exposes (Objekt)
+	 * mit der Objekt-ID.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _sendContact($aArgs)
+	{
+		$aRequired = array('exposeid', 'request_body');
+		$oToken = null;
+		$sSecret = null;
+		if(isset($aArgs['username']))
+		{
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			if($oToken === NULL || $sSecret === NULL)
+			{
+				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+			}
+		}
+		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'].'/contact',$aArgs,$aRequired,__FUNCTION__,$oToken,TRUE);
+		$req->unset_parameter('exposeid');
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
+	 * 'Send a friend' für eine Expose (Objekt)
+	 * mit der Objekt-ID.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _sendAFriend($aArgs)
+	{
+		$aRequired = array('exposeid', 'request_body');
+		$oToken = null;
+		$sSecret = null;
+		if(isset($aArgs['username']))
+		{
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			if($oToken === NULL || $sSecret === NULL)
+			{
+				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+			}
+		}
+		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'].'/sendafriend',$aArgs,$aRequired,__FUNCTION__,$oToken,TRUE);
+		$req->unset_parameter('exposeid');
+		return parent::getContent($req,$sSecret);
+	}
+
 	/**
      * Applikation zeritifizieren.
 	 *

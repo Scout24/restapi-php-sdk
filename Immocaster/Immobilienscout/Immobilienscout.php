@@ -119,10 +119,14 @@ class Immocaster_Immobilienscout
 	 * @param array $aArgs Variablen für den Request
 	 * @param boolean $bSecurity Wert, ob der Securitypfad genutzt werden soll (für 3-legged-oauth)
 	 * @param object Requesttoken für 3-Legged-Oauth
+	 * @param string $requestMethod HTTP Request Method ('GET', 'POST')
      * @return mixed
      */
-	protected function restRequest($sPath='',$aArgs=array(),$bSecurity=false,$oToken=null)
+	protected function restRequest($sPath='',$aArgs=array(),$bSecurity=false,$oToken=null,$requestMethod='GET')
 	{
+		if(!in_array($requestMethod, array('GET', 'POST'))) {
+			$requestMethod = 'GET';
+		}
 		if($this->_sAuthType=='oauth')
 		{
 			$sSubPath = $this->_sUriPath;
@@ -132,9 +136,9 @@ class Immocaster_Immobilienscout
 			}
 			if($oToken!=null)
 			{
-				return OAuthRequest::from_consumer_and_token($this->_oConsumer,$oToken,'GET',$this->_sUri.'/'.$sSubPath.$sPath,$aArgs);
+				return OAuthRequest::from_consumer_and_token($this->_oConsumer,$oToken,$requestMethod,$this->_sUri.'/'.$sSubPath.$sPath,$aArgs);
 			}
-			return OAuthRequest::from_consumer_and_token($this->_oConsumer,NULL,'GET',$this->_sUri.'/'.$sSubPath.$sPath,$aArgs);
+			return OAuthRequest::from_consumer_and_token($this->_oConsumer,NULL,$requestMethod,$this->_sUri.'/'.$sSubPath.$sPath,$aArgs);
 		}
 		return false;
 	}
@@ -151,6 +155,14 @@ class Immocaster_Immobilienscout
 	{
 		if($this->_sAuthType=='oauth')
 		{
+			if($req->get_normalized_http_method() == 'POST')
+			{
+				$requestBody = $req->get_parameter('request_body');
+				if($requestBody !== NULL)
+				{
+					$req->unset_parameter('request_body');
+				}
+			}
 			$req->sign_request($this->_oSignatureMethod,$this->_oConsumer,NULL);
 
 			$sNewHeader = $this->getContentRequestHeaderArray($req,$sSecret);
@@ -158,6 +170,11 @@ class Immocaster_Immobilienscout
 			if($this->_sUrlReadingType=='none')
 			{
 				$opts = array('http'=>array('ignore_errors'=>true,'header'=>implode("\r\n", $sNewHeader)));
+				if($req->get_normalized_http_method() == 'POST')
+				{
+					$opts['http']['method'] = 'POST';
+					$opts['http']['content'] = $requestBody;
+				}
 				$result = file_get_contents($req->to_url(),false,stream_context_create($opts));
 			}
 			if($this->_sUrlReadingType=='curl')
@@ -166,6 +183,11 @@ class Immocaster_Immobilienscout
 				curl_setopt($ch,CURLOPT_HTTPHEADER,$sNewHeader);
 				curl_setopt($ch,CURLOPT_URL,$req->to_url());
 				curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+				if($req->get_normalized_http_method() == 'POST')
+				{
+					curl_setopt($ch,CURLOPT_POST,TRUE);
+					curl_setopt($ch,CURLOPT_POSTFIELDS,$requestBody);
+				}
 				$result = curl_exec($ch);
 				curl_close($ch);
 			}
@@ -196,6 +218,17 @@ class Immocaster_Immobilienscout
 		if($this->_sContentResultType=='json')
 		{
 			$sNewHeader[] = 'Accept: application/json';
+		}
+		if($req->get_normalized_http_method()=='POST')
+		{
+			if ($this->_sContentRequestType=='json')
+			{
+				$sNewHeader[] = 'Content-Type: application/json;charset=utf-8';
+			}
+			else
+			{
+				$sNewHeader[] = 'Content-Type: application/xml;charset=utf-8';
+			}
 		}
 		return $sNewHeader;
 	}
