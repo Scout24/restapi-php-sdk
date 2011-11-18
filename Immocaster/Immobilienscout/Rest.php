@@ -7,7 +7,6 @@
  * @package    Immocaster SDK
  * @author     Norman Braun (medienopfer98.de)
  * @link       http://www.immocaster.com
- * @version    1.1.18
  */
 
 class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
@@ -75,23 +74,6 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			return true;
 		}
 		$this->_sContentResultType = 'none';
-		return true;
-	}
-
-	/**
-	 * Anfrageformat setzen (z.B. 'none','json').
-	 *
-	 * @param string $sContentRequestType Formatierung der POST-Anfragen
-	 * @return boolean
-	 */
-	public function setContentRequestType($sContentRequestType='none')
-	{
-		if(strtolower($sContentRequestType)=='json')
-		{
-			$this->_sContentRequestType = 'json';
-			return true;
-		}
-		$this->_sContentRequestType = 'none';
 		return true;
 	}
 
@@ -240,9 +222,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$aRequired = array('exposeid');
 		$oToken = null;
 		$sSecret = null;
-
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
-
 		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
 		$req->unset_parameter('exposeid');
 		return parent::getContent($req,$sSecret);
@@ -426,7 +406,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				Immocaster_Data_Session::getInstance()->setVar('request_token',$aResult['oauth_token']);
 				Immocaster_Data_Mysql::getInstance()->saveRequestToken($aResult['oauth_token'],$aResult['oauth_token_secret']);
 				@header('Location: '.$this->_sUri.'/restapi/security/oauth/confirm_access?oauth_token='.$aResult['oauth_token']);
-				echo '<meta http-equiv="refresh" content="0;url='.$this->_sUri.'/restapi/security/oauth/confirm_access?oauth_token='.$aResult['oauth_token'].'">';
+				echo '<meta http-equiv="refresh" content="0;url='.$this->_sUri.
+				'/restapi/security/oauth/confirm_access?oauth_token='.$aResult['oauth_token'].'">';
 			}
 		}
 		catch (Exception $e)

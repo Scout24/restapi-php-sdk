@@ -8,7 +8,6 @@
  * @package    Immocaster SDK
  * @author     Norman Braun (medienopfer98.de)
  * @link       http://www.immocaster.com
- * @version    1.1.18
  */
 
 class Immocaster_Sdk

@@ -7,7 +7,6 @@
  * @package    Immocaster SDK
  * @author     Norman Braun (medienopfer98.de)
  * @link       http://www.immocaster.com
- * @version    1.1.18
  */
 
 class Immocaster_Immobilienscout
@@ -119,12 +118,13 @@ class Immocaster_Immobilienscout
 	 * @param array $aArgs Variablen für den Request
 	 * @param boolean $bSecurity Wert, ob der Securitypfad genutzt werden soll (für 3-legged-oauth)
 	 * @param object Requesttoken für 3-Legged-Oauth
-	 * @param string $requestMethod HTTP Request Method ('GET', 'POST')
+	 * @param string $requestMethod HTTP Request Method ('GET','POST')
      * @return mixed
      */
 	protected function restRequest($sPath='',$aArgs=array(),$bSecurity=false,$oToken=null,$requestMethod='GET')
 	{
-		if(!in_array($requestMethod, array('GET', 'POST'))) {
+		if(!in_array($requestMethod,array('GET','POST')))
+		{
 			$requestMethod = 'GET';
 		}
 		if($this->_sAuthType=='oauth')
@@ -164,9 +164,7 @@ class Immocaster_Immobilienscout
 				}
 			}
 			$req->sign_request($this->_oSignatureMethod,$this->_oConsumer,NULL);
-
 			$sNewHeader = $this->getContentRequestHeaderArray($req,$sSecret);
-
 			if($this->_sUrlReadingType=='none')
 			{
 				$opts = array('http'=>array('ignore_errors'=>true,'header'=>implode("\r\n", $sNewHeader)));
