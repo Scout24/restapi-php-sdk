@@ -185,13 +185,40 @@ if($_POST['formActionSendContact'])
 		echo '<strong>'.$res.'</strong><br /><br />';
 	}
 }
-echo '<form action="'.$SELFPHP.'" method="post">';
+echo '<form action="'.$SELFPHP.'" method="post" name="sendcontact">';
 echo 'Objekt-ID: <input type="text" name="contactObjectId"><br />';
 echo 'Nachricht: <input type="text" name="contactMsg"><br />';
 echo '<input type="hidden" name="formActionSendContact" value="do"><br />';
 echo '<input type="submit" name="submit" value="Anbieter kontaktieren">';
 echo '</form>';
 
+/**
+ * Objekt weiter empfehlen (an Emailadresse).
+ */
+echo '<h2>Objekt empfehlen:</h2><br/>';
+echo 'Es kann zu Problemen kommen, wenn das Objekt nicht auf IS24 veröffentlicht ist.<br/><br/>';
+if($_POST['formActionSendFriend'])
+{
+	$aParameter = array('exposeid'=>$_POST['friendObjectId']);
+	$res = $oImmocaster->getExpose($aParameter);
+	if(substr_count($res, 'ERROR_RESOURCE_NOT_FOUND')<1)
+	{
+		$sRequestBody = ''; // Infos zum Aufbau unter: http://developer.immobilienscout24.de/wiki/SendAFriendForm/POST
+		$aFriendParameter = array('exposeid'=>$_POST['friendObjectId'],'request_body'=>$sRequestBody);
+		$resFriend = $oImmocaster->sendAFriend($aFriendParameter);
+		echo '<strong>'.$resFriend.'</strong><br /><br />';
+	}
+	else
+	{
+		echo '<strong>'.$res.'</strong><br /><br />';
+	}
+}
+echo '<form action="'.$SELFPHP.'" method="post" name="sendafriend">';
+echo 'Objekt-ID: <input type="text" name="friendObjectId"><br />';
+echo 'Email-Adresse: <input type="text" name="friendEmail"><br />';
+echo '<input type="hidden" name="formActionSendFriend" value="do"><br />';
+echo '<input type="submit" name="submit" value="Objekt empfehlen">';
+echo '</form>';
 ?>
 
 </body>
