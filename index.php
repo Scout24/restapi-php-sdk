@@ -164,6 +164,34 @@ echo '<h2>Ergebnisliste eines einzelnen Maklers per Region abfragen</h2><br/>Die
 //$res        = $oImmocaster->regionSearch($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
+/**
+ * Kontakt an Anbieter versenden.
+ */
+echo '<h2>Anbieter kontaktieren</h2><br/>';
+echo 'Es kann zu Problemen kommen, wenn die Objekte die kontaktiert werden sollen nicht auf IS24 veröffentlicht sind.<br/>D.h. wenn die Objekte lediglich Homepage-Veröffentlicht sind wird ein Fehler erzeugt.<br/><br />';
+if($_POST['formActionSendContact'])
+{
+	$aParameter = array('exposeid'=>$_POST['contactObjectId']);
+	$res = $oImmocaster->getExpose($aParameter);
+	if(substr_count($res, 'ERROR_RESOURCE_NOT_FOUND')<1)
+	{
+		$sRequestBody = ''; // Infos zum Aufbau unter: http://developer.immobilienscout24.de/wiki/Contact/POST	
+		$aContactParameter = array('exposeid'=>$_POST['contactObjectId'],'request_body'=>$sRequestBody);
+		$resContact = $oImmocaster->sendContact($aContactParameter);
+		echo '<strong>'.$resContact.'</strong><br /><br />';
+	}
+	else
+	{
+		echo '<strong>'.$res.'</strong><br /><br />';
+	}
+}
+echo '<form action="'.$SELFPHP.'" method="post">';
+echo 'Objekt-ID: <input type="text" name="contactObjectId"><br />';
+echo 'Nachricht: <input type="text" name="contactMsg"><br />';
+echo '<input type="hidden" name="formActionSendContact" value="do"><br />';
+echo '<input type="submit" name="submit" value="Anbieter kontaktieren">';
+echo '</form>';
+
 ?>
 
 </body>
