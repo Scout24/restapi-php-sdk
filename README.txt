@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.22
+Immocaster PHP SDK v1.1.20
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immocaster UG (haftungsbeschränkt)

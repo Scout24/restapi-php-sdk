@@ -448,18 +448,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			$authHeader = $req->to_header();
 			$opts = array('http'=>array('header'=>$authHeader.',oauth_signature_method="HMAC-SHA1",oauth_signature="'.
 			$sSignature.'"'."\r\n".'User-Agent: '.IMMOCASTER_USER_AGENT));
-			if($this->_sUrlReadingType == 'curl')
-			{
-				$ch = curl_init();
-				curl_setopt($ch,CURLOPT_URL,$this->_sUri.'/restapi/security/oauth/access_token');
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1);
-				curl_setopt($ch, CURLOPT_HEADER, 0);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, $opts['http']);
-				$result = curl_exec($ch);
-				curl_close($ch);
-			}else{
-				$result = file_get_contents($this->_sUri.'/restapi/security/oauth/access_token',false,stream_context_create($opts));
-			}
+			@$result = file_get_contents($this->_sUri.'/restapi/security/oauth/access_token',false,stream_context_create($opts));
 			if(!$result)
 			{
 				 $this->registerRequest($aArgs);
