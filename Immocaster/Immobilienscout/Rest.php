@@ -229,6 +229,21 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 	
 	/**
+     * Impressum des Angebots anhand einer
+	 * Objekt-ID auslesen.
+	 *
+     * @param array $aArgs
+     * @return mixed
+     */
+	private function _getExposeImprint($aArgs)
+	{
+		$aRequired = array('exposeid');
+		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'].'/imprint',$aArgs,$aRequired,__FUNCTION__);
+		$req->unset_parameter('exposeid');
+		return parent::getContent($req);
+	}
+	
+	/**
      * Abfrage eines Dateianhangs (Attachment).
 	 *
      * @param array $aArgs

@@ -119,6 +119,14 @@ echo '<h2>Expose per ID auslesen</h2><br/>Diese Funktion wurde auskommentiert, d
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
+ * Impressum eines Exposes auslesen.
+ */
+echo '<h2>Impressum eines Exposes auslesen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine aktuelle ExposeID benötigt wird.<br/><br/>';
+//$aParameter = array('exposeid'=>'ID'); // Expose-ID hinterlegen
+//$res        = $oImmocaster->getExposeImprint($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
  * Attachment auslesen.
  */
 echo '<h2>Attachment auslesen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine aktuelle ExposeID benötigt wird.<br/><br/>';
