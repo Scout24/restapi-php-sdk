@@ -406,6 +406,30 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 
 	/**
+	 * Channel ermitteln in dem ein User seine
+	 * Objekte exportieren darf.
+	 * (Hierfür müssen besondere Berechtigungen
+	 * bei ImmobilienScout24 beantragt werden.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _getPublishChannel($aArgs)
+	{
+		$aRequired = array('username');
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/publishchannel',$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
      * Applikation zeritifizieren.
 	 *
      * @param array $aArgs

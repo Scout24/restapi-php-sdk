@@ -235,6 +235,15 @@ echo 'Email-Adresse: <input type="text" name="friendEmail"><br />';
 echo '<input type="hidden" name="formActionSendFriend" value="do"><br />';
 echo '<input type="submit" name="submit" value="Objekt empfehlen">';
 echo '</form>';
+
+/**
+ * Ermittelt die Kanäle (Channels) in die ein zertifizierter Benutzer Objekte exportieren darf
+ */
+echo '<h2>Export-Channels für den User:</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME'); // Benutzername ('me' ist hier nicht zulässig!)
+//$res        = $oImmocaster->getPublishChannel($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
 ?>
 
 </body>
