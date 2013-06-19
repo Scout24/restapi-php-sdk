@@ -157,6 +157,14 @@ echo '<h2>Zertifizierung einer Applikation durch den Makler</h2><br/>Diese Funkt
 //echo '<div id="appVerifyButton"><a href="'.$PHP_SELF.'?main_registration=1'.'">Applikation zertifizieren</a><br/>Hinweis: Unter IE9 kann es zu Problemen mit der Zertifizierung kommen.</div>';
 
 /**
+ * Anbieter-Logo auslesen
+ */
+echo '<h2>Logo eines Maklers auslesen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME'); // Username hinterlegen (standardmäßig ihr Nutzername, der beim Login verwendet wird)
+//$res        = $oImmocaster->getLogo($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
  * Ergebnisliste abfragen per Radius (eines einzelnen Kunden/Maklers).
  */
 echo '<h2>Ergebnisliste eines einzelnen Maklers per Radius abfragen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';

@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.23
+Immocaster PHP SDK v1.1.24
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immocaster UG (haftungsbeschränkt)
@@ -8,6 +8,9 @@ Das PHP SDK von Immocaster steht unter der FreeBSD Lizenz zur Verfügung und kan
 
 History
 =======
+
+SDK Version 1.1.24
+- Neue Funktion zum auslesen eines Anbieterlogos anhand des Benutzernamen
 
 SDK Version 1.1.23
 - Neue Funktion zum auslesen eines Impressums für ein Objekt

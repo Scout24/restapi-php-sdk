@@ -244,6 +244,36 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 	
 	/**
+	 * Logo des Anbieters auslesen.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _getLogo($aArgs)
+	{
+		$aRequired = array('username');
+		$oToken = null;
+		$sSecret = null;
+		if(isset($aArgs['username']))
+		{
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			if($oToken === NULL || $sSecret === NULL)
+			{
+				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+			}
+		}
+		$req = $this->doRequest(
+			'offer/v1.0/realtor/'.$aArgs['username'].'/logo',
+			$aArgs,
+			$aRequired,
+			__FUNCTION__,
+			$oToken
+		);
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
+	}
+	
+	/**
      * Abfrage eines Dateianhangs (Attachment).
 	 *
      * @param array $aArgs
