@@ -244,6 +244,50 @@ echo '<h2>Export-Channels für den User:</h2><br/>Diese Funktion wurde auskommen
 //$res        = $oImmocaster->getPublishChannel($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
+/**
+ * Objekt zu ImmobilienScout24 exportieren
+ */
+echo '<h2>Objekt exportieren</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*
+$aParameter = array(
+	'username' => 'me',
+	'service' => 'immobilienscout',
+	'estate' => array(
+		'type'                  => 'apartmentBuy',        // Wohnungstyp (*)
+		'objectId'              => '12345',               // Eindeutige ID des Objekts
+		'title'                 => 'Tolle Test-Wohnung',  // Titel des Objekts (*)
+		'street'                => 'Andreasstrasse',      // Strasse (ohne Hausnummer)
+		'houseNumber'           => '10',                  // Hausnummer
+		'zip'                   => '10245',               // Postleitzahl (*)
+		'city'                  => 'Berlin',              // Ort oder Stadt (*)
+		'showFullAddress'       => 'false',               // Komplette Adresse anzeigen (*)
+		'longDescription'       => 'ABC...',              // Informationen zur Wohnung
+		'furnishingDescription' => 'DEF...',              // Information zur Ausstattung
+		'locationDescription'   => 'GHI...',              // Information zur Umgebung
+		'otherDescription'      => 'JKL...',              // Weitere Information zum Objekt
+		'floor'                 => '4',                   // Stockwerk des Objekts
+		'totalFloors'           => '12',                  // Anzahl der Stockwerke des gesamten Objekts
+		'baseBuyPrice'          => '500.50',              // Kaufpreis (*)
+		'currency'              => 'EUR',                 // Währung (*)
+		'usableSpaceSqm'        => '140.00',              // Nutzfläche in Quadratmetern
+		'livingSpaceSqm'        => '60',                  // Wohnfläche in Quadratmetern (*)
+		'numberOfRooms'         => '4',                   // Anzahl der Zimmer (*)
+		'numberOfBedrooms'      => '1',                   // Anzahl der Schlafzimmer
+		'numberOfBathrooms'     => '2',                   // Anzahl der Badezimmer
+		'lift'                  => false,                 // Fahrstuhl vorhanden
+		'cellar'                => true,                  // Keller vorhanden
+		'handicappedAccessible' => true,                  // Behindertengerecht
+		'guestToilet'           => true,                  // Gäste-WC vorhanden
+		'kitchen'               => 'full',                // Küche vorhanden // Werte: full (Einbauküche),open (Offene Küche), small (Kleine Anrichte)
+		'balcony'               => true,                  // Balkon vorhanden
+		'garden'                => true,                  // Garten vorhanden
+		'hasCourtage'           => true,                  // Provisionsgebunden (Ja oder Nein)
+		'courtage'              => '2 Monatsmieten',      // Provision
+		'courtageNote'          => 'Kostet extra',        // Infos zur Provision
+));
+print_r($oImmocaster->exportObject($aParameter));
+*/
+
 ?>
 
 </body>

@@ -428,6 +428,41 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
+	
+	/**
+	 * Objekt zu ImmobilienScout24 exportieren.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _exportObject($aArgs)
+	{
+		$aRequired = array('username','service','estate');
+		if(isset($aArgs['username']) && isset($aArgs['service']) && isset($aArgs['estate']))
+		{
+			require_once(dirname(__FILE__).'/../Xml/Writer.php');
+			$oXml = Immocaster_Xml_Writer::getInstance('xmlReqBody');
+			if(!$oXml->setFormat(strtolower($aArgs['service']),array('estate_type'=>$aArgs['estate']['type'])))
+			{
+				return sprintf(IMMOCASTER_SDK_LANG_XML_FORMAT_NOT_SET,$aArgs['service']);
+			}
+			$aArgs['request_body'] = $oXml->getXml($aArgs['estate']);
+		}
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate',$aArgs,$aRequired,__FUNCTION__,$oToken,TRUE);
+		$req->unset_parameter('username');
+		$req->unset_parameter('service');
+		$req->unset_parameter('estate');
+		return parent::getContent($req,$sSecret);
+	}
 
 	/**
      * Applikation zeritifizieren.

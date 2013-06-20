@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.25
+Immocaster PHP SDK v1.1.26
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immocaster UG (haftungsbeschränkt)
@@ -8,6 +8,9 @@ Das PHP SDK von Immocaster steht unter der FreeBSD Lizenz zur Verfügung und kan
 
 History
 =======
+
+SDK Version 1.1.26
+- Exportfunktion für Wohnungen und Häuser zu ImmobilienScout24 (ohne Dateianhänge).
 
 SDK Version 1.1.25
 - Möglichkeit für ein Listing von Channels in die ein zertifizierter Nutzer exportieren darf

@@ -18,3 +18,4 @@ define('IMMOCASTER_SDK_LANG_NO_SERVICE_FOR_CHANGE_URL','URL kann nicht geändert
 define('IMMOCASTER_SDK_LANG_PARAMETER_NOT_SET','Für "%s" wurde der Parameter "%s" nicht gesetzt! ');
 define('IMMOCASTER_SDK_LANG_FUNCTION_DONT_EXIST','Funktion existiert nicht im Immocaster SDK. ');
 define('IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED','Die Applikation muss vor der Nutzung dieser Funktion zertifiziert werden. ');
+define('IMMOCASTER_SDK_LANG_XML_FORMAT_NOT_SET','"%s" ungültig. Bitte ein gültigen Service für das XML Format angeben.');
