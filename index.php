@@ -288,6 +288,14 @@ $aParameter = array(
 print_r($oImmocaster->exportObject($aParameter));
 */
 
+/**
+ * Bild zu einem Objekt hochladen
+ */
+echo '<h2>Objektbild hochladen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('file' => 'testbild.jpg', 'estateid' => 'ESTATEID' /*ID des Objekts*/);
+//$res = $oImmocaster->exportObjectAttachment($aParameter));
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
 ?>
 
 </body>

@@ -19,3 +19,4 @@ define('IMMOCASTER_SDK_LANG_PARAMETER_NOT_SET','Für "%s" wurde der Parameter "%
 define('IMMOCASTER_SDK_LANG_FUNCTION_DONT_EXIST','Funktion existiert nicht im Immocaster SDK. ');
 define('IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED','Die Applikation muss vor der Nutzung dieser Funktion zertifiziert werden. ');
 define('IMMOCASTER_SDK_LANG_XML_FORMAT_NOT_SET','"%s" ungültig. Bitte ein gültigen Service für das XML Format angeben.');
+define('IMMOCASTER_SDK_LANG_FILE_NOT_FOUND','Die Datei "%s" wurde nicht gefunden. Evtl. ist der Pfad oder Dateiname nicht korrekt.');

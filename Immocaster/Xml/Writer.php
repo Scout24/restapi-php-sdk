@@ -74,7 +74,7 @@ class Immocaster_Xml_Writer
 						$sOuterElement = "realestates:apartmentBuy";
 						$this->_aSort = require_once(dirname(__FILE__).'/Writer/Immobilienscout/Apartmentbuy.php');
 					}
-					if(strtolower($aParameter['estate_type'])=='housetrent')
+					if(strtolower($aParameter['estate_type'])=='houserent')
 					{
 						$sOuterElement = "realestates:apartmentRent";
 						$this->_aSort = require_once(dirname(__FILE__).'/Writer/Immobilienscout/Houserent.php');

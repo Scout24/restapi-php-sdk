@@ -151,7 +151,7 @@ class Immocaster_Immobilienscout
 	 * @param string Secret des Accesstoken
 	 * @return mixed
      */
-	protected function getContent($req,$sSecret=null)
+	protected function getContent($req,$sSecret=null,$aHeader=array())
 	{
 		if($this->_sAuthType=='oauth')
 		{
@@ -164,7 +164,7 @@ class Immocaster_Immobilienscout
 				}
 			}
 			$req->sign_request($this->_oSignatureMethod,$this->_oConsumer,NULL);
-			$sNewHeader = $this->getContentRequestHeaderArray($req,$sSecret);
+			$sNewHeader = $this->getContentRequestHeaderArray($req,$sSecret,$aHeader);
 			if($this->_sUrlReadingType=='none')
 			{
 				$opts = array('http'=>array('ignore_errors'=>true,'header'=>implode("\r\n", $sNewHeader)));
@@ -201,7 +201,8 @@ class Immocaster_Immobilienscout
 	 * @param string Secret des Accesstoken
 	 * @return array
 	 */
-	protected function getContentRequestHeaderArray($req,$sSecret=null) {
+	protected function getContentRequestHeaderArray($req,$sSecret=null,$aHeader)
+	{
 		$sAccessTokenSignature = '';
 		if($sSecret)
 		{
@@ -219,15 +220,59 @@ class Immocaster_Immobilienscout
 		}
 		if($req->get_normalized_http_method()=='POST')
 		{
-			if ($this->_sContentRequestType=='json')
+			// Request-Header (Content-Type)
+			if(isset($aHeader['Content-Type']))
 			{
-				$sNewHeader[] = 'Content-Type: application/json;charset=utf-8';
+				$sNewHeader[] = 'Content-Type: ' . $aHeader['Content-Type'];
+				unset($aHeader['Content-Type']);
 			}
 			else
 			{
-				$sNewHeader[] = 'Content-Type: application/xml;charset=utf-8';
+				if ($this->_sContentRequestType=='json'){ $sRequestType = 'json'; }else{ $sRequestType = 'xml'; }
+				$sNewHeader[] = 'Content-Type: application/'.$sRequestType.';charset=utf-8';
+			}
+			// Request-Header (Other)
+			foreach($aHeader as $sKey=>$sVal)
+			{
+				$sNewHeader[] = $sKey.': '.$sVal;
 			}
 		}
 		return $sNewHeader;
 	}
+	
+	/**
+	 * Body für den Export von Anhängen erstellen (MIME)
+	 *
+	 * @param string Boundary für den Body
+	 * @param array Argumente mit Filename bzw. Filepath
+	 * @return string
+	 */
+	protected function createAttachmentBody($sMimeBoundary,$aArgs)
+	{
+		$fp = fopen($aArgs['file'],'rb');
+		$sFileContent = fread($fp,filesize($aArgs['file']));
+		fclose ($fp);
+		$aFileInfos = getimagesize($aArgs['file']);
+		$sBreak = "\r\n";
+		$sBody  = '--' . $sMimeBoundary . $sBreak;
+		$sBody .= 'Content-Type: application/xml; name=body.xml' . $sBreak;
+		$sBody .= 'Content-Transfer-Encoding: binary' . $sBreak;
+		$sBody .= 'Content-Disposition: form-data; name="metadata"; filename="' . $aArgs['file'] . '"' . $sBreak . $sBreak;
+		$sBody .= '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . $sBreak;
+		$sBody .= '<common:attachment xsi:type="common:Picture" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0" ';
+		$sBody .= 'xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" ';
+		$sBody .= 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $sBreak;
+		$sBody .= '<title>'.$aArgs['title'].'</title>' . $sBreak;
+		$sBody .= '<floorplan>'.$aArgs['floorplan'].'</floorplan>' . $sBreak;
+		$sBody .= '<titlePicture>'.$aArgs['titlePicture'].'</titlePicture>' . $sBreak;
+		$sBody .= '</common:attachment>' . $sBreak;
+		$sBody .= '--' . $sMimeBoundary . $sBreak;
+		$sBody .= 'Content-Type: '.$aFileInfos['mime'].'; name=' . $aArgs['file'] . $sBreak;
+		$sBody .= 'Content-Transfer-Encoding: binary' . $sBreak;
+		$sBody .= 'Content-Disposition: form-data; name="attachment"; filename="' . $aArgs['file'] . '"' . $sBreak . $sBreak;
+		$sBody .= $sFileContent . $sBreak;
+		$sBody .= "--" . $sMimeBoundary . "--" . $sBreak . $sBreak;
+		return $sBody;
+	}
+
 }
