@@ -111,6 +111,13 @@ $res        = $oImmocaster->regionSearch($aParameter);
 echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
+ * Ergebnisliste mit allen Objekten eines Maklers abfragen.
+ */
+echo '<h2>Komplette Ergebnisliste eines Maklers</h2><br/>Diese Funktion wurde auskommentiert, da der Benutzer hierfür die Applikation zertifizieren muss und die Berechtigung von IS24 für diese Funktion benötigt.<br/><br/>';
+//$res = $oImmocaster->fullUserSearch(array());
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
  * Expose über die ID auslesen.
  */
 echo '<h2>Expose per ID auslesen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine aktuelle ExposeID benötigt wird.<br/><br/>';

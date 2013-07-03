@@ -356,6 +356,32 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 	
 	/**
+     * Abfrage der kompletten Ergebnisliste
+	 * eines Kunden/Maklers/Börse.
+     *
+     * @param array $aArgs
+     * @return mixed
+     */
+	private function _fullUserSearch($aArgs)
+	{
+		$aRequired = array('username');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = 'me';
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate',$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
+	}
+	
+	/**
 	 * Kontaktanfrage an den Anbieter eines Exposes (Objekt)
 	 * mit der Objekt-ID.
 	 *
