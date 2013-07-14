@@ -76,12 +76,12 @@ class Immocaster_Xml_Writer
 					}
 					if(strtolower($aParameter['estate_type'])=='houserent')
 					{
-						$sOuterElement = "realestates:apartmentRent";
+						$sOuterElement = "realestates:houseRent";
 						$this->_aSort = require_once(dirname(__FILE__).'/Writer/Immobilienscout/Houserent.php');
 					}
 					if(strtolower($aParameter['estate_type'])=='housebuy')
 					{
-						$sOuterElement = "realestates:apartmentBuy";
+						$sOuterElement = "realestates:houseBuy";
 						$this->_aSort = require_once(dirname(__FILE__).'/Writer/Immobilienscout/Housebuy.php');
 					}
 					$this->_sXML .= '<'.$sOuterElement.' xmlns:xlink="http://www.w3.org/1999/xlink" '.
