@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.30
+Immocaster PHP SDK v1.1.31
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immocaster UG (haftungsbeschränkt)
@@ -8,6 +8,9 @@ Das PHP SDK von Immocaster steht unter der FreeBSD Lizenz zur Verfügung und kan
 
 History
 =======
+
+SDK Version 1.1.31
+- Eigenen XML für den Objektexport durchreichen.
 
 SDK Version 1.1.30
 - Bugfix: Exportproblem bei HouseRent und HouseBuy behoben.

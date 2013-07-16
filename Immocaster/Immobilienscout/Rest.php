@@ -468,13 +468,21 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$aRequired = array('username','service','estate');
 		if(isset($aArgs['username']) && isset($aArgs['service']) && isset($aArgs['estate']))
 		{
-			require_once(dirname(__FILE__).'/../Xml/Writer.php');
-			$oXml = Immocaster_Xml_Writer::getInstance('xmlReqBody');
-			if(!$oXml->setFormat(strtolower($aArgs['service']),array('estate_type'=>$aArgs['estate']['type'])))
+			if($aArgs['estate']['xml'])
 			{
-				return sprintf(IMMOCASTER_SDK_LANG_XML_FORMAT_NOT_SET,$aArgs['service']);
+				$aArgs['request_body'] = $aArgs['estate']['xml'];
 			}
-			$aArgs['request_body'] = $oXml->getXml($aArgs['estate']);
+			else
+			{
+				require_once(dirname(__FILE__).'/../Xml/Writer.php');
+				$oXml = Immocaster_Xml_Writer::getInstance('xmlReqBody');
+				if(!$oXml->setFormat(strtolower($aArgs['service']),array('estate_type'=>$aArgs['estate']['type'])))
+				{
+					return sprintf(IMMOCASTER_SDK_LANG_XML_FORMAT_NOT_SET,$aArgs['service']);
+				}
+				$aArgs['request_body'] = $oXml->getXml($aArgs['estate']);
+				//echo '<textarea>'.$aArgs['request_body'].'</textarea>';exit;
+			}
 		}
 		$oToken = null;
 		$sSecret = null;
