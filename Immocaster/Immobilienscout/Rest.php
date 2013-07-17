@@ -211,7 +211,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 	
 	/**
-     * Abfrage eines Exposes (Objekt)
+     * Abfrage eines Exposes (Search-API)
 	 * mit der Objekt-ID.
 	 *
      * @param array $aArgs
@@ -224,6 +224,33 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
 		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('exposeid');
+		return parent::getContent($req,$sSecret);
+	}
+	
+	/**
+     * Abfrage eines eigenen Exposes (Offer-API)
+	 * mit der Objekt-ID.
+	 *
+     * @param array $aArgs
+     * @return mixed
+     */
+	private function _getUserExpose($aArgs)
+	{
+		$aRequired = array('username','exposeid');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = 'me';
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('username');
 		$req->unset_parameter('exposeid');
 		return parent::getContent($req,$sSecret);
 	}
@@ -468,7 +495,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$aRequired = array('username','service','estate');
 		if(isset($aArgs['username']) && isset($aArgs['service']) && isset($aArgs['estate']))
 		{
-			if($aArgs['estate']['xml'])
+			if(isset($aArgs['estate']['xml']))
 			{
 				$aArgs['request_body'] = $aArgs['estate']['xml'];
 			}
