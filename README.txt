@@ -10,7 +10,7 @@ History
 =======
 
 SDK Version 1.1.33
-- Composer.json für Packagist.
+- Composer.json für Packagist. (https://packagist.org/packages/immocaster/php-sdk)
 
 SDK Version 1.1.32
 - Eigene Exposes via Offer-API auslesen.
