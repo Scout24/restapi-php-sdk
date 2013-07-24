@@ -1,0 +1,19 @@
+{
+    "name": "immocaster/php-sdk",
+    "type": "library",
+    "description": "ImmobilienScout24 PHP-SDK",
+    "keywords": ["immobilienscout24","estate","real estate","realtor"],
+    "homepage": "http://github.com/immocaster/php-sdk",
+    "license": "FreeBSD",
+    "authors": [
+        {
+            "name": "Norman Braun",
+            "email": "office@immocaster.com",
+            "homepage": "http://www.immocaster.com",
+            "role": "CEO and Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+}
