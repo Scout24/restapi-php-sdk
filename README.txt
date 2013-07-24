@@ -10,7 +10,7 @@ History
 =======
 
 SDK Version 1.1.33
-- Vorbereitung für Composer.
+- Composer.json für Packagist.
 
 SDK Version 1.1.32
 - Eigene Exposes via Offer-API auslesen.
