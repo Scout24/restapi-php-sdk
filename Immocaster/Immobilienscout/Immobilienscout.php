@@ -123,7 +123,7 @@ class Immocaster_Immobilienscout
      */
 	protected function restRequest($sPath='',$aArgs=array(),$bSecurity=false,$oToken=null,$requestMethod='GET')
 	{
-		if(!in_array($requestMethod,array('GET','POST')))
+		if(!in_array($requestMethod,array('GET','POST','PUT','DELETE')))
 		{
 			$requestMethod = 'GET';
 		}
@@ -155,7 +155,7 @@ class Immocaster_Immobilienscout
 	{
 		if($this->_sAuthType=='oauth')
 		{
-			if($req->get_normalized_http_method() == 'POST')
+			if($req->get_normalized_http_method() == 'POST' || $req->get_normalized_http_method() == 'PUT')
 			{
 				$requestBody = $req->get_parameter('request_body');
 				if($requestBody !== NULL)
@@ -185,6 +185,15 @@ class Immocaster_Immobilienscout
 				{
 					curl_setopt($ch,CURLOPT_POST,TRUE);
 					curl_setopt($ch,CURLOPT_POSTFIELDS,$requestBody);
+				}
+				if($req->get_normalized_http_method() == 'PUT')
+				{
+					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+				    curl_setopt($ch,CURLOPT_POSTFIELDS,$requestBody);
+				}
+				if($req->get_normalized_http_method() == 'DELETE')
+				{
+					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 				}
 				$result = curl_exec($ch);
 				curl_close($ch);
@@ -218,7 +227,7 @@ class Immocaster_Immobilienscout
 		{
 			$sNewHeader[] = 'Accept: application/json';
 		}
-		if($req->get_normalized_http_method()=='POST')
+		if($req->get_normalized_http_method()=='POST' || $req->get_normalized_http_method()=='PUT')
 		{
 			// Request-Header (Content-Type)
 			if(isset($aHeader['Content-Type']))

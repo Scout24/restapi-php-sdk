@@ -252,9 +252,9 @@ echo '<h2>Export-Channels für den User:</h2><br/>Diese Funktion wurde auskommen
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
- * Objekt zu ImmobilienScout24 exportieren
+ * Objekt zu ImmobilienScout24 exportieren / Objekt ändern
  */
-echo '<h2>Objekt exportieren</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+echo '<h2>Objekt exportieren und &auml;ndern</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
 /*
 $aParameter = array(
 	'username' => 'me',
@@ -292,7 +292,8 @@ $aParameter = array(
 		'courtage'              => '2 Monatsmieten',      // Provision
 		'courtageNote'          => 'Kostet extra',        // Infos zur Provision
 ));
-print_r($oImmocaster->exportObject($aParameter));
+print_r($oImmocaster->exportObject($aParameter)); // Objekt exportieren
+print_r($oImmocaster->changeObject($aParameter)); // Objekt &auml;ndern
 */
 
 /**
@@ -302,6 +303,18 @@ echo '<h2>Objektbild hochladen</h2><br/>Diese Funktion wurde auskommentiert, da 
 //$aParameter = array('file' => 'testbild.jpg', 'estateid' => 'ESTATEID' /*ID des Objekts*/);
 //$res = $oImmocaster->exportObjectAttachment($aParameter));
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * Objekt deaktivieren.
+ */
+echo '<h2>Objekt deaktivieren</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*
+$aParameter = array(
+	'exposeid' => 'ESTATEID', // Id des Objekts
+	'channelid' => '10001' // 10000 = IS24, 10001 = Homepage
+);
+print_r($oImmocaster->disableObject($aParameter));
+*/
 
 ?>
 

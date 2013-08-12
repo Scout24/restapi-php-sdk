@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.33 
+Immocaster PHP SDK v1.1.35
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immocaster UG (haftungsbeschränkt)
@@ -8,6 +8,10 @@ Das PHP SDK von Immocaster steht unter der FreeBSD Lizenz zur Verfügung und kan
 
 History
 =======
+
+SDK Version 1.1.35
+- Aktualisieren von Objektdaten
+- Deaktivierung von Objekten
 
 SDK Version 1.1.33
 - Composer.json für Packagist. (https://packagist.org/packages/immocaster/php-sdk)

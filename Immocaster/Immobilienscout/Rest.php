@@ -132,6 +132,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	private function doRequest($sPath,$aArgs,$aRequired=array(),$sFunctionName,$oToken=null,$postRequest=FALSE)
 	{
 		$requestType = $postRequest ? 'POST' : 'GET';
+		if($postRequest=='PUT'){$requestType='PUT';}
+		if($postRequest=='DELETE'){$requestType='DELETE';}
 		try
 		{
 			if(parent::requiredArgs($aArgs,$aRequired,$sFunctionName))
@@ -428,7 +430,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 			}
 		}
-		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'].'/contact',$aArgs,$aRequired,__FUNCTION__,$oToken,TRUE);
+		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'].'/contact',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
 		$req->unset_parameter('exposeid');
 		return parent::getContent($req,$sSecret);
 	}
@@ -453,7 +455,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 			}
 		}
-		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'].'/sendafriend',$aArgs,$aRequired,__FUNCTION__,$oToken,TRUE);
+		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'].'/sendafriend',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
 		$req->unset_parameter('exposeid');
 		return parent::getContent($req,$sSecret);
 	}
@@ -518,7 +520,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
-		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate',$aArgs,$aRequired,__FUNCTION__,$oToken,TRUE);
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
 		$req->unset_parameter('username');
 		$req->unset_parameter('service');
 		$req->unset_parameter('estate');
@@ -559,7 +561,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			$aRequired,
 			__FUNCTION__,
 			$oToken,
-			TRUE
+			'POST'
 		);
 		$req->unset_parameter('title');
 		$req->unset_parameter('floorplan');
@@ -577,7 +579,78 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			)
 		);
 	}
+	
+	/**
+	 * Objekt bei ImmobilienScout24 ändern.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _changeObject($aArgs)
+	{
+		$aRequired = array('exposeid','username','service','estate');
+		if(!isset($aArgs['exposeid']) && isset($aArgs['estate']['objectId']))
+		{
+			$aArgs['exposeid'] = 'ext-'.$aArgs['estate']['objectId'];
+		}
+		if(isset($aArgs['username']) && isset($aArgs['service']) && isset($aArgs['estate']))
+		{
+			if(isset($aArgs['estate']['xml']))
+			{
+				$aArgs['request_body'] = $aArgs['estate']['xml'];
+			}
+			else
+			{
+				require_once(dirname(__FILE__).'/../Xml/Writer.php');
+				$oXml = Immocaster_Xml_Writer::getInstance('xmlReqBody');
+				if(!$oXml->setFormat(strtolower($aArgs['service']),array('estate_type'=>$aArgs['estate']['type'])))
+				{
+					return sprintf(IMMOCASTER_SDK_LANG_XML_FORMAT_NOT_SET,$aArgs['service']);
+				}
+				$aArgs['request_body'] = $oXml->getXml($aArgs['estate']);
+			}
+		}
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'PUT');
+		$req->unset_parameter('exposeid');
+		$req->unset_parameter('username');
+		$req->unset_parameter('service');
+		$req->unset_parameter('estate');
+		return parent::getContent($req,$sSecret);
+	}
 
+	/**
+	 * Objekt bei ImmobilienScout24 deaktivieren.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _disableObject($aArgs)
+	{
+		$aRequired = array('exposeid','channelid');
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/publish/'.$aArgs['exposeid'].'_'.$aArgs['channelid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
+		$req->unset_parameter('exposeid');
+		$req->unset_parameter('channelid');
+		return parent::getContent($req,$sSecret);
+	}
+	
 	/**
      * Applikation zeritifizieren.
 	 *
