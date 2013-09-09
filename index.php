@@ -305,7 +305,19 @@ echo '<h2>Objektbild hochladen</h2><br/>Diese Funktion wurde auskommentiert, da 
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
- * Objekt deaktivieren.
+ * Objekt aktivieren
+ */
+echo '<h2>Objekt aktivieren</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*
+$aParameter = array(
+	'exposeid' => 'ESTATEID', // Id des Objekts
+	'channelid' => '10001' // 10000 = IS24, 10001 = Homepage
+);
+print_r($oImmocaster->enableObject($aParameter));
+*/
+
+/**
+ * Objekt deaktivieren
  */
 echo '<h2>Objekt deaktivieren</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
 /*

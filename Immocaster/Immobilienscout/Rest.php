@@ -510,7 +510,6 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 					return sprintf(IMMOCASTER_SDK_LANG_XML_FORMAT_NOT_SET,$aArgs['service']);
 				}
 				$aArgs['request_body'] = $oXml->getXml($aArgs['estate']);
-				//echo '<textarea>'.$aArgs['request_body'].'</textarea>';exit;
 			}
 		}
 		$oToken = null;
@@ -624,6 +623,41 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		$req->unset_parameter('service');
 		$req->unset_parameter('estate');
+		return parent::getContent($req,$sSecret);
+	}
+	
+	/**
+	 * Objekt bei ImmobilienScout24 aktivieren.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _enableObject($aArgs)
+	{
+		$aRequired = array('exposeid','channelid');
+		if(isset($aArgs['xml']))
+		{
+			$aArgs['request_body'] = $aArgs['xml'];
+		}
+		else
+		{
+			$aArgs['request_body'] = '<common:publishObject xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0">
+        <realEstate id="'.$aArgs['exposeid'].'"/>
+        <publishChannel id="'.$aArgs['channelid'].'"/>
+</common:publishObject>';
+		}
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/publish',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
+		$req->unset_parameter('exposeid');
+		$req->unset_parameter('channelid');
 		return parent::getContent($req,$sSecret);
 	}
 
