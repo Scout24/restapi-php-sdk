@@ -527,6 +527,38 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 	
 	/**
+	 * Alle Anhänge zu einem Objekt per ExportAPI ermitteln.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _getObjectAttachments($aArgs)
+	{
+		$aRequired = array('estateid');
+		if(!isset($aArgs['username'])){ $aArgs['username'] = 'me'; }
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest(
+			'offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['estateid'].'/attachment',
+			$aArgs,
+			$aRequired,
+			__FUNCTION__,
+			$oToken,
+			'GET'
+		);
+		$req->unset_parameter('estateid');
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
+	}
+	
+	/**
 	 * Anhang zu einem Objekt zu ImmobilienScout24 exportieren.
 	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
 	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
