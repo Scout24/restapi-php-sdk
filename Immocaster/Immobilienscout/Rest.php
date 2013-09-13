@@ -550,8 +550,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			$aArgs,
 			$aRequired,
 			__FUNCTION__,
-			$oToken,
-			'GET'
+			$oToken
 		);
 		$req->unset_parameter('estateid');
 		$req->unset_parameter('username');
