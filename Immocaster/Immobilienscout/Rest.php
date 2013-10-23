@@ -13,10 +13,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 {
 	
 	/**
-	 * Leseprotokoll: cURL oder standardmäßig mit
-	 * PHP-Funktion file_get_contents().
+	 * Leseprotokoll: standardmäßig cURL
+	 * Die PHP-Funktion file_get_contents() wird nicht
+	 * mehr unterstützt.
 	 */
-	 protected $_sUrlReadingType = 'none';
+	 protected $_sUrlReadingType = 'curl';
 	
 	/**
 	 * Ergebnisformat: JSON oder standardmäßig XML
@@ -49,14 +50,14 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 * @param string $sType Typ wie URLs ausgelesen werden
      * @return boolean
      */
-    public function setReadingType($sType='none')
+    public function setReadingType($sType='curl')
     {
-		if(strtolower($sType)=='curl')
+		if(strtolower($sType)=='none')
 		{
-			$this->_sUrlReadingType = 'curl';
+			$this->_sUrlReadingType = 'none';
 			return true;
 		}
-		$this->_sUrlReadingType = 'none';
+		$this->_sUrlReadingType = 'curl';
 		return true;
     }
 	
@@ -87,7 +88,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	{
 		if($sUrl==false || $sUrl=='sandbox' || $sUrl=='test')
 		{
-			$this->_sUri = 'http://sandbox.immobilienscout24.de';
+			$this->_sUri = 'http://rest.sandbox-immobilienscout24.de/';
 			return true;
 		}
 		if($sUrl=='live')
@@ -608,6 +609,39 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				'Accept-Encoding' => 'gzip,deflate'
 			)
 		);
+	}
+	
+	/**
+	 * Anhang zu einem Objekt entfernen.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _deleteObjectAttachment($aArgs)
+	{
+		$aRequired = array('attachmentid','estateid');
+		if(!isset($aArgs['username'])){ $aArgs['username'] = 'me'; }
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest(
+			'offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['estateid'].'/attachment/'.$aArgs['attachmentid'],
+			$aArgs,
+			$aRequired,
+			__FUNCTION__,
+			$oToken,
+			'DELETE'
+		);
+		$req->unset_parameter('attachmentid');
+		$req->unset_parameter('estateid');
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
 	}
 	
 	/**

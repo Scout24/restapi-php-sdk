@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.38
+Immocaster PHP SDK v1.1.41
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immocaster UG (haftungsbeschränkt)
@@ -8,6 +8,11 @@ Das PHP SDK von Immocaster steht unter der FreeBSD Lizenz zur Verfügung und kan
 
 History
 =======
+
+SDK Version 1.1.41
+- Methode zum löschen von Attachments
+- cURL als Standard für den Datenaustausch (file_get_contents() wird nicht mehr unterstützt)
+- Umstellung auf die neue ImmobilienScout24-URL für Sandbox-Anfragen
 
 SDK Version 1.1.38
 - Auslesen von Attachements von selbst exportieren Objekten (*BETA)

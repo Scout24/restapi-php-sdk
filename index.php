@@ -30,11 +30,6 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
 // $oImmocaster->setDataStorage(array('mysql','DB-Host','DB-User','DB-Password','DB-Name'));
 
 /**
- * cURL verwenden
- */
-// $oImmocaster->setReadingType('curl');
-
-/**
  * JSON verwenden
  */
 // $oImmocaster->setContentResultType('json');
@@ -301,7 +296,15 @@ print_r($oImmocaster->changeObject($aParameter)); // Objekt &auml;ndern
  */
 echo '<h2>Objektbild hochladen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
 //$aParameter = array('file' => 'testbild.jpg', 'estateid' => 'ESTATEID' /*ID des Objekts*/);
-//$res = $oImmocaster->exportObjectAttachment($aParameter));
+//$res = $oImmocaster->exportObjectAttachment($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * Objektbild entfernen
+ */
+echo '<h2>Objektbild entfernen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('attachmentid' => 'ATTACHMENTID' /*ID des Bildes*/, 'estateid' => 'ESTATEID' /*ID des Objekts*/ );
+//$res = $oImmocaster->deleteObjectAttachment($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
