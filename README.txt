@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.41
+Immocaster PHP SDK v1.1.42
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immocaster UG (haftungsbeschränkt)
@@ -8,6 +8,9 @@ Das PHP SDK von Immocaster steht unter der FreeBSD Lizenz zur Verfügung und kan
 
 History
 =======
+
+SDK Version 1.1.42
+- Korrektur der XML-Dateien
 
 SDK Version 1.1.41
 - Methode zum löschen von Attachments

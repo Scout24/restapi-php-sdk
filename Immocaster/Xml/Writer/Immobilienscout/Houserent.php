@@ -48,7 +48,7 @@ return array(
   'cellar'                         => array('xml' => array('cellar'), 'type'=>'bool-set', 'values'=>array('YES','NOT_APPLICABLE')),
   'handicappedAccessible'          => array('xml' => array('handicappedAccessible'), 'type'=>'bool-set'),
   'lastRefurbishment'              => array('xml' => array('lastRefurbishment'), 'type'=>'string'),
-  'interiorQuality'                => array('xml' => array('interiorQuality'), 'type'=>'string-set', 'values'=>array('simple'=>'SIMPLE','normal'=>'NORMAL','luxury'=>'LUXURY','sophisticated'=>'SOPHISTICATED','default'=>'NO_INFORMANTION')),
+  'interiorQuality'                => array('xml' => array('interiorQuality'), 'type'=>'string-set', 'values'=>array('simple'=>'SIMPLE','normal'=>'NORMAL','luxury'=>'LUXURY','sophisticated'=>'SOPHISTICATED','default'=>'NO_INFORMATION')),
   'constructionYear'               => array('xml' => array('constructionYear'), 'type'=>'string'),
   'freeFrom'                       => array('xml' => array('freeFrom'), 'type'=>'string'),
   'heatingType'                    => array('xml' => array('heatingType'), 'type'=>'string-set', 'values'=>array('floor'=>'SELF_CONTAINED_CENTRAL_HEATING','central'=>'CENTRAL_HEATING','stove'=>'STOVE_HEATING','default'=>'NO_INFORMATION')),
