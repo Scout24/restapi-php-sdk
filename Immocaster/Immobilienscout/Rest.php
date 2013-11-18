@@ -888,4 +888,63 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		return array($oToken, $sSecret);
 	}
+	
+	/**
+	 * Kontakt eines Users über Contactid abfragen.
+	 * (Hierfür müssen besondere Berechtigungen
+	 * bei ImmobilienScout24 beantragt werden.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _getContact($aArgs)
+	{
+		$aRequired = array('username','contactid');
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/contact/'.$aArgs['contactid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('username');
+		$req->unset_parameter('contactid');
+		return parent::getContent($req,$sSecret);
+	}
+	
+	/**
+	 * Kontakt zu ImmobilienScout24 exportieren.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _exportContact($aArgs)
+	{
+		$aRequired = array('username','contact');
+		if(isset($aArgs['username']) && isset($aArgs['contact']))
+		{
+			if(isset($aArgs['contact']['xml']))
+			{
+				$aArgs['request_body'] = $aArgs['contact']['xml'];
+			}
+			else
+			{
+				return sprintf(IMMOCASTER_SDK_LANG_XML_NOT_SET);
+			}
+		}
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/contact',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
+		$req->unset_parameter('username');
+		$req->unset_parameter('contact');
+		return parent::getContent($req,$sSecret);
+	}
 }
