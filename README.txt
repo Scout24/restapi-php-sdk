@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.43
+Immocaster PHP SDK v1.1.44
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immocaster UG (haftungsbeschränkt)
@@ -8,6 +8,9 @@ Das PHP SDK von Immocaster steht unter der FreeBSD Lizenz zur Verfügung und kan
 
 History
 =======
+
+SDK Version 1.1.44
+- Erweiterung um Kontaktinformationen auszulesen und zu exportieren (exportContact und getContact).
 
 SDK Version 1.1.43
 - Bug in Sandbox-URL behoben
