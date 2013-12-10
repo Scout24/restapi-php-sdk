@@ -1,12 +1,21 @@
 <?php
-
-/**
- * Immocaster SDK
+ 
+ /**
+ * ImmobilienScout24 PHP-SDK
  * Klasse zum erzeugen eines XML-Body.
  *
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
+ *
+ * ==============================================
+ * ACHTUNG
+ * ==============================================
+ *
+ * Diese Klasse wird nicht mehr weiterentwickelt.
+ * Mehr dazu unter: https://github.com/ImmobilienScout24/restapi-php-sdk/wiki/Objekte-exportieren
+ *
+ * ==============================================
  */
 
 class Immocaster_Xml_Writer

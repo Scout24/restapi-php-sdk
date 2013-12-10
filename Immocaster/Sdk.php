@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Immocaster SDK
- * Mit dem Immocaster SDK können Daten (Immobilien, Geo-Daten, usw.) über
+ * ImmobilienScout24 PHP-SDK
+ * Mit dem PHP-SDK können Daten (Immobilien, Geo-Daten, usw.) über
  * die Schnittstelle (API) von ImmobilienScout24 ausgelesen werden.
  *
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
  */
-
+ 
 class Immocaster_Sdk
 {
 	

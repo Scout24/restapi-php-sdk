@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Immocaster SDK
- * Nutzung der ImmobilienScout24 API per REST.
+ * ImmobilienScout24 PHP-SDK
+ *  Nutzung der ImmobilienScout24 API per REST.
  *
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
  */
 
 class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
@@ -98,6 +98,22 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		$this->_sUri = $sUrl;
 		return true;
+	}
+	
+	/**
+     * Strict-Mode aktivieren und deaktivieren.
+	 *
+	 * @param boolean $bMode False oder true für Strict-Mode.
+	 * @return boolean
+     */
+	public function setStrictMode($bMode=false)
+	{
+		if($bMode===true || $bMode===false)
+		{
+			$this->_sStrictMode = $bMode;
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -247,7 +263,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			$aArgs['username'] = 'me';
 		}
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -286,7 +302,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(isset($aArgs['username']))
 		{
-			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 			if($oToken === NULL || $sSecret === NULL)
 			{
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -351,7 +367,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(isset($aArgs['username']))
 		{
-			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 			if($oToken === NULL || $sSecret === NULL)
 			{
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -375,7 +391,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(isset($aArgs['username']))
 		{
-			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 			if($oToken === NULL || $sSecret === NULL)
 			{
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -401,7 +417,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			$aArgs['username'] = 'me';
 		}
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -425,7 +441,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(isset($aArgs['username']))
 		{
-			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 			if($oToken === NULL || $sSecret === NULL)
 			{
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -484,7 +500,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -509,7 +525,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(isset($aArgs['username']))
 		{
-			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 			if($oToken === NULL || $sSecret === NULL)
 			{
 				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -774,7 +790,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -798,7 +814,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$aRequired = array('exposeid','channelid');
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -877,7 +893,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	{
 		try
 		{
-			if(Immocaster_Data_Mysql::getInstance()->getApplicationToken())
+			if(isset($_GET['user']) && $_GET['user'] != ''){ $sUser=$_GET['user']; }else{ $sUser='me'; }
+			if(Immocaster_Data_Mysql::getInstance()->getApplicationToken($sUser))
 			{
 				return false;
 			}
@@ -915,7 +932,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				 return false;
 			}
 			$aAccessToken = Immocaster_Tools_Helper::makeArrayFromString($result);
-			if(Immocaster_Data_Mysql::getInstance()->saveApplicationToken($aAccessToken['oauth_token'],$aAccessToken['oauth_token_secret']))
+			if(Immocaster_Data_Mysql::getInstance()->saveApplicationToken(
+				$aAccessToken['oauth_token'],
+				$aAccessToken['oauth_token_secret'],
+				$sUser
+			))
 			{
 				return true;
 			}	
@@ -931,21 +952,58 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 * Application Accesstoken aus der Datenbank holen
 	 * (3-legged-oauth)
 	 *
-	 * @return array (token, secret)
+	 * @return mixed
 	 */
-	private function getApplicationTokenAndSecret() {
+	private function getApplicationTokenAndSecret($sUser='')
+	{
 		$oToken = NULL;
 		$sSecret = NULL;
-		if(class_exists('Immocaster_Data_Mysql') && $oData = Immocaster_Data_Mysql::getInstance()->getApplicationToken())
+		if(class_exists('Immocaster_Data_Mysql') && $oData = Immocaster_Data_Mysql::getInstance()->getApplicationToken($sUser))
 		{
-			$oToken = new OAuthToken
-			(
-				$oData->ic_key,
-				$oData->ic_secret
-			);
-			$sSecret = $oData->ic_secret;
+			if($oData->ic_key!='')
+			{
+				$oToken = new OAuthToken
+				(
+					$oData->ic_key,
+					$oData->ic_secret
+				);
+				$sSecret = $oData->ic_secret;
+			}
+			else
+			{
+				return null;
+			}
 		}
 		return array($oToken, $sSecret);
+	}
+	
+	/**
+	 * Alle zertifizierten Benutzernamen auslesen
+	 *
+	 * @return array
+	 */
+	public function _getAllApplicationUsers($aArgs)
+	{
+		$aUsers = array();
+		if(class_exists('Immocaster_Data_Mysql'))
+		{
+			$aUsers = Immocaster_Data_Mysql::getInstance()->getAllApplicationUsers();
+			// Rückgabe als String (kommagetrennt)
+			if(isset($aArgs['string']))
+			{
+				$sReturn = '';
+				$iUserAmount = count($aUsers);
+				$iCountUser = 1;
+				foreach($aUsers as $sUser)
+				{
+					$sReturn .= $sUser;
+					if($iCountUser<$iUserAmount){ $sReturn .= ', '; $iCountUser++; }
+				}
+				return $sReturn;
+			}
+		}
+		// Rückgabe als Array
+		return $aUsers;
 	}
 	
 }

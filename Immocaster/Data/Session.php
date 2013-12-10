@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Immocaster SDK
+ * ImmobilienScout24 PHP-SDK
  * Datenspeicherung per Session
  * innerhalb von PHP Anwendungen.
  *
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
  */
 
 class Immocaster_Data_Session

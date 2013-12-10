@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Immocaster SDK
- * Helferfunktionen für das Immocaster SDK.
+ * ImmobilienScout24 PHP-SDK
+ * Helferfunktionen für das SDK.
  *
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
  */
 
 class Immocaster_Tools_Helper

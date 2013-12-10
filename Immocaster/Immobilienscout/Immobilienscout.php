@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Immocaster SDK
+ * ImmobilienScout24 PHP-SDK
  * Verbindung zur API von ImmobilienScout24.
  *
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
  */
 
 class Immocaster_Immobilienscout
@@ -40,6 +40,13 @@ class Immocaster_Immobilienscout
 	 * @var string
      */
 	private $_sAuthType = null;
+	
+	/**
+     * Strict-Mode aktivieren (true) und deaktivieren (false).
+	 *
+	 * @var boolean
+     */
+	protected $_sStrictMode = false;
 	
 	/**
      * Signaturmethode für die Nutzung des Service.
@@ -223,10 +230,21 @@ class Immocaster_Immobilienscout
 			$req->to_header().$sAccessTokenSignature,
 			'User-Agent: '.IMMOCASTER_USER_AGENT
 		);
+		// Set accept for header
+		if($this->_sContentResultType=='xml' || $this->_sContentResultType=='none')
+		{
+			$sHeaderAccept = 'Accept: application/xml;';
+		}
 		if($this->_sContentResultType=='json')
 		{
-			$sNewHeader[] = 'Accept: application/json';
+			$sHeaderAccept = 'Accept: application/json;';
 		}
+		if($this->_sStrictMode===true)
+		{
+			$sHeaderAccept .= 'strict=true;';
+		}
+		$sNewHeader[] = $sHeaderAccept;
+		// Set content-type for header
 		if($req->get_normalized_http_method()=='POST' || $req->get_normalized_http_method()=='PUT')
 		{
 			// Request-Header (Content-Type)

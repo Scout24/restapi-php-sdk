@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Immocaster SDK
- * Beispiele für die Nutzung des Immocaster SDK.
+ * ImmobilienScout24 PHP-SDK
+ * Beispiele für die Nutzung des ImmobilienScout24 PHP-SDK.
  *
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
  */
 
 /**
- * Immocaster SDK laden.
+ * SDK laden.
  */
 require_once('Immocaster/Sdk.php');
 
@@ -33,6 +33,11 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
  * JSON verwenden
  */
 // $oImmocaster->setContentResultType('json');
+
+/**
+ * Strict-Mode aktivieren
+ */
+// $oImmocaster->setStrictMode(true);
 
 /**
  * Auf Live-System arbeiten.
@@ -148,15 +153,33 @@ echo '<h2>Attachment auslesen</h2><br/>Diese Funktion wurde auskommentiert, da d
  *
  */
 echo '<h2>Zertifizierung einer Applikation durch den Makler</h2><br/>Diese Funktion wurde auskommentiert!<br/><br/>';
-//if(isset($_GET['main_registration'])||isset($_GET['state']))
-//{
-//	$aParameter = array('callback_url'=>'http://meine-immocaster-applikation.tld/','verifyApplication'=>true);
-//	if($oImmocaster->getAccess($aParameter))
-//	{
-//		echo '<div id="appVerifyInfo">Registrierung war erfolgreich.</div>';
-//	}
-//}
-//echo '<div id="appVerifyButton"><a href="'.$PHP_SELF.'?main_registration=1'.'">Applikation zertifizieren</a><br/>Hinweis: Unter IE9 kann es zu Problemen mit der Zertifizierung kommen.</div>';
+/*
+$sCertifyURL = 'http://MEINE-AKTUELLE-URL.DE'; // Komplette URL inkl. Parameter auf der das Script eingebunden wird
+if(isset($_GET['main_registration'])||isset($_GET['state']))
+{
+	if(isset($_POST['user'])){ $sUser=$_POST['user']; }
+	if(isset($_GET['user'])){ $sUser=$_GET['user']; }
+	$aParameter = array('callback_url'=>$sCertifyURL.'?user='.$sUser,'verifyApplication'=>true);
+	// Benutzer neu zertifizieren
+	if($oImmocaster->getAccess($aParameter))
+	{
+		print_r($oImmocaster->getAccess($aParameter));
+		echo '<div id="appVerifyInfo">Zertifizierung war erfolgreich.</div>';
+	}
+	else
+	{
+		// Test ob Benutzer schon zertifiziert ist
+		if($oImmocaster->getApplicationTokenAndSecret($sUser))
+		{
+			echo '<div id="appVerifyInfo">Dieser Benutzer ist bereits zertifiziert.</div>';
+		}
+	}
+}
+echo '<form action="'.$sCertifyURL.'?main_registration=1" method="post"><div id="appVerifyButton"><strong>Hinweis: Unter IE9 kann es zu Problemen mit der Zertifizierung kommen.</strong><br />Benutzername: <input type="text" name="user" /><br /><em>Der Benutzername sollte nach Möglichkeit gesetzt werden. Standardmäßig wird ansonsten "me" genommen. Somit können aber nicht mehrere User parallel in der Datenbank abgelegt werden. Der gewählte Benutzernamen muss der gleiche wie im Formular auf der nächsten Seite sein, damit der Token richtig zugewiesen werden kann.</em><br /><input type="submit" value="Jetzt zertifizieren" /></div></form>';
+echo '<p>Registrierte Nutzer: ';
+// Anzeige welche Nutzer bereits registriert sind
+print_r($oImmocaster->getAllApplicationUsers(array('string'=>true)));
+*/
 
 /**
  * Anbieter-Logo auslesen

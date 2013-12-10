@@ -5,9 +5,9 @@
  * Datenspeicherung per Mysql(Datenbank)
  * in PHP Applikationen.
  *
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
  */
 
 class Immocaster_Data_Mysql
@@ -88,6 +88,7 @@ class Immocaster_Data_Mysql
 			}
 			else
 			{
+				$this->updateDataTableFields();
 				return true;
 			}
 		}
@@ -156,6 +157,35 @@ class Immocaster_Data_Mysql
 	}
 	
 	/**
+     * Prüfen ob bestimmte Felder in der
+	 * Datenbank existieren und bei Bedarf
+	 * hinzufügen.
+     *
+     * @return boolean
+     */
+	private function updateDataTableFields()
+	{
+		$aFields = array(
+			'ic_username' => 0
+		);
+		$sql = "SHOW COLUMNS FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."`";
+		$res = mysql_query($sql,$this->_oDataConnection);
+		while($record = mysql_fetch_array($res))
+		{
+			$aFields[$record['0']] = 1;
+		}
+		foreach($aFields as $key=>$value)
+		{
+			// Add username field
+			if($key=='ic_username' && $value==0)
+			{
+				$sql_username = "ALTER TABLE `".$this->_oDatabaseDb."`.`".$this->_sTableName."` ADD ic_username VARCHAR(60) NOT NULL;";
+				mysql_query($sql_username,$this->_oDataConnection);
+			}
+		}
+	}
+	
+	/**
      * Requesttoken speichern.
      *
 	 * @var string Token
@@ -217,6 +247,18 @@ class Immocaster_Data_Mysql
 	}
 	
 	/**
+     * Alle Requesttoken der
+	 * Applikation löschen.
+     *
+     * @return void
+     */
+	public function deleteRequestToken()
+	{
+		$sql = "DELETE FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='REQUEST'";
+		mysql_query($sql,$this->_oDataConnection);
+	}
+	
+	/**
      * Requesttoken anhand einer
 	 * einzelnen ID löschen.
      *
@@ -241,18 +283,19 @@ class Immocaster_Data_Mysql
 	 * @var string Secret
      * @return boolean
      */
-	public function saveApplicationToken($sToken,$sSecret)
+	public function saveApplicationToken($sToken,$sSecret,$sUser='')
 	{
 		if(strlen($sToken)>8)
 		{
-			@$this->deleteApplicationToken();
+			if($sUser == ''){ $sUser = 'me'; }
 			$sql = "INSERT INTO `".$this->_oDatabaseDb."`.`".$this->_sTableName."` (
-			`ic_desc`,`ic_key`,`ic_secret`
+			`ic_desc`,`ic_key`,`ic_secret`,`ic_username`
 			) VALUES (
-			'APPLICATION','".$sToken."','".$sSecret."'
+			'APPLICATION','".$sToken."','".$sSecret."','".$sUser."'
 			);";
 			if(mysql_query($sql,$this->_oDataConnection))
 			{
+				@$this->deleteRequestToken();
 				return true;
 			}
 		}
@@ -265,12 +308,33 @@ class Immocaster_Data_Mysql
      *
      * @return object
      */
-	public function getApplicationToken()
+	public function getApplicationToken($sUser='')
 	{
+		$sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='APPLICATION' AND ic_username='".$sUser."'";
+		$result = mysql_query($sql,$this->_oDataConnection);
+		if($obj = mysql_fetch_object($result))
+		{
+			return $obj;
+		}
+		return false;
+	}
+	
+	/**
+     * Alle Accesstoken für die Application
+	 * ermitteln und zurückliefern.
+     *
+     * @return array
+     */
+	public function getAllApplicationUsers()
+	{
+		$aUsers = array();
 		$sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='APPLICATION'";
 		$result = mysql_query($sql,$this->_oDataConnection);
-		$obj = mysql_fetch_object($result);
-		return $obj;
+		while($obj = mysql_fetch_object($result))
+		{
+			array_push($aUsers,$obj->ic_username);
+		}
+		return $aUsers;
 	}
 	
 	/**

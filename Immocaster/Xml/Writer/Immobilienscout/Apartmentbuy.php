@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Immocaster SDK
+ * ImmobilienScout24 PHP-SDK
  * Array mit Daten für den 
  * IS24-Export von Wohungen zum 
  * Kauf.
@@ -16,9 +16,9 @@
  * livingSpaceSqm
  * numberOfRooms
  * *********************************
- * @package    Immocaster SDK
+ * @package    ImmobilienScout24 PHP-SDK
  * @author     Norman Braun (medienopfer98.de)
- * @link       http://www.immocaster.com
+ * @link       http://www.immobilienscout24.de
  */
 
 return array(
