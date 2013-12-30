@@ -511,6 +511,42 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		return parent::getContent($req,$sSecret);
 	}
 
+	 /**
+	 * Kontaktinformation ändern.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _changeContact($aArgs)
+	{
+		$aRequired = array('contactid','username','contact');
+		if(isset($aArgs['username']) && isset($aArgs['contact']))
+		{
+			if(isset($aArgs['contact']['xml']))
+			{
+				$aArgs['request_body'] = $aArgs['contact']['xml'];
+			}
+			else
+			{
+				return sprintf(IMMOCASTER_SDK_LANG_XML_FORMAT_NOT_SET);
+			}
+		}
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/contact/'.$aArgs['contactid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'PUT');
+		$req->unset_parameter('contactid');
+		$req->unset_parameter('username');
+		$req->unset_parameter('contact');
+		return parent::getContent($req,$sSecret);
+	}
+
 	/**
 	 * 'Send a friend' für eine Expose (Objekt)
 	 * mit der Objekt-ID.
