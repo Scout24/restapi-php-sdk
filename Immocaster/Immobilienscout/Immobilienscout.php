@@ -279,22 +279,29 @@ class Immocaster_Immobilienscout
 		$fp = fopen($aArgs['file'],'rb');
 		$sFileContent = fread($fp,filesize($aArgs['file']));
 		fclose ($fp);
-		$aFileInfos = getimagesize($aArgs['file']);
+		if (version_compare(phpversion(), '5.3', '>=')) {
+			$aFileInfo = finfo_open(FILEINFO_MIME_TYPE);
+			$aFileInfoMime = finfo_file($aFileInfo, $aArgs['file']);
+		} else {
+			$aFileInfoMime = mime_content_type($aArgs['file']);
+		}
 		$sBreak = "\r\n";
 		$sBody  = '--' . $sMimeBoundary . $sBreak;
 		$sBody .= 'Content-Type: application/xml; name=body.xml' . $sBreak;
 		$sBody .= 'Content-Transfer-Encoding: binary' . $sBreak;
 		$sBody .= 'Content-Disposition: form-data; name="metadata"; filename="' . $aArgs['file'] . '"' . $sBreak . $sBreak;
 		$sBody .= '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . $sBreak;
-		$sBody .= '<common:attachment xsi:type="common:Picture" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0" ';
+		$sBody .= '<common:attachment xsi:type="common:' . $aArgs['type'] . '" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0" ';
 		$sBody .= 'xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" ';
 		$sBody .= 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $sBreak;
 		$sBody .= '<title>'.$aArgs['title'].'</title>' . $sBreak;
 		$sBody .= '<floorplan>'.$aArgs['floorplan'].'</floorplan>' . $sBreak;
-		$sBody .= '<titlePicture>'.$aArgs['titlePicture'].'</titlePicture>' . $sBreak;
+		if( $aArgs['type']==='Picture' ) {
+			$sBody .= '<titlePicture>'.$aArgs['titlePicture'].'</titlePicture>' . $sBreak;
+		}
 		$sBody .= '</common:attachment>' . $sBreak;
 		$sBody .= '--' . $sMimeBoundary . $sBreak;
-		$sBody .= 'Content-Type: '.$aFileInfos['mime'].'; name=' . $aArgs['file'] . $sBreak;
+		$sBody .= 'Content-Type: '.$aFileInfoMime.'; name=' . $aArgs['file'] . $sBreak;
 		$sBody .= 'Content-Transfer-Encoding: binary' . $sBreak;
 		$sBody .= 'Content-Disposition: form-data; name="attachment"; filename="' . $aArgs['file'] . '"' . $sBreak . $sBreak;
 		$sBody .= $sFileContent . $sBreak;

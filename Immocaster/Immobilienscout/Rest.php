@@ -722,6 +722,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		if(!isset($aArgs['title'])){ $aArgs['title'] = ''; }
 		if(!isset($aArgs['floorplan'])){ $aArgs['floorplan'] = 'false'; }
 		if(!isset($aArgs['titlePicture'])){ $aArgs['titlePicture'] = 'false'; }
+		if(!isset($aArgs['type'])){ $aArgs['type'] = 'Picture'; }
 		$oToken = null;
 		$sSecret = null;
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
