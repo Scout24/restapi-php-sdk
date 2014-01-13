@@ -283,11 +283,10 @@ class Immocaster_Data_Mysql
 	 * @var string Secret
      * @return boolean
      */
-	public function saveApplicationToken($sToken,$sSecret,$sUser='')
+	public function saveApplicationToken($sToken,$sSecret,$sUser)
 	{
 		if(strlen($sToken)>8)
 		{
-			if($sUser == ''){ $sUser = 'me'; }
 			$sql = "INSERT INTO `".$this->_oDatabaseDb."`.`".$this->_sTableName."` (
 			`ic_desc`,`ic_key`,`ic_secret`,`ic_username`
 			) VALUES (
@@ -308,12 +307,8 @@ class Immocaster_Data_Mysql
      *
      * @return object
      */
-	public function getApplicationToken($sUser='')
+	public function getApplicationToken($sUser)
 	{
-		if($sUser=='')
-		{
-			$sUser = "me";
-		}
 		$sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='APPLICATION' AND ic_username='".$sUser."'";
 		$result = mysql_query($sql,$this->_oDataConnection);
 		if($obj = mysql_fetch_object($result))

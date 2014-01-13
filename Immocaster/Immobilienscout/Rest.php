@@ -28,6 +28,12 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 * Anfrageformat: JSON oder standardmäßig XML
 	 */
 	 protected $_sContentRequestType = 'none';
+	 
+	 /**
+	 * Standard Nutzername für Abfragen per oAuth,
+	 * wenn ein Nutzername für die Abfrage benötigt wird
+	 */
+	 protected $_sDefaultUsername = 'me';
 
 	/**
      * Der Constructor legt die Einstellungen für die 
@@ -238,12 +244,17 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
      */
 	private function _getExpose($aArgs)
 	{
-		$aRequired = array('exposeid');
+		$aRequired = array('username','exposeid');
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = '';
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
 		$req->unset_parameter('exposeid');
+		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
 	
@@ -261,7 +272,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(!isset($aArgs['username']))
 		{
-			$aArgs['username'] = 'me';
+			$aArgs['username'] = $this->_sDefaultUsername;
 		}
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
@@ -269,8 +280,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
 		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
-		$req->unset_parameter('username');
 		$req->unset_parameter('exposeid');
+		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
 	
@@ -300,13 +311,14 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$aRequired = array('username');
 		$oToken = null;
 		$sSecret = null;
-		if(isset($aArgs['username']))
+		if(!isset($aArgs['username']))
 		{
-			list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
-			if($oToken === NULL || $sSecret === NULL)
-			{
-				return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
-			}
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
 		$req = $this->doRequest(
 			'offer/v1.0/realtor/'.$aArgs['username'].'/logo',
@@ -415,7 +427,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sSecret = null;
 		if(!isset($aArgs['username']))
 		{
-			$aArgs['username'] = 'me';
+			$aArgs['username'] = $this->_sDefaultUsername;
 		}
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
@@ -465,7 +477,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$aRequired = array('username','contactid');
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -487,7 +503,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	private function _exportContact($aArgs)
 	{
 		$aRequired = array('username','contact');
-		if(isset($aArgs['username']) && isset($aArgs['contact']))
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		if(isset($aArgs['contact']))
 		{
 			if(isset($aArgs['contact']['xml']))
 			{
@@ -522,7 +542,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	private function _changeContact($aArgs)
 	{
 		$aRequired = array('contactid','username','contact');
-		if(isset($aArgs['username']) && isset($aArgs['contact']))
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		if(isset($aArgs['contact']))
 		{
 			if(isset($aArgs['contact']['xml']))
 			{
@@ -586,7 +610,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$aRequired = array('username');
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -607,7 +635,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	private function _exportObject($aArgs)
 	{
 		$aRequired = array('username','service','estate');
-		if(isset($aArgs['username']) && isset($aArgs['service']) && isset($aArgs['estate']))
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		if(isset($aArgs['service']) && isset($aArgs['estate']))
 		{
 			if(isset($aArgs['estate']['xml']))
 			{
@@ -626,7 +658,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -648,11 +680,14 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _getObjectAttachments($aArgs)
 	{
-		$aRequired = array('estateid');
-		if(!isset($aArgs['username'])){ $aArgs['username'] = 'me'; }
+		$aRequired = array('username','estateid');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -679,14 +714,17 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _exportObjectAttachment($aArgs)
 	{
-		$aRequired = array('file','estateid');
-		if(!isset($aArgs['username'])){ $aArgs['username'] = 'me'; }
+		$aRequired = array('username','file','estateid');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
 		if(!isset($aArgs['title'])){ $aArgs['title'] = ''; }
 		if(!isset($aArgs['floorplan'])){ $aArgs['floorplan'] = 'false'; }
 		if(!isset($aArgs['titlePicture'])){ $aArgs['titlePicture'] = 'false'; }
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -732,11 +770,14 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _deleteObjectAttachment($aArgs)
 	{
-		$aRequired = array('attachmentid','estateid');
-		if(!isset($aArgs['username'])){ $aArgs['username'] = 'me'; }
+		$aRequired = array('username','attachmentid','estateid');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -770,7 +811,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			$aArgs['exposeid'] = 'ext-'.$aArgs['estate']['objectId'];
 		}
-		if(isset($aArgs['username']) && isset($aArgs['service']) && isset($aArgs['estate']))
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		if(isset($aArgs['service']) && isset($aArgs['estate']))
 		{
 			if(isset($aArgs['estate']['xml']))
 			{
@@ -789,7 +834,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		$oToken = null;
 		$sSecret = null;
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret();
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
@@ -812,7 +857,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _enableObject($aArgs)
 	{
-		$aRequired = array('exposeid','channelid');
+		$aRequired = array('username','exposeid','channelid');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
 		if(isset($aArgs['xml']))
 		{
 			$aArgs['request_body'] = $aArgs['xml'];
@@ -834,6 +883,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req = $this->doRequest('offer/v1.0/publish',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
 		$req->unset_parameter('exposeid');
 		$req->unset_parameter('channelid');
+		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
 
@@ -847,9 +897,13 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _disableObject($aArgs)
 	{
-		$aRequired = array('exposeid','channelid');
+		$aRequired = array('username','exposeid','channelid');
 		$oToken = null;
 		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
@@ -858,6 +912,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req = $this->doRequest('offer/v1.0/publish/'.$aArgs['exposeid'].'_'.$aArgs['channelid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
 		$req->unset_parameter('exposeid');
 		$req->unset_parameter('channelid');
+		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
 	
@@ -929,7 +984,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	{
 		try
 		{
-			if(isset($_GET['user']) && $_GET['user'] != ''){ $sUser=$_GET['user']; }else{ $sUser='me'; }
+			if(isset($_GET['user']) && $_GET['user'] != ''){ $sUser=$_GET['user']; }else{ $sUser=$this->_sDefaultUsername; }
 			if(Immocaster_Data_Mysql::getInstance()->getApplicationToken($sUser))
 			{
 				return false;
@@ -990,7 +1045,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 *
 	 * @return mixed
 	 */
-	private function getApplicationTokenAndSecret($sUser='')
+	private function getApplicationTokenAndSecret($sUser=self::_sDefaultUsername)
 	{
 		$oToken = NULL;
 		$sSecret = NULL;
