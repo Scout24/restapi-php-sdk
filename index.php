@@ -216,7 +216,7 @@ if($_POST['formActionSendContact'])
 	$res = $oImmocaster->getExpose($aParameter);
 	if(substr_count($res, 'ERROR_RESOURCE_NOT_FOUND')<1)
 	{
-		$sRequestBody = ''; // Infos zum Aufbau unter: http://developer.immobilienscout24.de/wiki/Contact/POST	
+		$sRequestBody = ''; // Infos zum Aufbau unter: http://developerwiki.immobilienscout24.de/wiki/Contact/POST	
 		$aContactParameter = array('exposeid'=>$_POST['contactObjectId'],'request_body'=>$sRequestBody);
 		$resContact = $oImmocaster->sendContact($aContactParameter);
 		echo '<strong>'.$resContact.'</strong><br /><br />';
@@ -244,7 +244,7 @@ if($_POST['formActionSendFriend'])
 	$res = $oImmocaster->getExpose($aParameter);
 	if(substr_count($res, 'ERROR_RESOURCE_NOT_FOUND')<1)
 	{
-		$sRequestBody = ''; // Infos zum Aufbau unter: http://developer.immobilienscout24.de/wiki/SendAFriendForm/POST
+		$sRequestBody = ''; // Infos zum Aufbau unter: http://developerwiki.immobilienscout24.de/wiki/SendAFriendForm/POST
 		$aFriendParameter = array('exposeid'=>$_POST['friendObjectId'],'request_body'=>$sRequestBody);
 		$resFriend = $oImmocaster->sendAFriend($aFriendParameter);
 		echo '<strong>'.$resFriend.'</strong><br /><br />';
