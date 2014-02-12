@@ -63,6 +63,7 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
 		#appVerifyInfo { color:#F00; font-weight: bold; margin: 10px 0; }
     </style>
 </head>
+
 <body>
 <h1>
 	<a href="http://www.immocaster.com">Immocaster SDK - Beispiele</a>
