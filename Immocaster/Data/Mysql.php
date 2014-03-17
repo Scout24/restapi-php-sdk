@@ -150,6 +150,7 @@ class Immocaster_Data_Mysql
 			`ic_key` VARCHAR( 128 ) NOT NULL,
 			`ic_secret` VARCHAR( 128 ) NOT NULL,
 			`ic_expire` DATETIME NOT NULL,
+			`ic_username` VARCHAR(60) NOT NULL,
 			PRIMARY KEY (  `ic_id` )
 			) ENGINE = MYISAM";
 			mysql_query($sql,$this->_oDataConnection);
