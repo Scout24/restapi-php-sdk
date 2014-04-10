@@ -55,7 +55,6 @@ return array(
   'baseRentPrice'                  => array('xml' => array('baseRent'), 'type'=>'double'),
   'totalRentPrice'                 => array('xml' => array('totalRent'), 'type'=>'double'),
   'petsAllowed'                    => array('xml' => array('petsAllowed'), 'type'=>'bool-set', 'values'=>array('YES','NO')),
-  'baseBuyPrice'                   => array('xml' => array('price','value'), 'type'=>'double'),
   'buyPriceCurrency'               => array('xml' => array('price','currency'), 'type'=>'string-set', 'values'=>array('default'=>'EUR')),
   'livingSpaceSqm'                 => array('xml' => array('livingSpace'), 'type'=>'double'),
   'numberOfRooms'                  => array('xml' => array('numberOfRooms'), 'type'=>'double'),
