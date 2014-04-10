@@ -30,6 +30,8 @@ return array(
   'houseNumber'                    => array('xml' => array('address','houseNumber'), 'type'=>'string'),
   'zip'                            => array('xml' => array('address','postcode'), 'type'=>'string'),
   'city'                           => array('xml' => array('address','city'), 'type'=>'string'),
+  'latitude'                       => array('xml' => array('address','wgs84Coordinate','latitude'), 'type'=>'double'),
+  'longitude'                      => array('xml' => array('address','wgs84Coordinate','longitude'), 'type'=>'double'),  
   'longDescription'                => array('xml' => array('descriptionNote'), 'type'=>'string'),
   'furnishingDescription'          => array('xml' => array('furnishingNote'), 'type'=>'string'),
   'locationDescription'            => array('xml' => array('locationNote'), 'type'=>'string'),
