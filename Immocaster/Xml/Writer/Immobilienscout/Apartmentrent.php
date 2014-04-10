@@ -54,6 +54,7 @@ return array(
   'guestToilet'                    => array('xml' => array('guestToilet'), 'type'=>'bool-set', 'values'=>array('YES','NOT_APPLICABLE')),
   'baseRentPrice'                  => array('xml' => array('baseRent'), 'type'=>'double'),
   'totalRentPrice'                 => array('xml' => array('totalRent'), 'type'=>'double'),
+  'serviceCharge'                  => array('xml' => array('serviceCharge'), 'type'=>'double'),   
   'petsAllowed'                    => array('xml' => array('petsAllowed'), 'type'=>'bool-set', 'values'=>array('YES','NO')),
   'buyPriceCurrency'               => array('xml' => array('price','currency'), 'type'=>'string-set', 'values'=>array('default'=>'EUR')),
   'livingSpaceSqm'                 => array('xml' => array('livingSpace'), 'type'=>'double'),
