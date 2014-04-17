@@ -18,14 +18,14 @@ class Immocaster_Immobilienscout
      * @var string
      */
 	protected $_sUri = 'http://rest.sandbox-immobilienscout24.de';
-	
+
     /**
      * REST-Pfad der für ImmobilienScout24 genutzt werden soll.
      *
      * @var string
      */
 	private $_sUriPath = 'restapi/api/';
-	
+
     /**
      * REST-Pfad der für ImmobilienScout24 genutzt werden soll,
 	 * bei 3-legged-oauth.
@@ -33,49 +33,49 @@ class Immocaster_Immobilienscout
      * @var string
      */
 	private $_sUriPathSecurity = 'restapi/security/';
-	
+
 	/**
      * Typ der Authentifizierung die genutzt werden soll (z.B. oauth).
 	 *
 	 * @var string
      */
 	private $_sAuthType = null;
-	
+
 	/**
      * Strict-Mode aktivieren (true) und deaktivieren (false).
 	 *
 	 * @var boolean
      */
 	protected $_sStrictMode = false;
-	
+
 	/**
      * Signaturmethode für die Nutzung des Service.
 	 *
 	 * @var object
      */
 	protected $_oSignatureMethod = null;
-	
+
 	/**
      * Consumerobjekt für die Ausführung der Requests.
 	 *
 	 * @var object
      */
 	protected $_oConsumer = null;
-	
+
 	/**
      * Key des Consumer.
 	 *
 	 * @var string
      */
 	protected $_sConsumerKey = null;
-	
+
 	/**
      * Secret des Consumer.
 	 *
 	 * @var string
      */
 	protected $_sConsumerSecret = null;
-	
+
 	/**
      * Verbindung zum Service aufbauen.
      *
@@ -95,7 +95,7 @@ class Immocaster_Immobilienscout
 			$this->_oConsumer = new OAuthConsumer($sKey,$sSecret,NULL);
 		}
     }
-	
+
 	/**
      * Prüfen ob alle Pflichvariablen für eine Methode gesetzt sind.
 	 *
@@ -117,7 +117,7 @@ class Immocaster_Immobilienscout
 		}
 		return true;
 	}
-	
+
 	/**
      * Request per REST ausführen.
      *
@@ -149,7 +149,7 @@ class Immocaster_Immobilienscout
 		}
 		return false;
 	}
-	
+
 	/**
      * Content für aktuellen Request abfragen,
 	 * ermitteln und zurückliefern.
@@ -209,7 +209,7 @@ class Immocaster_Immobilienscout
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Header Array für aktuellen Request erstellen
 	 *
@@ -266,7 +266,7 @@ class Immocaster_Immobilienscout
 		}
 		return $sNewHeader;
 	}
-	
+
 	/**
 	 * Body für den Export von Anhängen erstellen (MIME)
 	 *
@@ -282,9 +282,20 @@ class Immocaster_Immobilienscout
 		if (version_compare(phpversion(), '5.3', '>=')) {
 			$aFileInfo = finfo_open(FILEINFO_MIME_TYPE);
 			$aFileInfoMime = finfo_file($aFileInfo, $aArgs['file']);
-		} else {
+		}
+		else if($aFileInfoMime = mime_content_type($aArgs['file']))
+		{
 			$aFileInfoMime = mime_content_type($aArgs['file']);
 		}
+		else if($aFileInfos = getimagesize($aArgs['file']))
+		{
+			$aFileInfoMime = $aFileInfos['mime'];
+		}
+		else
+		{
+			$aFileInfoMime = $this->getMimeContentType($aArgs['file']);
+		}
+
 		$sBreak = "\r\n";
 		$sBody  = '--' . $sMimeBoundary . $sBreak;
 		$sBody .= 'Content-Type: application/xml; name=body.xml' . $sBreak;
@@ -308,5 +319,78 @@ class Immocaster_Immobilienscout
 		$sBody .= "--" . $sMimeBoundary . "--" . $sBreak . $sBreak;
 		return $sBody;
 	}
+
+	protected function getMimeContentType($filename) {
+
+			$mime_types = array(
+
+				'txt' => 'text/plain',
+				'htm' => 'text/html',
+				'html' => 'text/html',
+				'php' => 'text/html',
+				'css' => 'text/css',
+				'js' => 'application/javascript',
+				'json' => 'application/json',
+				'xml' => 'application/xml',
+				'swf' => 'application/x-shockwave-flash',
+				'flv' => 'video/x-flv',
+
+				// images
+				'png' => 'image/png',
+				'jpe' => 'image/jpeg',
+				'jpeg' => 'image/jpeg',
+				'jpg' => 'image/jpeg',
+				'gif' => 'image/gif',
+				'bmp' => 'image/bmp',
+				'ico' => 'image/vnd.microsoft.icon',
+				'tiff' => 'image/tiff',
+				'tif' => 'image/tiff',
+				'svg' => 'image/svg+xml',
+				'svgz' => 'image/svg+xml',
+
+				// archives
+				'zip' => 'application/zip',
+				'rar' => 'application/x-rar-compressed',
+				'exe' => 'application/x-msdownload',
+				'msi' => 'application/x-msdownload',
+				'cab' => 'application/vnd.ms-cab-compressed',
+
+				// audio/video
+				'mp3' => 'audio/mpeg',
+				'qt' => 'video/quicktime',
+				'mov' => 'video/quicktime',
+
+				// adobe
+				'pdf' => 'application/pdf',
+				'psd' => 'image/vnd.adobe.photoshop',
+				'ai' => 'application/postscript',
+				'eps' => 'application/postscript',
+				'ps' => 'application/postscript',
+
+				// ms office
+				'doc' => 'application/msword',
+				'rtf' => 'application/rtf',
+				'xls' => 'application/vnd.ms-excel',
+				'ppt' => 'application/vnd.ms-powerpoint',
+
+				// open office
+				'odt' => 'application/vnd.oasis.opendocument.text',
+				'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+			);
+			$ext = strtolower(array_pop(explode('.',$filename)));
+
+			if (function_exists('finfo_open')) {
+				$finfo = finfo_open(FILEINFO_MIME);
+				$mimetype = finfo_file($finfo, $filename);
+				finfo_close($finfo);
+				return $mimetype;
+			}
+			else if (array_key_exists($ext, $mime_types)) {
+				return $mime_types[$ext];
+			}
+			else {
+				return 'application/octet-stream';
+			}
+		}
 
 }
