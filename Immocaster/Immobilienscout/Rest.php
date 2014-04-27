@@ -11,14 +11,14 @@
 
 class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 {
-	
+
 	/**
 	 * Leseprotokoll: standardmäßig cURL
 	 * Die PHP-Funktion file_get_contents() wird nicht
 	 * mehr unterstützt.
 	 */
 	 protected $_sUrlReadingType = 'curl';
-	
+
 	/**
 	 * Ergebnisformat: JSON oder standardmäßig XML
 	 */
@@ -28,7 +28,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 * Anfrageformat: JSON oder standardmäßig XML
 	 */
 	 protected $_sContentRequestType = 'none';
-	 
+
 	 /**
 	 * Standard Nutzername für Abfragen per oAuth,
 	 * wenn ein Nutzername für die Abfrage benötigt wird
@@ -36,7 +36,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 protected $_sDefaultUsername = 'me';
 
 	/**
-     * Der Constructor legt die Einstellungen für die 
+     * Der Constructor legt die Einstellungen für die
 	 * Verbindung fest und startet diese.
      *
 	 * @param string $sKey Key für diesen Service
@@ -48,7 +48,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
     {
 		parent::connectService($sKey,$sSecret,$sAuth);
     }
-	
+
 	/**
      * Protokoll setzen, wie das Result von der
 	 * URL gelesen werden soll (z.B. 'none','curl').
@@ -66,7 +66,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$this->_sUrlReadingType = 'curl';
 		return true;
     }
-	
+
 	/**
 	 * Ergebnisformat setzen (z.B. 'none','json').
 	 *
@@ -105,7 +105,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$this->_sUri = $sUrl;
 		return true;
 	}
-	
+
 	/**
      * Strict-Mode aktivieren und deaktivieren.
 	 *
@@ -139,7 +139,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		return IMMOCASTER_SDK_LANG_FUNCTION_DONT_EXIST;
 	}
-	
+
 	/**
      * Ausführen des REST Requests (aus den
 	 * jeweiligen Funktionen heraus).
@@ -170,7 +170,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		return false;
 	}
-	
+
 	/**
      * Der Geo Service der API liefert die Geo-Struktur
 	 * wieder und liefert zu jedem Ort, zu jeder Stadt,
@@ -178,7 +178,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 * kleinsten Punkt (quarter) durchhangeln kann.
 	 * Die Struktur ist Country>Region>City>Quarter.
 	 * Wichtig ist der zusätzliche Parameter 'list'. Wenn dieser auf
-	 * true gesetzt wird, wird die nächst tiefere Strukturebene 
+	 * true gesetzt wird, wird die nächst tiefere Strukturebene
 	 * unterhalb des aktuellen Objekts zurückgegeben. Wenn man
 	 * also eine "country-id" angibt und "list" auf true setzt
 	 * erhält man alle Regionen des Landes. Wenn man "list" auf false
@@ -234,7 +234,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req = $this->doRequest($sSearchQuery,$aArgs,$aRequired,__FUNCTION__);
 		return parent::getContent($req);
 	}
-	
+
 	/**
      * Abfrage eines Exposes (Search-API)
 	 * mit der Objekt-ID.
@@ -257,7 +257,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
      * Abfrage eines eigenen Exposes (Offer-API)
 	 * mit der Objekt-ID.
@@ -284,7 +284,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
      * Impressum des Angebots anhand einer
 	 * Objekt-ID auslesen.
@@ -299,7 +299,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('exposeid');
 		return parent::getContent($req);
 	}
-	
+
 	/**
 	 * Logo des Anbieters auslesen.
 	 *
@@ -330,7 +330,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
      * Abfrage eines Dateianhangs (Attachment).
 	 *
@@ -350,7 +350,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('exposeid');
 		return parent::getContent($req);
 	}
-	
+
 	/**
      * Abfrage der Geo-Informationen per Stadtname, oder
 	 * per Anfangsbuchstaben einer Region.
@@ -364,7 +364,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req = $this->doRequest('search/v1.0/region',$aArgs,$aRequired,__FUNCTION__);
 		return parent::getContent($req);
 	}
-	
+
 	/**
      * Abfrage von Ergebnislisten anhand von
 	 * Geo-Koordinaten und des Objekttyps.
@@ -388,7 +388,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req = $this->doRequest('search/v1.0/search/radius',$aArgs,$aRequired,__FUNCTION__,$oToken);
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
      * Abfrage von Ergebnislisten anhand der
 	 * Region-ID und des Objekttyps.
@@ -412,7 +412,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req = $this->doRequest('search/v1.0/search/region',$aArgs,$aRequired,__FUNCTION__,$oToken);
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
      * Abfrage der kompletten Ergebnisliste
 	 * eines Kunden/Maklers/Börse.
@@ -438,7 +438,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
 	 * Kontaktanfrage an den Anbieter eines Exposes (Objekt)
 	 * mit der Objekt-ID.
@@ -463,7 +463,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('exposeid');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
 	 * Kontakt eines Users über ContactId abfragen.
 	 * (Hierfür müssen besondere Berechtigungen
@@ -491,7 +491,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('contactid');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
 	 * Kontaktinformation zu ImmobilienScout24 exportieren.
 	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
@@ -623,7 +623,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
 	 * Objekt zu ImmobilienScout24 exportieren.
 	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
@@ -669,7 +669,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('estate');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
 	 * Alle Anhänge zu einem Objekt per ExportAPI ermitteln.
 	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
@@ -703,7 +703,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
 	 * Anhang zu einem Objekt zu ImmobilienScout24 exportieren.
 	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
@@ -723,6 +723,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		if(!isset($aArgs['floorplan'])){ $aArgs['floorplan'] = 'false'; }
 		if(!isset($aArgs['titlePicture'])){ $aArgs['titlePicture'] = 'false'; }
 		if(!isset($aArgs['type'])){ $aArgs['type'] = 'Picture'; }
+		if(!isset($aArgs['externalId'])){ $aArgs['externalId'] = ''; }
 		$oToken = null;
 		$sSecret = null;
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
@@ -751,6 +752,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		$req->unset_parameter('file');
 		$req->unset_parameter('type');
+		$req->unset_parameter('externalId');
 		return parent::getContent(
 			$req,
 			$sSecret,
@@ -760,7 +762,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			)
 		);
 	}
-	
+
 	/**
 	 * Anhang zu einem Objekt entfernen.
 	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
@@ -796,7 +798,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
 	 * Objekt bei ImmobilienScout24 ändern.
 	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
@@ -847,7 +849,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('estate');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
 	 * Objekt bei ImmobilienScout24 aktivieren.
 	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
@@ -916,7 +918,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/**
      * Applikation zeritifizieren.
 	 *
@@ -942,8 +944,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			return $this->registerRequest($aArgs);
 		}
-	}	
-	
+	}
+
 	/**
      * Applikation Requesttoken ermitteln
 	 * und Benutzer auf SSO weiterleiten.
@@ -973,7 +975,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		return false;
 	}
-	
+
 	/**
      * Applikation Accesstoken ermitteln
 	 * und in Datenbank speichern (3-legged-oauth).
@@ -1031,7 +1033,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			))
 			{
 				return true;
-			}	
+			}
 		}
 		catch (Exception $e)
 		{
@@ -1068,7 +1070,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		return array($oToken, $sSecret);
 	}
-	
+
 	/**
 	 * Alle zertifizierten Benutzernamen auslesen
 	 *
@@ -1097,5 +1099,5 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		// Rückgabe als Array
 		return $aUsers;
 	}
-	
+
 }

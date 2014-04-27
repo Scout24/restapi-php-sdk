@@ -9,6 +9,10 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 History
 =======
 
+SDK Version 1.1.55
+- Update Rest.php & Immobilienscout.php. Man kann beim Export von Bildern eine
+externalId mitgeben.
+
 SDK Version 1.1.54
 - Mimetype Unterstützung für PHP Versionen unter 5.3.
 
@@ -25,7 +29,7 @@ SDK Version 1.1.50
 - Unterstützung des PDF-Export
 
 SDK Version 1.1.49
-- Bugfix verschiedener Funktionen aufgrund des neuen Multi-Token-Feature. 
+- Bugfix verschiedener Funktionen aufgrund des neuen Multi-Token-Feature.
 ! Evtl. muss die Applikation neu zertifiziert werden.
 
 SDK Version 1.1.48
