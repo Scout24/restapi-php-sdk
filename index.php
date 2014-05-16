@@ -16,7 +16,7 @@ require_once('Immocaster/Sdk.php');
 
 /**
  * Verbindung zum Service von ImmobilienScout24 aufbauen.
- * Die Daten (Key und Secret) erhält man auf 
+ * Die Daten (Key und Secret) erhält man auf
  * http://developer.immobilienscout24.de.
  */
 $sImmobilienScout24Key    = 'Key für ImmobilienScout24';
@@ -217,7 +217,7 @@ if($_POST['formActionSendContact'])
 	$res = $oImmocaster->getExpose($aParameter);
 	if(substr_count($res, 'ERROR_RESOURCE_NOT_FOUND')<1)
 	{
-		$sRequestBody = ''; // Infos zum Aufbau unter: http://developerwiki.immobilienscout24.de/wiki/Contact/POST	
+		$sRequestBody = ''; // Infos zum Aufbau unter: http://developerwiki.immobilienscout24.de/wiki/Contact/POST
 		$aContactParameter = array('exposeid'=>$_POST['contactObjectId'],'request_body'=>$sRequestBody);
 		$resContact = $oImmocaster->sendContact($aContactParameter);
 		echo '<strong>'.$resContact.'</strong><br /><br />';
@@ -354,6 +354,14 @@ $aParameter = array(
 );
 print_r($oImmocaster->disableObject($aParameter));
 */
+
+/**
+ * Objekt entfernen
+ */
+echo '<h2>Objekt entfernen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username' => 'USERNAME', 'estateid' => 'ESTATEID' /*ID des Objekts*/ );
+//$res = $oImmocaster->deleteObject($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 ?>
 

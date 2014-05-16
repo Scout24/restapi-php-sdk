@@ -9,6 +9,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 History
 =======
 
+SDK Version 1.1.56
+- Update index.php & Rest.php. Man kann nun Objekte löschen.
+
 SDK Version 1.1.55
 - Update Rest.php & Immobilienscout.php. Man kann beim Export von Bildern eine
 externalId mitgeben.

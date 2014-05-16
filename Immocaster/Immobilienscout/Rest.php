@@ -929,7 +929,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _deleteObject($aArgs)
 	{
-		$aRequired = array('username','exposeid','channelid');
+		$aRequired = array('username','estateid');
 		$oToken = null;
 		$sSecret = null;
 		if(!isset($aArgs['username']))
@@ -941,9 +941,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
-		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
-		$req->unset_parameter('exposeid');
-		$req->unset_parameter('channelid');
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['estateid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
+		$req->unset_parameter('estateid');
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
