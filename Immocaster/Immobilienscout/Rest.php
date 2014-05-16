@@ -920,6 +920,36 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 
 	/**
+	 * Objekt bei ImmobilienScout24 löschen.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _deleteObject($aArgs)
+	{
+		$aRequired = array('username','exposeid','channelid');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
+		$req->unset_parameter('exposeid');
+		$req->unset_parameter('channelid');
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
+	}
+
+
+	/**
      * Applikation zeritifizieren.
 	 *
      * @param array $aArgs
