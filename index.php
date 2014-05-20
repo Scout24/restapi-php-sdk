@@ -35,6 +35,12 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
 // $oImmocaster->setContentResultType('json');
 
 /**
+ * Debug-Modus für Requests aktivieren
+ * Zum deaktivieren: disableRequestDebug()
+ */
+// $oImmocaster->enableRequestDebug();
+
+/**
  * Strict-Mode aktivieren
  */
 // $oImmocaster->setStrictMode(true);

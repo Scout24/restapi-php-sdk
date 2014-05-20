@@ -203,8 +203,18 @@ class Immocaster_Immobilienscout
 					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 				}
 				$result = curl_exec($ch);
+				// Return information
+				if($this->_bRequestDebug==true)
+				{
+					return array(
+						'info'=>curl_getinfo($ch),
+						'body'=>$requestBody
+					);
+				}
+				// Close curl
 				curl_close($ch);
 			}
+			// Return result
 			return $result;
 		}
 		return false;

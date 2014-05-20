@@ -13,6 +13,15 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 {
 
 	/**
+     * Rückgabe des Request (False für normalen Request
+	 * und true für Array mit Infos zum Request. Diese Option
+	 * sollte nur von Entwicklern für Testzwecke genutzt werden.)
+     *
+     * @var boolean
+     */
+	 protected $_bRequestDebug = false;
+
+	/**
 	 * Leseprotokoll: standardmäßig cURL
 	 * Die PHP-Funktion file_get_contents() wird nicht
 	 * mehr unterstützt.
@@ -64,6 +73,28 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			return true;
 		}
 		$this->_sUrlReadingType = 'curl';
+		return true;
+    }
+	
+	/**
+     * Aktivieren des Debug-Mode für den Request
+     *
+     * @return boolean
+     */
+    public function enableRequestDebug()
+    {
+		$this->_bRequestDebug = true;
+		return true;
+    }
+	
+	/**
+     * Deaktivieren des Debug-Mode für den Request
+     *
+     * @return boolean
+     */
+    public function disableRequestDebug()
+    {
+		$this->_bRequestDebug = false;
 		return true;
     }
 
