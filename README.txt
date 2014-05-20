@@ -9,6 +9,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 History
 =======
 
+SDK Version 1.1.58
+- Debuggen mit Response. Im Array ist nun auch noch die Response des Requests enthalten.
+
 SDK Version 1.1.57
 - Debug-Möglichkeit für Requests. Request-Informationen können nun als Array zurückgegeben und ausgewertet werden.
 

@@ -208,7 +208,8 @@ class Immocaster_Immobilienscout
 				{
 					return array(
 						'info'=>curl_getinfo($ch),
-						'body'=>$requestBody
+						'body'=>$requestBody,
+ 						'response'=>$result
 					);
 				}
 				// Close curl
