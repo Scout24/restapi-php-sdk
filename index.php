@@ -26,6 +26,11 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
 /**
  * Verbindung zur MySql-Datenbank (wird für einige Anfragen
  * an die API benötigt, wie z.B. nur Maklerobjekte anzeigen).
+ * 
+ * @var array Infos zur Datenbank 'mysql','DB-Host','DB-User','DB-Password' und 'DB-Name'
+ * @var string Optionaler Session-Namespace falls Session true ist
+ * @var string Tabellenname in der Datenbank für Immocaster (Default ist Immocaster_Storage)
+ * @var boolean Aktivieren (true) und deaktivieren (false) der Session (Wird nur für Zertifizierung benötigt!)
  */
 // $oImmocaster->setDataStorage(array('mysql','DB-Host','DB-User','DB-Password','DB-Name'));
 

@@ -128,22 +128,25 @@ class Immocaster_Sdk
 	}
 	
 	/**
-     * Datenspeicherung per Session und Datenbank
+     * Datenspeicherung Datenbank
 	 * initialisieren (für 3-legged-oauth).
 	 *
 	 * @var array Parameters für die Datenbank (type,host,user,password,database)
 	 * @var string Namespace für Variablen innerhalb der Session
 	 * @var string Alternativer Name für den Tabellennamen
+	 * @var boolean Für die Zertifizierung wird eine Session benötigt, das automatische laden der Session kann aber per false deaktiviert werden.
 	 * @return boolean
      */
-	public function setDataStorage($aConnection,$sSessionNamespace=null,$sTableName=null)
+	public function setDataStorage($aConnection,$sSessionNamespace=null,$sTableName=null,$bSession=true)
 	{
-		require_once(dirname(__FILE__).'/Data/Session.php');
-		Immocaster_Data_Session::getInstance($sSessionNamespace);
+		if($bSession===true)
+		{
+			require_once(dirname(__FILE__).'/Data/Session.php');
+			Immocaster_Data_Session::getInstance($sSessionNamespace);
+		}
 		$sFileName = ucfirst(strtolower($aConnection[0]));
 		require_once(dirname(__FILE__).'/Data/'.$sFileName.'.php');
-		$this->oDataStorage = call_user_func(array('Immocaster_Data_'.$sFileName,'getInstance'),$aConnection,$sTableName);
-		return $this->oDataStorage;
+		return call_user_func(array('Immocaster_Data_'.$sFileName,'getInstance'),$aConnection,$sTableName);
 	}
 	
 }
