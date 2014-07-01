@@ -26,7 +26,7 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
 /**
  * Verbindung zur MySql-Datenbank (wird für einige Anfragen
  * an die API benötigt, wie z.B. nur Maklerobjekte anzeigen).
- * 
+ *
  * @var array Infos zur Datenbank 'mysql','DB-Host','DB-User','DB-Password' und 'DB-Name'
  * @var string Optionaler Session-Namespace falls Session true ist
  * @var string Tabellenname in der Datenbank für Immocaster (Default ist Immocaster_Storage)
@@ -290,37 +290,24 @@ $aParameter = array(
 	'username' => 'me',
 	'service' => 'immobilienscout',
 	'estate' => array(
-		'type'                  => 'apartmentBuy',        // Wohnungstyp (*)
-		'objectId'              => '12345',               // Eindeutige ID des Objekts
-		'title'                 => 'Tolle Test-Wohnung',  // Titel des Objekts (*)
-		'street'                => 'Andreasstrasse',      // Strasse (ohne Hausnummer)
-		'houseNumber'           => '10',                  // Hausnummer
-		'zip'                   => '10245',               // Postleitzahl (*)
-		'city'                  => 'Berlin',              // Ort oder Stadt (*)
-		'showFullAddress'       => 'false',               // Komplette Adresse anzeigen (*)
-		'longDescription'       => 'ABC...',              // Informationen zur Wohnung
-		'furnishingDescription' => 'DEF...',              // Information zur Ausstattung
-		'locationDescription'   => 'GHI...',              // Information zur Umgebung
-		'otherDescription'      => 'JKL...',              // Weitere Information zum Objekt
-		'floor'                 => '4',                   // Stockwerk des Objekts
-		'totalFloors'           => '12',                  // Anzahl der Stockwerke des gesamten Objekts
-		'baseBuyPrice'          => '500.50',              // Kaufpreis (*)
-		'currency'              => 'EUR',                 // Währung (*)
-		'usableSpaceSqm'        => '140.00',              // Nutzfläche in Quadratmetern
-		'livingSpaceSqm'        => '60',                  // Wohnfläche in Quadratmetern (*)
-		'numberOfRooms'         => '4',                   // Anzahl der Zimmer (*)
-		'numberOfBedrooms'      => '1',                   // Anzahl der Schlafzimmer
-		'numberOfBathrooms'     => '2',                   // Anzahl der Badezimmer
-		'lift'                  => false,                 // Fahrstuhl vorhanden
-		'cellar'                => true,                  // Keller vorhanden
-		'handicappedAccessible' => true,                  // Behindertengerecht
-		'guestToilet'           => true,                  // Gäste-WC vorhanden
-		'kitchen'               => 'full',                // Küche vorhanden // Werte: full (Einbauküche),open (Offene Küche), small (Kleine Anrichte)
-		'balcony'               => true,                  // Balkon vorhanden
-		'garden'                => true,                  // Garten vorhanden
-		'hasCourtage'           => true,                  // Provisionsgebunden (Ja oder Nein)
-		'courtage'              => '2 Monatsmieten',      // Provision
-		'courtageNote'          => 'Kostet extra',        // Infos zur Provision
+	'xml' => '<?xml version="1.0" encoding="utf-8"?>
+<realestates:apartmentRent xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0">
+  <title>RestAPI - Immobilienscout24 Testobjekt! +++BITTE+++ NICHT kontaktieren - Wohnung Miete</title>
+  <address>
+    <street>Heuersdorfer Str</street>
+    <houseNumber>26</houseNumber>
+    <postcode>04574</postcode>
+    <city>Heuersdorf</city>
+  </address>
+  <showAddress>false</showAddress>
+  <baseRent>521.22</baseRent>
+  <livingSpace>849.737</livingSpace>
+  <numberOfRooms>8.4</numberOfRooms>
+  <courtage>
+    <hasCourtage>YES</hasCourtage>
+    <courtage>7,14%</courtage>
+  </courtage>
+</realestates:apartmentRent>'
 ));
 print_r($oImmocaster->exportObject($aParameter)); // Objekt exportieren
 print_r($oImmocaster->changeObject($aParameter)); // Objekt &auml;ndern
