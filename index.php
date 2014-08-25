@@ -126,7 +126,8 @@ echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
  * Ergebnisliste mit allen Objekten eines Maklers abfragen.
  */
 echo '<h2>Komplette Ergebnisliste eines Maklers</h2><br/>Diese Funktion wurde auskommentiert, da der Benutzer hierfür die Applikation zertifizieren muss und die Berechtigung von IS24 für diese Funktion benötigt.<br/><br/>';
-//$res = $oImmocaster->fullUserSearch(array());
+//$aParameter = array('username'=>'USERNAME');
+//$res = $oImmocaster->fullUserSearch($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
