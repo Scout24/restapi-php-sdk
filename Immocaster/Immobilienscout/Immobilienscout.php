@@ -233,7 +233,7 @@ class Immocaster_Immobilienscout
 		$sAccessTokenSignature = '';
 		if($sSecret)
 		{
-			$sConsKey = rawurlencode($this->_sConsumerSecret).'&'.$sSecret;
+			$sConsKey = rawurlencode($this->_sConsumerSecret) . '&' . urlencode($sSecret);
 			$sSignature = urlencode(base64_encode(hash_hmac('sha1',$req->get_signature_base_string(),$sConsKey,true)));
 			$sAccessTokenSignature = ',oauth_signature_method="HMAC-SHA1",oauth_signature="'.$sSignature.'"';
 		}
