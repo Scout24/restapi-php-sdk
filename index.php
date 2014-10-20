@@ -315,11 +315,29 @@ print_r($oImmocaster->changeObject($aParameter)); // Objekt &auml;ndern
 */
 
 /**
+ * Ruft ein Objekte eines Maklers unabhängig von der Veröffentlichung ab
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/realestate/get-by-id.html
+ */
+echo '<h2>Objekt eines Maklers per ID auslesen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','exposeid'=>'REALESTATEID' /*ScoutID oder ext-ObjektNr*/);
+//$res        = $oImmocaster->getUserExpose($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
  * Bild zu einem Objekt hochladen
  */
 echo '<h2>Objektbild hochladen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
 //$aParameter = array('file' => 'testbild.jpg', 'estateid' => 'ESTATEID' /*ID des Objekts*/);
 //$res = $oImmocaster->exportObjectAttachment($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * Attachments eines Objektes abrufen
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/attachments/get-all.html
+ */
+echo '<h2>Attachments eines Objektes abrufen.</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','estateid'=>'REALESTATEID' /*ScoutID oder ext-ObjektNr*/);
+//$res        = $oImmocaster->getObjectAttachments($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
@@ -360,6 +378,63 @@ print_r($oImmocaster->disableObject($aParameter));
 echo '<h2>Objekt entfernen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
 //$aParameter = array('username' => 'USERNAME', 'estateid' => 'ESTATEID' /*ID des Objekts*/ );
 //$res = $oImmocaster->deleteObject($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * Erstellt/Aktualisiert eine Kontaktadresse im Account des Maklers
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/contact/post.html
+ */
+echo '<h2>Erstellen/Aktualisieren von Kontaktadresse im Makleraccount</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*$aParameter =
+array(
+    'username'=>'USERNAME',
+  //'contactid'=>'CONTACTID', NUR FÜR AKTUALISIERUNG NOTWENDIG!!! id oder ext-externalId
+    'contact' => array(
+    'xml' =>
+    '<?xml version="1.0" encoding="UTF-8"?>
+    <common:realtorContactDetail xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns4="http://rest.immobilienscout24.de/schema/customer/1.0" xmlns:ns5="http://rest.immobilienscout24.de/schema/user/1.0" >
+    <email>max.mustermann@immobilienscout24.de</email>
+    <salutation>MALE</salutation>
+    <firstname>Maxxxxxx</firstname>
+    <lastname>Mustermann</lastname>
+    <faxNumberCountryCode>+49</faxNumberCountryCode>
+    <faxNumberAreaCode>30</faxNumberAreaCode>
+    <faxNumberSubscriber>243010001</faxNumberSubscriber>
+    <phoneNumberCountryCode>+49</phoneNumberCountryCode>
+    <phoneNumberAreaCode>30</phoneNumberAreaCode>
+    <phoneNumberSubscriber>243010001</phoneNumberSubscriber>
+    <cellPhoneNumberCountryCode>+49</cellPhoneNumberCountryCode>
+    <cellPhoneNumberAreaCode>179</cellPhoneNumberAreaCode>
+    <cellPhoneNumberSubscriber>2430100078</cellPhoneNumberSubscriber>
+    <address>
+        <street>Andreasstr.</street>
+        <houseNumber>10</houseNumber>
+        <postcode>10243</postcode>
+        <city>Berlin</city>
+    </address>
+    <countryCode>DEU</countryCode>
+    <title>Master</title>
+    <additionName>HuiBuh</additionName>
+    <company>Immobilienscout24</company>
+    <homepageUrl>http://www.immobilienscout24.de</homepageUrl>
+    <officeHours>Von  11:30 bis 12:00, dabei eine halbe Stunde  Pause</officeHours>
+    <defaultContact>false</defaultContact>
+    <localPartnerContact>true</localPartnerContact>
+    <businessCardContact>false</businessCardContact>
+    <externalId>bestMan</externalId>
+</common:realtorContactDetail>'
+));*/
+//$res        = $oImmocaster->exportContact($aParameter);
+//$res        = $oImmocaster->changeContact($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * Ruft eine Kontaktadresse (Contact) eines Maklers ab
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/contact/get-by-id.html
+ */
+echo '<h2>Kontaktadresse eines Maklers per ID auslesen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','contactid'=>'CONTACTID' /*id oder externalId*/);
+//$res        = $oImmocaster->getContact($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
