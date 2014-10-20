@@ -362,6 +362,69 @@ echo '<h2>Objekt entfernen</h2><br/>Diese Funktion wurde auskommentiert, da daf�
 //$res = $oImmocaster->deleteObject($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
+/**
+ * Liste von Objekten OnTop platzieren
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/ontop-placement/post-by-list.html
+ */
+echo '<h2>Liste von Objekten OnTop platzieren</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*$aParameter =
+array(
+    'username'=>'USERNAME',
+    'ontopplacementtype'=>'ONTOPPLACEMENTTYPE', //topplacement, premiumplacement oder showcaseplacement
+    'body'=>
+    '<ONTOPPLACEMENTTYPE:ONTOPPLACEMENTTYPEs xmlns:ONTOPPLACEMENTTYPE="http://rest.immobilienscout24.de/schema/offer/ONTOPPLACEMENTTYPE/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <ONTOPPLACEMENTTYPE realestateid="ScoutID"/>
+   <ONTOPPLACEMENTTYPE realestateid="ext-ObjektNr"/>
+</ONTOPPLACEMENTTYPE:ONTOPPLACEMENTTYPEs>'
+);
+$res        = $oImmocaster->postbylistOntopplacement($aParameter);
+echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';*/
+
+/**
+ * Ein Objekt OnTop platzieren
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/ontop-placement/post-by-id.html
+ */
+echo '<h2>Ein Objekt OnTop platzieren</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','realestateid'=>'REALESTATEID' /*ScoutID oder ext-ObjektNr*/,'ontopplacementtype'=>'ONTOPPLACEMENTTYPE' /*topplacement, premiumplacement oder showcaseplacement*/);
+//$res        = $oImmocaster->postbyidOntopplacement($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * Alle OnTop Platzierungen abrufen
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/ontop-placement/get-all.html
+ */
+echo '<h2>Alle OnTop Platzierungen abrufen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','ontopplacementtype'=>'ONTOPPLACEMENTTYPE' /*topplacement, premiumplacement oder showcaseplacement*/);
+//$res        = $oImmocaster->getallOntopplacement($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * OnTop Platzierung eines Objektes abrufen
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/ontop-placement/get-by-id.html
+ */
+echo '<h2>OnTop Platzierung eines Objektes abrufen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','realestateid'=>'REALESTATEID' /*ScoutID oder ext-ObjektNr*/,'ontopplacementtype'=>'ONTOPPLACEMENTTYPE' /*topplacement, premiumplacement oder showcaseplacement*/);
+//$res        = $oImmocaster->getbyidOntopplacement($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * Alle OnTop Platzierungen löschen
+ * http://api.immobilienscout24.de/our-apis/import-export/ontop-placement/delete-all.html
+ */
+echo '<h2>Alle OnTop Platzierungen löschen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','ontopplacementtype'=>'ONTOPPLACEMENTTYPE' /*topplacement, premiumplacement oder showcaseplacement*/);
+//$res        = $oImmocaster->deleteallOntopplacement($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
+ * Eine OnTop Platzierung löschen
+ * http://api.immobilienscout24.de/our-apis/import-export/ontop-placement/delete-by-id.html
+ */
+echo '<h2>Eine OnTop Platzierung löschen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','realestateid'=>'REALESTATEID' /*ScoutID oder ext-ObjektNr*/,'ontopplacementtype'=>'ONTOPPLACEMENTTYPE' /*topplacement, premiumplacement oder showcaseplacement*/);
+//$res        = $oImmocaster->deletebyidOntopplacement($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
 ?>
 
 </body>

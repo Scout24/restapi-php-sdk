@@ -75,7 +75,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$this->_sUrlReadingType = 'curl';
 		return true;
     }
-	
+
 	/**
      * Aktivieren des Debug-Mode für den Request
      *
@@ -86,7 +86,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$this->_bRequestDebug = true;
 		return true;
     }
-	
+
 	/**
      * Deaktivieren des Debug-Mode für den Request
      *
@@ -978,6 +978,192 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		return parent::getContent($req,$sSecret);
 	}
 
+	/**
+	 * OnTop Platzierungen für mehrere Objekte bei ImmobilienScout24 buchen.
+	 * Möglich sind folgende OnTop Platzierungen: Top, Premium und Schaufenster.
+	 * OnTop Platzierungen müssen extra gebucht werden.
+	 * ontopplacementtype: topplacement, premiumplacement, showcaseplacement.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _postbylistOntopplacement($aArgs)
+	{
+		$aRequired = array('username','ontopplacementtype','body');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		if(isset($aArgs['body']))
+		{
+				$aArgs['request_body'] = $aArgs['body'];
+		}
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/'.$aArgs['ontopplacementtype'].'/list',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
+		$req->unset_parameter('username');
+		$req->unset_parameter('ontopplacementtype');
+		$req->unset_parameter('body');
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
+	 * Ein Objekt bei ImmobilienScout24 OnTop platzieren.
+	 * Möglich sind folgende OnTop Platzierungen: Top, Premium und Schaufenster.
+	 * OnTop Platzierungen müssen extra gebucht werden.
+	 * ontopplacementtype: topplacement, premiumplacement, showcaseplacement.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _postbyidOntopplacement($aArgs)
+	{
+		$aRequired = array('username','realestateid','ontopplacementtype');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['realestateid'].'/'.$aArgs['ontopplacementtype'],$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
+		$req->unset_parameter('username');
+		$req->unset_parameter('realestateid');
+		$req->unset_parameter('ontopplacementtype');
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
+	 * OnTop Platzierung eines Objektes bei ImmobilienScout24 auslesen.
+	 * Möglich sind folgende OnTop Platzierungen: Top, Premium und Schaufenster.
+	 * OnTop Platzierungen müssen extra gebucht werden.
+	 * ontopplacementtype: topplacement, premiumplacement, showcaseplacement.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _getbyidOntopplacement($aArgs)
+	{
+		$aRequired = array('username','realestateid','ontopplacementtype');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['realestateid'].'/'.$aArgs['ontopplacementtype'],$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('username');
+		$req->unset_parameter('realestateid');
+		$req->unset_parameter('ontopplacementtype');
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
+	 * Alle OnTop Platzierungen eines Accounts bei ImmobilienScout24 auslesen.
+	 * Möglich sind folgende OnTop Platzierungen: Top, Premium und Schaufenster.
+	 * OnTop Platzierungen müssen extra gebucht werden.
+	 * ontopplacementtype: topplacement, premiumplacement, showcaseplacement.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _getallOntopplacement($aArgs)
+	{
+		$aRequired = array('username','ontopplacementtype');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/'.$aArgs['ontopplacementtype'].'/all',$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('username');
+		$req->unset_parameter('ontopplacementtype');
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
+	 * Alle OnTop Platzierungen eines Accounts bei ImmobilienScout24 löschen.
+	 * Möglich sind folgende OnTop Platzierungen: Top, Premium und Schaufenster.
+	 * OnTop Platzierungen müssen extra gebucht werden.
+	 * ontopplacementtype: topplacement, premiumplacement, showcaseplacement.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _deleteallOntopplacement($aArgs)
+	{
+		$aRequired = array('username','ontopplacementtype');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/'.$aArgs['ontopplacementtype'].'/all',$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
+		$req->unset_parameter('username');
+		$req->unset_parameter('ontopplacementtype');
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
+	 * OnTop Platzierung eines Objektes bei ImmobilienScout24 löschen.
+	 * Möglich sind folgende OnTop Platzierungen: Top, Premium und Schaufenster.
+	 * OnTop Platzierungen müssen extra gebucht werden.
+	 * ontopplacementtype: topplacement, premiumplacement, showcaseplacement.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _deletebyidOntopplacement($aArgs)
+	{
+		$aRequired = array('username','realestateid','ontopplacementtype');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['realestateid'].'/'.$aArgs['ontopplacementtype'],$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
+		$req->unset_parameter('username');
+		$req->unset_parameter('realestateid');
+		$req->unset_parameter('ontopplacementtype');
+		return parent::getContent($req,$sSecret);
+	}
 
 	/**
      * Applikation zeritifizieren.
