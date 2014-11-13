@@ -58,6 +58,13 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
  */
 // $oImmocaster->setRequestUrl('live');
 
+/**
+ * Authentifizierung mit oder ohne MySQL Eintrag durchspielen
+ * default,false: MySQL
+ * true: Session
+ */
+//$oImmocaster->authenticateWithoutDB(false);
+
 ?>
 
 <html>
@@ -176,16 +183,19 @@ if(isset($_GET['main_registration'])||isset($_GET['state']))
 	// Benutzer neu zertifizieren
 	if($oImmocaster->getAccess($aParameter))
 	{
-		print_r($oImmocaster->getAccess($aParameter));
-		echo '<div id="appVerifyInfo">Zertifizierung war erfolgreich.</div>';
+		$oImmocaster->getAccess($aParameter);
+		echo '<div id="appVerifyInfo">Zertifizierung in der MySQL Datenbank war erfolgreich.</div>';
 	}
 	else
-	{
-		// Test ob Benutzer schon zertifiziert ist
-		if($oImmocaster->getApplicationTokenAndSecret($sUser))
-		{
-			echo '<div id="appVerifyInfo">Dieser Benutzer ist bereits zertifiziert.</div>';
-		}
+	{   // Test ob Benutzer schon in MySQL Datenbank zertifiziert ist
+		if(!empty($oImmocaster->getApplicationTokenAndSecret($sUser)[0]))
+        {
+            echo '<div id="appVerifyInfo">Dieser Benutzer ist bereits in der MySQL Datenbank zertifiziert oder es besteht keine Verbindung. Wenn nicht in die MySQL Datenbank gespeichert werden soll (authenticateWithoutDB=true), dann gibt es neuen Access Token und Token Secret in der Codebox.</div>';
+        }
+        else
+        {
+            echo '<div id="appVerifyInfo">Dieser Benutzer befindet sich nicht in der MySQL Datenbank oder es besteht keine Verbindung. Access Token und Token Secret in der Codebox.</div>';
+        }
 	}
 }
 echo '<form action="'.$sCertifyURL.'?main_registration=1" method="post"><div id="appVerifyButton"><strong>Hinweis: Unter IE9 kann es zu Problemen mit der Zertifizierung kommen.</strong><br />Benutzername: <input type="text" name="user" /><br /><em>Der Benutzername sollte nach Möglichkeit gesetzt werden. Standardmäßig wird ansonsten "me" genommen. Somit können aber nicht mehrere User parallel in der Datenbank abgelegt werden. Der gewählte Benutzernamen muss der gleiche wie im Formular auf der nächsten Seite sein, damit der Token richtig zugewiesen werden kann.</em><br /><input type="submit" value="Jetzt zertifizieren" /></div></form>';

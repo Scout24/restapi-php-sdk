@@ -20,7 +20,7 @@ class Immocaster_Data_Mysql
      * @var object
      */
 	 private $_oDataConnection = null;
-	
+
 	/**
      * Name der Datenbank für
 	 * die Datenspeicherung.
@@ -28,7 +28,7 @@ class Immocaster_Data_Mysql
      * @var string
      */
 	 private $_oDatabaseDb = null;
-	 
+
 	/**
 	 * Name der Tabelle für
 	 * die Datenspeicherung.
@@ -36,7 +36,7 @@ class Immocaster_Data_Mysql
      * @var string
 	 */
 	 private $_sTableName = 'Immocaster_Storage';
-	
+
 	/**
      * Zeit nachdem ein Request-
 	 * token gelöscht wird (in Minuten).
@@ -44,7 +44,7 @@ class Immocaster_Data_Mysql
      * @var int
      */
 	 private $_iRequestExpire = 60;
-	
+
     /**
      * Singleton Pattern für die Erstellung
 	 * der Instanz von Immocaster_Data_Mysql.
@@ -53,16 +53,16 @@ class Immocaster_Data_Mysql
 	 * @var string Alternativer Name für die Tabelle
      * @return Immocaster_Data_Mysql
      */
-	static private $instance = null; 
-	static public function getInstance($aConnection=array(),$sTableName=null) 
-	{ 
-		if (!isset(self::$instance)) 
-		{ 
-			self::$instance = new self($aConnection,$sTableName); 
-		} 
-		return self::$instance; 
+	static private $instance = null;
+	static public function getInstance($aConnection=array(),$sTableName=null)
+	{
+		if (!isset(self::$instance))
+		{
+			self::$instance = new self($aConnection,$sTableName);
+		}
+		return self::$instance;
 	}
-	
+
 	/**
      * Verbindung zur Datenbank aufbauen und Tabelle
 	 * erzeugen, sofern diese noch nicht existiert.
@@ -94,7 +94,7 @@ class Immocaster_Data_Mysql
 		}
 		return false;
 	}
-	
+
 	/**
      * MySQL-Datenbank konnektieren.
      *
@@ -113,7 +113,7 @@ class Immocaster_Data_Mysql
 		}
 		return false;
 	}
-	
+
 	/**
      * Prüfen ob die Storage-Tabelle in der
 	 * Datenbank existiert.
@@ -133,7 +133,7 @@ class Immocaster_Data_Mysql
 		}
 		return false;
 	}
-	
+
 	/**
      * Storage-Tabelle in der
 	 * MySql-Datenbank anlegen.
@@ -156,7 +156,7 @@ class Immocaster_Data_Mysql
 			mysql_query($sql,$this->_oDataConnection);
 		}
 	}
-	
+
 	/**
      * Prüfen ob bestimmte Felder in der
 	 * Datenbank existieren und bei Bedarf
@@ -185,7 +185,7 @@ class Immocaster_Data_Mysql
 			}
 		}
 	}
-	
+
 	/**
      * Requesttoken speichern.
      *
@@ -211,7 +211,7 @@ class Immocaster_Data_Mysql
 		}
 		return false;
 	}
-	
+
 	/**
      * Requesttoken ermitteln und zurückliefern.
      *
@@ -226,9 +226,22 @@ class Immocaster_Data_Mysql
 		$obj = mysql_fetch_object($result);
 		return $obj;
 	}
-	
+
+    /**
+     * Einen Requesttoken ohne Session ermitteln und zurückliefern.
+     *
+     * @return mixed
+     */
+    public function getRequestTokenWithoutSession()
+    {
+        $sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='REQUEST' order by ic_id desc LIMIT 1";
+        $result = mysql_query($sql,$this->_oDataConnection);
+        $obj = mysql_fetch_object($result);
+        return $obj;
+    }
+
 	/**
-     * Requesttoken nach einer 
+     * Requesttoken nach einer
 	 * bestimmten Zeit löschen.
      *
      * @return void
@@ -246,7 +259,7 @@ class Immocaster_Data_Mysql
 			}
 		}
 	}
-	
+
 	/**
      * Alle Requesttoken der
 	 * Applikation löschen.
@@ -258,7 +271,7 @@ class Immocaster_Data_Mysql
 		$sql = "DELETE FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='REQUEST'";
 		mysql_query($sql,$this->_oDataConnection);
 	}
-	
+
 	/**
      * Requesttoken anhand einer
 	 * einzelnen ID löschen.
@@ -275,7 +288,7 @@ class Immocaster_Data_Mysql
 		}
 		return false;
 	}
-	
+
 	/**
      * Accesstoken für die
 	 * Applikation speichern.
@@ -301,7 +314,7 @@ class Immocaster_Data_Mysql
 		}
 		return false;
 	}
-	
+
 	/**
      * Accesstoken für die Application
 	 * ermitteln und zurückliefern.
@@ -318,7 +331,7 @@ class Immocaster_Data_Mysql
 		}
 		return false;
 	}
-	
+
 	/**
      * Alle Accesstoken für die Application
 	 * ermitteln und zurückliefern.
@@ -336,7 +349,7 @@ class Immocaster_Data_Mysql
 		}
 		return $aUsers;
 	}
-	
+
 	/**
      * Accesstoken für die
 	 * Applikation löschen.
@@ -348,5 +361,5 @@ class Immocaster_Data_Mysql
 		$sql = "DELETE FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='APPLICATION'";
 		mysql_query($sql,$this->_oDataConnection);
 	}
-	
+
 }

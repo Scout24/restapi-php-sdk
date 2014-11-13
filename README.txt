@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.63
+Immocaster PHP SDK v1.1.64
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,10 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.64
+- Authentifizierung ohne MySQL Datenbank möglich. Dazu in der index.php authenticateWithoutDB(true) aufrufen. Benutzername muss nicht eingegeben werden. Request Token und Secret werden in einer Session gespeichert, nicht aber Access Token und Secret. Weiterverwendung des erzeugten Access Token und Secret in Requests des SDKs noch nicht möglich.
+- Bei Authentifizierung mit MySQL wird nun gar keine Session mehr benutzt.
 
 SDK Version 1.1.63
 - Hinzufügen von bereits verfügbaren Requests in index.php.

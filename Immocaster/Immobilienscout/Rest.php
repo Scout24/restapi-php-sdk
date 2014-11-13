@@ -44,6 +44,12 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	 protected $_sDefaultUsername = 'me';
 
+	 /**
+	 * Authentifizierung standardmäßig mit MySQL Datenbank durchführen
+	 * false: MySQL, true: Session
+	 */
+	 protected $_bAuthenticateWithoutDB = false;
+
 	/**
      * Der Constructor legt die Einstellungen für die
 	 * Verbindung fest und startet diese.
@@ -152,6 +158,24 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		return false;
 	}
+
+	/**
+      * Authentifizierung ohne MySQL Datenbank aktivieren und deaktivieren.
+      *
+      * @return boolean
+      */
+     public function authenticateWithoutDB($bAuthenticateWithoutDB)
+     {
+     	if ($bAuthenticateWithoutDB === true)
+     	{
+ 			$this->_bAuthenticateWithoutDB = true;
+ 		}
+ 		else
+ 		{
+ 			$this->_bAuthenticateWithoutDB = false;
+ 		}
+ 		return true;
+     }
 
 	/**
      * Magische Funktion welche die Methodenaufrufe
@@ -1184,7 +1208,13 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		if(isset($_GET['state']) && isset($_GET['oauth_token']))
 		{
-			return $this->registerAccess($aArgs);
+			$aAccessToken = $this->registerAccess($aArgs);
+			if (is_array($aAccessToken)) {
+				echo '<div class="codebox"><textarea>'.implode(",", $aAccessToken).'</textarea></div>';
+				return false;
+			}
+			elseif ($aAccessToken === false) return false;
+			else return true;
 		}
 		else
 		{
@@ -1208,8 +1238,15 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				$req = parent::restRequest('oauth/request_token',$aArgs,true);
 				$req->set_parameter('oauth_callback',$aArgs['callback_url']);
 				$aResult = Immocaster_Tools_Helper::makeArrayFromString(parent::getContent($req));
-				Immocaster_Data_Session::getInstance()->setVar('request_token',$aResult['oauth_token']);
-				Immocaster_Data_Mysql::getInstance()->saveRequestToken($aResult['oauth_token'],$aResult['oauth_token_secret']);
+				// Wenn mit SQL Datenbank authentifiziert werden soll, speichere Reqeust Token und Secret in DB
+				if ($this->_bAuthenticateWithoutDB === false) {
+					Immocaster_Data_Mysql::getInstance()->saveRequestToken($aResult['oauth_token'],$aResult['oauth_token_secret']);
+				}
+				// andernfalls speichere Request Token und Secret in Session
+				else {
+					Immocaster_Data_Session::getInstance()->setVar('request_token',$aResult['oauth_token']);
+					Immocaster_Data_Session::getInstance()->setVar('request_token_secret',$aResult['oauth_token_secret']);
+				}
 				@header('Location: '.$this->_sUri.'/restapi/security/oauth/confirm_access?oauth_token='.$aResult['oauth_token']);
 				echo '<meta http-equiv="refresh" content="0;url='.$this->_sUri.
 				'/restapi/security/oauth/confirm_access?oauth_token='.$aResult['oauth_token'].'">';
@@ -1234,22 +1271,33 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		try
 		{
 			if(isset($_GET['user']) && $_GET['user'] != ''){ $sUser=$_GET['user']; }else{ $sUser=$this->_sDefaultUsername; }
-			if(Immocaster_Data_Mysql::getInstance()->getApplicationToken($sUser))
+			// Wenn mit SQL Datenbank authentifiziert werden soll, hole Reqeust Token und Secret aus DB
+			if ($this->_bAuthenticateWithoutDB === false)
 			{
-				return false;
+				if(Immocaster_Data_Mysql::getInstance()->getApplicationToken($sUser))
+				{
+					return false;
+				}
+				$oToken = Immocaster_Data_Mysql::getInstance()->getRequestTokenWithoutSession();
+				$sToken = $oToken->ic_key;
+				$sSecret = $oToken->ic_secret;
 			}
-			$oToken = Immocaster_Data_Mysql::getInstance()->getRequestToken(Immocaster_Data_Session::getInstance()->getVar('request_token'));
+			// andernfalls hole Request Token und Secret aus Session
+			else {
+				$sToken = Immocaster_Data_Session::getInstance()->getVar('request_token');
+				$sSecret = Immocaster_Data_Session::getInstance()->getVar('request_token_secret');
+			}
 			$token = new OAuthToken
-			(
-				$oToken->ic_key,
-				$oToken->ic_secret
-			);
+				(
+					$sToken,
+					$sSecret
+				);
 			$req = parent::restRequest('oauth/access_token',array(),true);
 			$req->set_parameter('oauth_verifier',$_GET['oauth_verifier']);
-			$req->set_parameter('oauth_token',$oToken->ic_key);
+			$req->set_parameter('oauth_token',$sToken);
 			$req->set_parameter('oauth_signature_method',"HMAC-SHA1");
 			$req->sign_request($this->_oSignatureMethod,$this->_oConsumer,$token);
-			$sConsKey = rawurlencode($this->_sConsumerSecret).'&'.$oToken->ic_secret;
+			$sConsKey = rawurlencode($this->_sConsumerSecret).'&'.$sSecret;
 			$sSignature = urlencode(base64_encode(hash_hmac('sha1',$req->get_signature_base_string(),$sConsKey,true)));
 			$authHeader = $req->to_header();
 			$opts = array('http'=>array('header'=>$authHeader.',oauth_signature_method="HMAC-SHA1",oauth_signature="'.
@@ -1272,20 +1320,22 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				 return false;
 			}
 			$aAccessToken = Immocaster_Tools_Helper::makeArrayFromString($result);
-			if(Immocaster_Data_Mysql::getInstance()->saveApplicationToken(
-				$aAccessToken['oauth_token'],
-				$aAccessToken['oauth_token_secret'],
-				$sUser
-			))
-			{
-				return true;
+			if ($this->_bAuthenticateWithoutDB === false) {
+				if(Immocaster_Data_Mysql::getInstance()->saveApplicationToken(
+					$aAccessToken['oauth_token'],
+					$aAccessToken['oauth_token_secret'],
+					$sUser
+				))
+				{
+					return true;
+				}
 			}
 		}
 		catch (Exception $e)
 		{
 			echo $e->getMessage();
 		}
-		return false;
+		return $aAccessToken;
 	}
 
 	/**
