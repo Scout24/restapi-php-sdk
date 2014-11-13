@@ -177,26 +177,25 @@ echo '<h2>Zertifizierung einer Applikation durch den Makler</h2><br/>Diese Funkt
 $sCertifyURL = 'http://MEINE-AKTUELLE-URL.DE'; // Komplette URL inkl. Parameter auf der das Script eingebunden wird
 if(isset($_GET['main_registration'])||isset($_GET['state']))
 {
-	if(isset($_POST['user'])){ $sUser=$_POST['user']; }
-	if(isset($_GET['user'])){ $sUser=$_GET['user']; }
-	$aParameter = array('callback_url'=>$sCertifyURL.'?user='.$sUser,'verifyApplication'=>true);
-	// Benutzer neu zertifizieren
-	if($oImmocaster->getAccess($aParameter))
-	{
-		$oImmocaster->getAccess($aParameter);
-		echo '<div id="appVerifyInfo">Zertifizierung in der MySQL Datenbank war erfolgreich.</div>';
-	}
-	else
-	{   // Test ob Benutzer schon in MySQL Datenbank zertifiziert ist
-		if(!empty($oImmocaster->getApplicationTokenAndSecret($sUser)[0]))
-        {
-            echo '<div id="appVerifyInfo">Dieser Benutzer ist bereits in der MySQL Datenbank zertifiziert oder es besteht keine Verbindung. Wenn nicht in die MySQL Datenbank gespeichert werden soll (authenticateWithoutDB=true), dann gibt es neuen Access Token und Token Secret in der Codebox.</div>';
-        }
-        else
-        {
-            echo '<div id="appVerifyInfo">Dieser Benutzer befindet sich nicht in der MySQL Datenbank oder es besteht keine Verbindung. Access Token und Token Secret in der Codebox.</div>';
-        }
-	}
+    if(isset($_POST['user'])){ $sUser=$_POST['user']; }
+    if(isset($_GET['user'])){ $sUser=$_GET['user']; }
+    $aParameter = array('callback_url'=>$sCertifyURL.'?user='.$sUser,'verifyApplication'=>true);
+    // Benutzer neu zertifizieren
+    $returnAuthentication = $oImmocaster->getAccess($aParameter);
+    echo '<br> checkcheck: ';var_dump($returnAuthentication);echo '<br>';
+    if ($returnAuthentication === true)
+    {
+        echo '<div id="appVerifyInfo">Zertifizierung in der MySQL Datenbank war erfolgreich.</div>';
+    }
+    elseif (is_array($returnAuthentication) && count($returnAuthentication) > 1)
+    {
+        echo '<div class="codebox"><textarea>'.implode(",", $checkcheck).'</textarea></div>';
+    }
+    else
+    {
+        echo '<div id="appVerifyInfo">Dieser Benutzer ist bereits in der MySQL Datenbank zertifiziert oder es besteht keine Verbindung zur Datenbank.</div>';
+
+    }
 }
 echo '<form action="'.$sCertifyURL.'?main_registration=1" method="post"><div id="appVerifyButton"><strong>Hinweis: Unter IE9 kann es zu Problemen mit der Zertifizierung kommen.</strong><br />Benutzername: <input type="text" name="user" /><br /><em>Der Benutzername sollte nach Möglichkeit gesetzt werden. Standardmäßig wird ansonsten "me" genommen. Somit können aber nicht mehrere User parallel in der Datenbank abgelegt werden. Der gewählte Benutzernamen muss der gleiche wie im Formular auf der nächsten Seite sein, damit der Token richtig zugewiesen werden kann.</em><br /><input type="submit" value="Jetzt zertifizieren" /></div></form>';
 echo '<p>Registrierte Nutzer: ';

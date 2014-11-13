@@ -1210,8 +1210,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			$aAccessToken = $this->registerAccess($aArgs);
 			if (is_array($aAccessToken)) {
-				echo '<div class="codebox"><textarea>'.implode(",", $aAccessToken).'</textarea></div>';
-				return false;
+				//echo '<div class="codebox"><textarea>'.implode(",", $aAccessToken).'</textarea></div>';
+				return $aAccessToken;
 			}
 			elseif ($aAccessToken === false) return false;
 			else return true;
