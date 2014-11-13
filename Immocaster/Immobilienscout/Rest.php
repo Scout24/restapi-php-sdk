@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 /**
  * ImmobilienScout24 PHP-SDK
  *  Nutzung der ImmobilienScout24 API per REST.
@@ -1244,8 +1244,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				}
 				// andernfalls speichere Request Token und Secret in Session
 				else {
-					Immocaster_Data_Session::getInstance()->setVar('request_token',$aResult['oauth_token']);
-					Immocaster_Data_Session::getInstance()->setVar('request_token_secret',$aResult['oauth_token_secret']);
+					$_SESSION['request_token'] = $aResult['oauth_token'];
+					$_SESSION['request_token_secret'] = $aResult['oauth_token_secret'];
 				}
 				@header('Location: '.$this->_sUri.'/restapi/security/oauth/confirm_access?oauth_token='.$aResult['oauth_token']);
 				echo '<meta http-equiv="refresh" content="0;url='.$this->_sUri.
@@ -1284,8 +1284,9 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 			}
 			// andernfalls hole Request Token und Secret aus Session
 			else {
-				$sToken = Immocaster_Data_Session::getInstance()->getVar('request_token');
-				$sSecret = Immocaster_Data_Session::getInstance()->getVar('request_token_secret');
+				$sToken = $_SESSION['request_token'];
+				$sSecret = $_SESSION['request_token_secret'];
+				unset($_SESSION);
 			}
 			$token = new OAuthToken
 				(
