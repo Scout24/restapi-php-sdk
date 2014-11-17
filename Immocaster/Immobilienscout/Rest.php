@@ -190,7 +190,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sMethod = '_'.$method;
 		if(method_exists($this,$sMethod))
 		{
-			return $this->$sMethod(array_change_key_case($args[0],CASE_LOWER));
+			return $this->$sMethod($args[0]);
 		}
 		return IMMOCASTER_SDK_LANG_FUNCTION_DONT_EXIST;
 	}
@@ -299,18 +299,10 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
      */
 	private function _getExpose($aArgs)
 	{
-		$aRequired = array('username','exposeid');
-		$oToken = null;
-		$sSecret = null;
-		if(!isset($aArgs['username']))
-		{
-			$aArgs['username'] = '';
-		}
-		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
-		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$aRequired = array('exposeid');
+		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__);
 		$req->unset_parameter('exposeid');
-		$req->unset_parameter('username');
-		return parent::getContent($req,$sSecret);
+		return parent::getContent($req);
 	}
 
 	/**
