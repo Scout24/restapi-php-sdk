@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.66
+Immocaster PHP SDK v1.1.67
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,10 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.67
+- Verbesserungen Rest.php: getExpose und __call.
+- Spalten ic_username beim Erstellen der Tabelle nullable und konsequentes Setzen von ic_expire.
 
 SDK Version 1.1.66
 - Besseres Handling mit der Authentifizierung. Bekomme ganzes Array in index zurück, wenn ich ohne MySQL Datenbank authentifiziere.

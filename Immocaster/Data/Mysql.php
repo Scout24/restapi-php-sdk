@@ -146,13 +146,13 @@ class Immocaster_Data_Mysql
 		{
 			$sql = "CREATE TABLE  `".$this->_oDatabaseDb."`.`".$this->_sTableName."` (
 			`ic_id` INT( 16 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-			`ic_desc` VARCHAR( 32 ) NOT NULL,
-			`ic_key` VARCHAR( 128 ) NOT NULL,
-			`ic_secret` VARCHAR( 128 ) NOT NULL,
-			`ic_expire` DATETIME NOT NULL,
-			`ic_username` VARCHAR(60) NOT NULL,
-			PRIMARY KEY (  `ic_id` )
-			) ENGINE = MYISAM";
+            `ic_desc` VARCHAR( 32 ) NOT NULL,
+            `ic_key` VARCHAR( 128 ) NOT NULL,
+            `ic_secret` VARCHAR( 128 ) NOT NULL,
+            `ic_expire` DATETIME NOT NULL,
+            `ic_username` VARCHAR(60),
+            PRIMARY KEY (  `ic_id` )
+            ) ENGINE = MYISAM";
 			mysql_query($sql,$this->_oDataConnection);
 		}
 	}
@@ -302,9 +302,9 @@ class Immocaster_Data_Mysql
 		if(strlen($sToken)>8)
 		{
 			$sql = "INSERT INTO `".$this->_oDatabaseDb."`.`".$this->_sTableName."` (
-			`ic_desc`,`ic_key`,`ic_secret`,`ic_username`
+			`ic_desc`,`ic_key`,`ic_secret`,`ic_expire`,`ic_username`
 			) VALUES (
-			'APPLICATION','".$sToken."','".$sSecret."','".$sUser."'
+			'APPLICATION','".$sToken."','".$sSecret."','0000-00-00 00:00:00.000000','".$sUser."'
 			);";
 			if(mysql_query($sql,$this->_oDataConnection))
 			{
