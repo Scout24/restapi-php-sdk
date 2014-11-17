@@ -182,24 +182,24 @@ if(isset($_GET['main_registration'])||isset($_GET['state']))
     $aParameter = array('callback_url'=>$sCertifyURL.'?user='.$sUser,'verifyApplication'=>true);
     // Benutzer neu zertifizieren
     $returnAuthentication = $oImmocaster->getAccess($aParameter);
-    echo '<br> checkcheck: ';var_dump($returnAuthentication);echo '<br>';
     if ($returnAuthentication === true)
     {
         echo '<div id="appVerifyInfo">Zertifizierung in der MySQL Datenbank war erfolgreich.</div>';
     }
     elseif (is_array($returnAuthentication) && count($returnAuthentication) > 1)
     {
-        echo '<div class="codebox"><textarea>'.implode(",", $checkcheck).'</textarea></div>';
+        echo '<div id="appVerifyInfo">Zertifizierung war erfolgreich. Hier finden Sie Access Token und Token Secret kommasepariert und url enkodiert.</div>';
+        echo '<div class="codebox"><textarea>'.implode(",", $returnAuthentication).'</textarea></div>';
     }
     else
     {
-        echo '<div id="appVerifyInfo">Dieser Benutzer ist bereits in der MySQL Datenbank zertifiziert oder es besteht keine Verbindung zur Datenbank.</div>';
+        echo '<div id="appVerifyInfo">Es ist etwas schief gelaufen. Troubleshooting: Benutzer ist bereits in der MySQL Datenbank zertifiziert oder es besteht keine Verbindung zur Datenbank.</div>';
 
     }
 }
 echo '<form action="'.$sCertifyURL.'?main_registration=1" method="post"><div id="appVerifyButton"><strong>Hinweis: Unter IE9 kann es zu Problemen mit der Zertifizierung kommen.</strong><br />Benutzername: <input type="text" name="user" /><br /><em>Der Benutzername sollte nach Möglichkeit gesetzt werden. Standardmäßig wird ansonsten "me" genommen. Somit können aber nicht mehrere User parallel in der Datenbank abgelegt werden. Der gewählte Benutzernamen muss der gleiche wie im Formular auf der nächsten Seite sein, damit der Token richtig zugewiesen werden kann.</em><br /><input type="submit" value="Jetzt zertifizieren" /></div></form>';
-echo '<p>Registrierte Nutzer: ';
-// Anzeige welche Nutzer bereits registriert sind
+echo '<p>Registrierte Nutzer in der Datenbank: ';
+// Anzeige welche Nutzer bereits in der MySQL Datenbank registriert sind
 print_r($oImmocaster->getAllApplicationUsers(array('string'=>true)));
 */
 
