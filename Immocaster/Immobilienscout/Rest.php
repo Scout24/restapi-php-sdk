@@ -326,7 +326,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
-		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'].'?usenewenergysourceenev2014values=true',$aArgs,$aRequired,__FUNCTION__,$oToken);
 		$req->unset_parameter('exposeid');
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
@@ -710,7 +710,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
-		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate?usenewenergysourceenev2014values=true',$aArgs,$aRequired,__FUNCTION__,$oToken,'POST');
 		$req->unset_parameter('username');
 		$req->unset_parameter('service');
 		$req->unset_parameter('estate');
@@ -889,7 +889,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
-		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'PUT');
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['exposeid'].'?usenewenergysourceenev2014values=true',$aArgs,$aRequired,__FUNCTION__,$oToken,'PUT');
 		$req->unset_parameter('exposeid');
 		$req->unset_parameter('username');
 		$req->unset_parameter('service');
