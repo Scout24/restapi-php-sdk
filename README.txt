@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.68
+Immocaster PHP SDK v1.1.69
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.69
+- DELETEbyList OnTop Placement möglich.
 
 SDK Version 1.1.68
 - Real Estate Requests nutzen nun den Parameter "usenewenergysourceenev2014values=true" bei jedem Request. Damit ist es möglich 8 neue enum Werte des Feldes zu POST, PUT und GETen.
