@@ -509,6 +509,15 @@ echo '<h2>Eine OnTop Platzierung löschen</h2><br/>Diese Funktion wurde auskomme
 //$res        = $oImmocaster->deletebyidOntopplacement($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
+/**
+ * Liste von OnTop Platzierungen löschen
+ * http://api.immobilienscout24.de/our-apis/import-export/ontop-placement/delete-by-list.html
+ */
+echo '<h2>Liste von OnTop Platzierungen löschen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','realestateids'=>'REALESTATEID1,REALESTATEID2,..' /*ScoutID oder ext-ObjektNr*/,'ontopplacementtype'=>'ONTOPPLACEMENTTYPE' /*topplacement, premiumplacement oder showcaseplacement*/);
+//$res        = $oImmocaster->deletebylistOntopplacement($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
 ?>
 
 </body>

@@ -1182,6 +1182,37 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 
 	/**
+	 * Liste von OnTop Platzierung bei ImmobilienScout24 löschen.
+	 * Möglich sind folgende OnTop Platzierungen: Top, Premium und Schaufenster.
+	 * OnTop Platzierungen müssen extra gebucht werden.
+	 * ontopplacementtype: topplacement, premiumplacement, showcaseplacement.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _deletebylistOntopplacement($aArgs)
+	{
+		$aRequired = array('username','realestateids','ontopplacementtype');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/'.$aArgs['ontopplacementtype'].'/list?realestateids='.$aArgs['realestateids'],$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
+		$req->unset_parameter('username');
+		$req->unset_parameter('realestateids');
+		$req->unset_parameter('ontopplacementtype');
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
      * Applikation zeritifizieren.
 	 *
      * @param array $aArgs
