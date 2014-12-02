@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.69
+Immocaster PHP SDK v1.1.70
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.70
+- Besseres Handling für POSTbyList OnTop Placement. Nun kann neben dem fertigen Body auch eine Liste von komma separierten ScoutIDs bzw. ext-ObjektNr übergeben werden.
 
 SDK Version 1.1.69
 - DELETEbyList OnTop Placement möglich.

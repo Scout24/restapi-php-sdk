@@ -1005,14 +1005,30 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _postbylistOntopplacement($aArgs)
 	{
-		$aRequired = array('username','ontopplacementtype','body');
+		$aRequired = array('username','ontopplacementtype');
 		if(!isset($aArgs['username']))
 		{
 			$aArgs['username'] = $this->_sDefaultUsername;
 		}
 		if(isset($aArgs['body']))
 		{
-				$aArgs['request_body'] = $aArgs['body'];
+			$aArgs['request_body'] = $aArgs['body'];
+		}
+
+		// create body for request
+		if(isset($aArgs['realestateids']))
+		{
+			// make array from realestateids string and count the array length
+			$aRealestateids = explode ( ',' , $aArgs['realestateids']);
+			$iArraysize = count($aRealestateids);
+
+			$sBreak = "\r\n";
+			$sBody = '<'.$aArgs['ontopplacementtype'].':'.$aArgs['ontopplacementtype'].'s xmlns:'.$aArgs['ontopplacementtype'].'="http://rest.immobilienscout24.de/schema/offer/'.$aArgs['ontopplacementtype'].'/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">' . $sBreak;
+			for ($i = 0; $i < $iArraysize; $i++) {
+				$sBody .= '<'.$aArgs['ontopplacementtype'].' realestateid="'.$aRealestateids[$i].'"/>' . $sBreak;
+			}
+			$sBody .= '</'.$aArgs['ontopplacementtype'].':'.$aArgs['ontopplacementtype'].'s>';
+			$aArgs['request_body'] = $sBody;
 		}
 		$oToken = null;
 		$sSecret = null;
@@ -1025,6 +1041,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('username');
 		$req->unset_parameter('ontopplacementtype');
 		$req->unset_parameter('body');
+		$req->unset_parameter('realestateids');
 		return parent::getContent($req,$sSecret);
 	}
 

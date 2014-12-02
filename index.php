@@ -455,11 +455,13 @@ echo '<h2>Liste von Objekten OnTop platzieren</h2><br/>Diese Funktion wurde ausk
 array(
     'username'=>'USERNAME',
     'ontopplacementtype'=>'ONTOPPLACEMENTTYPE', //topplacement, premiumplacement oder showcaseplacement
-    'body'=>
-    '<ONTOPPLACEMENTTYPE:ONTOPPLACEMENTTYPEs xmlns:ONTOPPLACEMENTTYPE="http://rest.immobilienscout24.de/schema/offer/ONTOPPLACEMENTTYPE/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
-   <ONTOPPLACEMENTTYPE realestateid="ScoutID"/>
-   <ONTOPPLACEMENTTYPE realestateid="ext-ObjektNr"/>
-</ONTOPPLACEMENTTYPE:ONTOPPLACEMENTTYPEs>'
+    // Benutze "body" um den vollständigen Body mitzugeben or "realestateids" für eine komma separierte Liste
+    //'body'=>
+    //  '<ONTOPPLACEMENTTYPE:ONTOPPLACEMENTTYPEs xmlns:ONTOPPLACEMENTTYPE="http://rest.immobilienscout24.de/schema/offer/ONTOPPLACEMENTTYPE/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    //    <ONTOPPLACEMENTTYPE realestateid="ScoutID"/>
+    //    <ONTOPPLACEMENTTYPE realestateid="ext-ObjektNr"/>
+    //  </ONTOPPLACEMENTTYPE:ONTOPPLACEMENTTYPEs>'
+    'realestateids'=>'REALESTATEID1,REALESTATEID2,...' // ScoutID oder ext-ObjektNr eingeben
 );
 $res        = $oImmocaster->postbylistOntopplacement($aParameter);
 echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';*/
