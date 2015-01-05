@@ -9,6 +9,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 History
 =======
 
+SDK Version 1.1.71
+- POST Attachment (StreamingVideo) nun möglich. Dieser Upload erfolgt in 3 Schritten: Upload Ticket erhalten, Video hochladen, Video verknüpfen. Powered by onOffice Software AG.
+
 SDK Version 1.1.70
 - Besseres Handling für POSTbyList OnTop Placement. Nun kann neben dem fertigen Body auch eine Liste von komma separierten ScoutIDs bzw. ext-ObjektNr übergeben werden.
 

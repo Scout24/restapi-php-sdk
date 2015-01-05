@@ -1436,4 +1436,114 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		return $aUsers;
 	}
 
+	/**
+	 *
+	 *  Video Upload Ticket von IS24 erhalten
+	 *  Man erhält in Response unter anderem
+	 *  videoId und auth Wert
+	 *
+	 */
+	private function _getVideoUploadTicket($aArgs)
+	{
+		$aRequired = array('username');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/videouploadticket',$aArgs,$aRequired,__FUNCTION__,$oToken);
+
+		return parent::getContent($req,$sSecret);
+	}
+
+	/**
+     *
+     * Video bei picsearch hochladen
+     * 2 Anhänge: auth und das Video an sich
+     *
+     */
+    private function _postVideoToPicsearch($aParameter)
+    {
+        $postValues = array
+            (
+                'auth' => $aParameter['auth'],
+                'videofile' => '@'.$aParameter['file']
+            );
+
+        $ch = curl_init('http://csp.picsearch.com/upload');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postValues);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        try
+        {
+            $httpDescription = curl_exec($ch);
+            $httpResponseStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+        }
+        catch (Exception $pException)
+        {
+            // exception handling
+        }
+
+        if ('200' == $httpResponseStatusCode)
+        {
+            return $httpResponseStatusCode;
+        }
+
+        return $httpResponseStatusCode;
+    }
+
+	/**
+	 * StreamingVideo zu einem Objekt zu ImmobilienScout24 exportieren.
+	 * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+	 * Bitte informieren Sie sich direkt bei IS24 darüber.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _exportObjectVideoAttachment($aArgs)
+	{
+		$aRequired = array('username','estateid');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		if(!isset($aArgs['title'])){ $aArgs['title'] = ''; }
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$sBreak = "\r\n";
+		$sBody 	= '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . $sBreak;
+		$sBody  = '<common:attachment xsi:type="common:StreamingVideo" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0"
+xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $sBreak;
+		$sBody .= '<title>bla</title>' . $sBreak;
+		$sBody .= '<videoId>Y2w1s6Q8VY-v-VQOMFG_1Q</videoId>' . $sBreak;
+		$sBody .= '</common:attachment>';
+		$aArgs['request_body'] = $sBody;
+		$req = $this->doRequest(
+			'offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['estateid'].'/attachment',
+			$aArgs,
+			$aRequired,
+			__FUNCTION__,
+			$oToken,
+			'POST'
+		);
+		$req->unset_parameter('title');
+		$req->unset_parameter('estateid');
+		return parent::getContent(
+			$req,
+			$sSecret
+		);
+	}
 }
