@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.70
+Immocaster PHP SDK v1.1.71
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
