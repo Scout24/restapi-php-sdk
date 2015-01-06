@@ -1510,7 +1510,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _exportObjectVideoAttachment($aArgs)
 	{
-		$aRequired = array('username','estateid');
+		$aRequired = array('username','estateid','videoid');
 		if(!isset($aArgs['username']))
 		{
 			$aArgs['username'] = $this->_sDefaultUsername;
@@ -1527,8 +1527,8 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$sBody 	= '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . $sBreak;
 		$sBody  = '<common:attachment xsi:type="common:StreamingVideo" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0"
 xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $sBreak;
-		$sBody .= '<title>bla</title>' . $sBreak;
-		$sBody .= '<videoId>Y2w1s6Q8VY-v-VQOMFG_1Q</videoId>' . $sBreak;
+		$sBody .= '<title>'.$aArgs['title'].'</title>' . $sBreak;
+		$sBody .= '<videoId>'.$aArgs['videoid'].'</videoId>' . $sBreak;
 		$sBody .= '</common:attachment>';
 		$aArgs['request_body'] = $sBody;
 		$req = $this->doRequest(
@@ -1539,8 +1539,10 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 			$oToken,
 			'POST'
 		);
+		$req->unset_parameter('username');
 		$req->unset_parameter('title');
 		$req->unset_parameter('estateid');
+		$req->unset_parameter('videoid');
 		return parent::getContent(
 			$req,
 			$sSecret

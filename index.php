@@ -521,17 +521,18 @@ echo '<h2>Liste von OnTop Platzierungen löschen</h2><br/>Diese Funktion wurde a
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 echo '<h2>Ein Video zu einem Objekt hochladen (3 Schritte).<br/><br/>';
-/*$aParameter = array ('username'=>'USERNAME', 'file' => 'LOCATION', 'estateid' => 'ESTATEID'
-    );
+/*$aParameter = array ('username'=>'USERNAME', 'file' => 'LOCATION', 'estateid' => 'ESTATEID', 'title' => 'TITLE');
 $ticket        = $oImmocaster->getVideoUploadTicket($aParameter);
     $xml = new SimpleXMLElement($ticket);
-    $auth = (string) $xml->auth[0];
+    $auth   = (string) $xml->auth[0];
+    $videoid  = (string) $xml->videoId[0];
 echo '<h5>1. Upload Ticket von ImmobilienScout24 holen (GET videouploadticket@IS24).<br/><br/>';
 echo '<div class="codebox"><textarea>'.$ticket.'</textarea></div>';
     $aParameter['auth'] = $auth;
 $upload         = $oImmocaster->postVideoToPicsearch($aParameter);
 echo '<h5>2. Video bei picsearch hochladen (POST videofile@picsearch).<br/><br/>';
 echo '<div class="codebox"><textarea>'.$upload.'</textarea></div>';
+    $aParameter['videoid'] = $videoid;
 $postAttachment = $oImmocaster->exportObjectVideoAttachment($aParameter);
 echo '<h5>3. Bei ImmobilienScout24 Video von picsearch verknüpfen (POST Attachment@IS24).<br/><br/>';
 echo '<div class="codebox"><textarea>'.$postAttachment.'</textarea></div>';*/
