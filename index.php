@@ -19,8 +19,8 @@ require_once('Immocaster/Sdk.php');
  * Die Daten (Key und Secret) erhält man auf
  * http://developer.immobilienscout24.de.
  */
-$sImmobilienScout24Key    = 'Key für ImmobilienScout24';
-$sImmobilienScout24Secret = 'Secret für ImmobilienScout24';
+$sImmobilienScout24Key    = 'test-angelinaKey';
+$sImmobilienScout24Secret = 'TkkuZpeYwC52RCJwgqmW';
 $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout24Key,$sImmobilienScout24Secret);
 
 /**
@@ -32,7 +32,7 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
  * @var string Tabellenname in der Datenbank für Immocaster (Default ist Immocaster_Storage)
  * @var boolean Aktivieren (true) und deaktivieren (false) der Session (Wird nur für Zertifizierung benötigt!)
  */
-// $oImmocaster->setDataStorage(array('mysql','DB-Host','DB-User','DB-Password','DB-Name'));
+ $oImmocaster->setDataStorage(array('mysql','localhost','root','','is_test'));
 
 /**
  * JSON verwenden
@@ -43,7 +43,7 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
  * Debug-Modus für Requests aktivieren
  * Zum deaktivieren: disableRequestDebug()
  */
-// $oImmocaster->enableRequestDebug();
+ //$oImmocaster->enableRequestDebug();
 
 /**
  * Strict-Mode aktivieren
@@ -328,17 +328,21 @@ print_r($oImmocaster->changeObject($aParameter)); // Objekt &auml;ndern
  * API Doku: http://api.immobilienscout24.de/our-apis/import-export/realestate/get-by-id.html
  */
 echo '<h2>Objekt eines Maklers per ID auslesen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
-//$aParameter = array('username'=>'USERNAME','exposeid'=>'REALESTATEID' /*ScoutID oder ext-ObjektNr*/);
-//$res        = $oImmocaster->getUserExpose($aParameter);
-//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+$aParameter = array('username'=>'Angelina123','exposeid'=>'62633918' /*ScoutID oder ext-ObjektNr*/);
+$res        = $oImmocaster->getUserExpose($aParameter);
+echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
- * Bild zu einem Objekt hochladen
+ * Attachment (Bild, PDF oder Link) zu einem Objekt hochladen
+ * Wird ein Bild oder ein PDF hochgeladen, benötigt die Funktion den Parameter 'file' mit entsprechendem Dateipfad.
+ * Beim Upload eines Links wird der Parameter 'url' übergeben.
+ * Das Setzen der externalId ist freiwillig
  */
 echo '<h2>Objektbild hochladen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
-//$aParameter = array('file' => 'testbild.jpg', 'estateid' => 'ESTATEID' /*ID des Objekts*/);
-//$res = $oImmocaster->exportObjectAttachment($aParameter);
-//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+$aParameter = array('file' => 'testbild.jpg', 'url' => 'http://youtube.de', 'estateid' => '62611932', 'externalId' => 'testbild123'); /*ID des Objekts);*/
+$res = $oImmocaster->exportObjectAttachment($aParameter);
+echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
 
 /**
  * Attachments eines Objektes abrufen

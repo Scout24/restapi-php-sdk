@@ -287,6 +287,18 @@ class Immocaster_Immobilienscout
 	 */
 	protected function createAttachmentBody($sMimeBoundary,$aArgs)
 	{
+		if($aArgs['type'] == 'Link') {
+		echo 'Hallo Link';
+		$sBreak = "\r\n";
+		$sBody  = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'. $sBreak;
+		$sBody .= '<common:attachment xsi:type="common:Link" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0" xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'. $sBreak;
+		$sBody .= '<title>'.$aArgs['title'].'</title>'. $sBreak;
+		$sBody .= '<externalId>'.$aArgs['externalId'].'</externalId>'. $sBreak;
+		$sBody .= '<url>'.$aArgs['url'].'</url>'. $sBreak;
+        $sBody .= '</common:attachment>'. $sBreak;
+          	}
+    	else {
+
 		$fp = fopen($aArgs['file'],'rb');
 		$sFileContent = fread($fp,filesize($aArgs['file']));
 		fclose ($fp);
@@ -307,6 +319,7 @@ class Immocaster_Immobilienscout
 			$aFileInfoMime = $this->getMimeContentType($aArgs['file']);
 		}
 
+		
 		$sBreak = "\r\n";
 		$sBody  = '--' . $sMimeBoundary . $sBreak;
 		$sBody .= 'Content-Type: application/xml; name=body.xml' . $sBreak;
@@ -325,12 +338,15 @@ class Immocaster_Immobilienscout
 			$sBody .= '<titlePicture>'.$aArgs['titlePicture'].'</titlePicture>' . $sBreak;
 		}
 		$sBody .= '</common:attachment>' . $sBreak;
+		
 		$sBody .= '--' . $sMimeBoundary . $sBreak;
 		$sBody .= 'Content-Type: '.$aFileInfoMime.'; name=' . $aArgs['file'] . $sBreak;
 		$sBody .= 'Content-Transfer-Encoding: binary' . $sBreak;
 		$sBody .= 'Content-Disposition: form-data; name="attachment"; filename="' . $aArgs['file'] . '"' . $sBreak . $sBreak;
 		$sBody .= $sFileContent . $sBreak;
 		$sBody .= "--" . $sMimeBoundary . "--" . $sBreak . $sBreak;
+		
+		}
 		return $sBody;
 	}
 

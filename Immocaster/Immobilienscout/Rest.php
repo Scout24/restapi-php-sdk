@@ -42,7 +42,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 * Standard Nutzername für Abfragen per oAuth,
 	 * wenn ein Nutzername für die Abfrage benötigt wird
 	 */
-	 protected $_sDefaultUsername = 'me';
+	 protected $_sDefaultUsername = 'Angelina123';
 
 	 /**
 	 * Authentifizierung standardmäßig mit MySQL Datenbank durchführen
@@ -761,29 +761,36 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	private function _exportObjectAttachment($aArgs)
 	{
-		$aRequired = array('username','file','estateid');
+		$aRequired = array('username','estateid');
+		
 		if(!isset($aArgs['username']))
 		{
 			$aArgs['username'] = $this->_sDefaultUsername;
 		}
-		if(!isset($aArgs['title'])){ $aArgs['title'] = ''; }
+		if(!isset($aArgs['title'])){ $aArgs['title'] = 'TESTTEST'; }
 		if(!isset($aArgs['floorplan'])){ $aArgs['floorplan'] = 'false'; }
 		if(!isset($aArgs['titlePicture'])){ $aArgs['titlePicture'] = 'false'; }
-		if(!isset($aArgs['type'])){ $aArgs['type'] = 'Picture'; }
+		if(!isset($aArgs['type'])){ $aArgs['type'] = 'Link'; }
 		if(!isset($aArgs['externalId'])){ $aArgs['externalId'] = ''; }
 		$oToken = null;
 		$sSecret = null;
+		$aHeader = array();
 		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
 		if($oToken === NULL || $sSecret === NULL)
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
-		if(!is_file($aArgs['file']))
-		{
+		if(($aArgs['type'] == 'Picture' or $aArgs['type'] == 'PDFDocument') && !is_file($aArgs['file']))		{
 			return sprintf(IMMOCASTER_SDK_LANG_FILE_NOT_FOUND,$aArgs['file']);
 		}
 		$sMimeBoundary = md5(time());
 		$aArgs['request_body'] = parent::createAttachmentBody($sMimeBoundary,$aArgs);
+		if($aArgs['type'] == 'Picture' or $aArgs['type'] == 'PDFDocument' && $aArgs['type'] !== 'Link') {
+		$aHeader = array(
+                'Content-Type'=>'multipart/form-data; boundary="'.$sMimeBoundary.'"',
+                'Accept-Encoding' => 'gzip,deflate'
+            );
+		}
 		$req = $this->doRequest(
 			'offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['estateid'].'/attachment',
 			$aArgs,
@@ -798,15 +805,13 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('estateid');
 		$req->unset_parameter('username');
 		$req->unset_parameter('file');
+		$req->unset_parameter('url');
 		$req->unset_parameter('type');
 		$req->unset_parameter('externalId');
 		return parent::getContent(
 			$req,
 			$sSecret,
-			array(
-				'Content-Type'=>'multipart/form-data; boundary="'.$sMimeBoundary.'"',
-				'Accept-Encoding' => 'gzip,deflate'
-			)
+			$aHeader
 		);
 	}
 
