@@ -42,7 +42,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 * Standard Nutzername für Abfragen per oAuth,
 	 * wenn ein Nutzername für die Abfrage benötigt wird
 	 */
-	 protected $_sDefaultUsername = 'Angelina123';
+	 protected $_sDefaultUsername = 'me';
 
 	 /**
 	 * Authentifizierung standardmäßig mit MySQL Datenbank durchführen

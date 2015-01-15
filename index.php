@@ -19,8 +19,8 @@ require_once('Immocaster/Sdk.php');
  * Die Daten (Key und Secret) erhält man auf
  * http://developer.immobilienscout24.de.
  */
-$sImmobilienScout24Key    = 'test-angelinaKey';
-$sImmobilienScout24Secret = 'TkkuZpeYwC52RCJwgqmW';
+$sImmobilienScout24Key    = 'Key für ImmobilienScout24';
+$sImmobilienScout24Secret = 'Secret für ImmobilienScout24';
 $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout24Key,$sImmobilienScout24Secret);
 
 /**
@@ -328,9 +328,9 @@ print_r($oImmocaster->changeObject($aParameter)); // Objekt &auml;ndern
  * API Doku: http://api.immobilienscout24.de/our-apis/import-export/realestate/get-by-id.html
  */
 echo '<h2>Objekt eines Maklers per ID auslesen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
-$aParameter = array('username'=>'Angelina123','exposeid'=>'62633918' /*ScoutID oder ext-ObjektNr*/);
-$res        = $oImmocaster->getUserExpose($aParameter);
-echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+//$aParameter = array('username'=>'**','exposeid'=>'**' /*ScoutID oder ext-ObjektNr*/);
+//$res        = $oImmocaster->getUserExpose($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
  * Attachment (Bild, PDF oder Link) zu einem Objekt hochladen
@@ -339,9 +339,9 @@ echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
  * Das Setzen der externalId ist freiwillig
  */
 echo '<h2>Objektbild hochladen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
-$aParameter = array('file' => 'testbild.jpg', 'url' => 'http://youtube.de', 'estateid' => '62611932', 'externalId' => 'testbild123'); /*ID des Objekts);*/
-$res = $oImmocaster->exportObjectAttachment($aParameter);
-echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+//$aParameter = array('file' => 'testbild.jpg', 'url' => 'http://youtube.de', 'estateid' => '62611932', 'externalId' => 'testbild123'); /*ID des Objekts);*/
+//$res = $oImmocaster->exportObjectAttachment($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 
 /**
