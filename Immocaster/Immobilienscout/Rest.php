@@ -1598,4 +1598,50 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
+
+	/**
+	 * Attachment(Meta)daten ändern
+	 * Nur Infos über Bild und nicht binären Daten
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _changeObjectAttachment($aArgs)
+	{
+		$aRequired = array('username','estateid','attachmentid','type');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		// create body for different attachment types
+		$sBreak = "\r\n";
+		$sBody = '<common:attachment xsi:type="common:' .$aArgs['type']. '" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0" xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $sBreak;
+		$sBody .= '<title>' .$aArgs['title']. '</title>' . $sBreak;
+		$sBody .= '<externalId>' .$aArgs['externalId']. '</externalId>' . $sBreak;
+		if($aArgs['type'] == 'Picture' or $aArgs['type'] == 'PDFDocument') {
+			$sBody .= '<floorplan>' .$aArgs['floorplan']. '</floorplan>' . $sBreak;
+		}
+		if($aArgs['type'] == 'Picture') {
+			$sBody .= '<titlePicture>' .$aArgs['titlePicture']. '</titlePicture>' . $sBreak;
+		}
+		if($aArgs['type'] == 'Link') {
+			$sBody .= '<url>' .$aArgs['url']. '</url>' . $sBreak;
+		}
+		$sBody .= '</common:attachment>';
+		$aArgs['request_body'] = $sBody;
+
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['estateid'].'/attachment/'.$aArgs['attachmentid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'PUT');
+		$req->unset_parameter('estateid');
+		$req->unset_parameter('username');
+		$req->unset_parameter('attachmentid');
+		$req->unset_parameter('type');
+		return parent::getContent($req,$sSecret);
+	}
 }

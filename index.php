@@ -593,6 +593,27 @@ array(
 $res        = $oImmocaster->changeObjectAttachmentsorder($aParameter);
 echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';*/
 
+/**
+ * Aktualisierern eines Attachments (Bild, Video, PDF oder URL).
+ * Bitte beachten, dass dabei nur die Metadaten verändert werden können, nicht das Bild an sich.
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/attachments/put-by-id.html
+ */
+echo '<h2>Aktualisieren eines Attachments</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*$aParameter =
+array(
+    'username'=>'USERNAME',
+    'estateid'=>'ESTATEID',
+    'attachmentid'=>'ATTACHMENTID',
+    'type'=>'ATTACHMENTTYPE', // "Picture", "PDFDocument", "StreamingVideo" oder "Link"
+    'title'=>'TITLE',
+    //'externalId'=>'EXTERNALID', // optional
+    //'floorplan'=>'BOOLEAN', // Nur für Bilder und PDFs
+    //'titlePicture'=>'BOOLEAN', // Nur für Bilder und PDFs
+    //'url' =>'http://URL' // Nur für Links
+);
+$res        = $oImmocaster->changeObjectAttachment($aParameter);
+echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';*/
+
 ?>
 </body>
 </html>
