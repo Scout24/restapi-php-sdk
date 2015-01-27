@@ -32,7 +32,7 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
  * @var string Tabellenname in der Datenbank für Immocaster (Default ist Immocaster_Storage)
  * @var boolean Aktivieren (true) und deaktivieren (false) der Session (Wird nur für Zertifizierung benötigt!)
  */
- $oImmocaster->setDataStorage(array('mysql','localhost','root','','is_test'));
+// $oImmocaster->setDataStorage(array('mysql','DB-Host','DB-User','DB-Password','DB-Name'));
 
 /**
  * JSON verwenden
@@ -333,16 +333,25 @@ echo '<h2>Objekt eines Maklers per ID auslesen</h2><br/>Diese Funktion wurde aus
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
+ * Den Typ des Attachments gibt man mit 'type' an: 'Picture', 'PDFDocument' oder 'Link'
  * Attachment (Bild, PDF oder Link) zu einem Objekt hochladen
  * Wird ein Bild oder ein PDF hochgeladen, benötigt die Funktion den Parameter 'file' mit entsprechendem Dateipfad.
  * Beim Upload eines Links wird der Parameter 'url' übergeben.
  * Das Setzen der externalId ist freiwillig
  */
-echo '<h2>Objektbild hochladen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
-//$aParameter = array('file' => 'testbild.jpg', 'url' => 'http://youtube.de', 'estateid' => '62611932', 'externalId' => 'testbild123'); /*ID des Objekts);*/
-//$res = $oImmocaster->exportObjectAttachment($aParameter);
-//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
-
+echo '<h2>Attachment (Bild, PDF, Link) hochladen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*
+$aParameter = array(
+  'username' => 'USERNAME',
+  'estateid' => 'ESTATEID', //ID des Objektes
+  'title' => 'TITLE',
+  'type' => 'ATTACHMENTTYPE', // Picture, PDFDocument or Link
+  'file' => 'LOCATION', // file path OR URL
+  //'url' => 'URL',
+  'externalId' => 'EXTERNALID'); // optional
+$res = $oImmocaster->exportObjectAttachment($aParameter);
+echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+*/
 
 /**
  * Attachments eines Objektes abrufen

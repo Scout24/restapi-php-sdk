@@ -319,7 +319,7 @@ class Immocaster_Immobilienscout
 			$aFileInfoMime = $this->getMimeContentType($aArgs['file']);
 		}
 
-		
+
 		$sBreak = "\r\n";
 		$sBody  = '--' . $sMimeBoundary . $sBreak;
 		$sBody .= 'Content-Type: application/xml; name=body.xml' . $sBreak;
@@ -338,14 +338,13 @@ class Immocaster_Immobilienscout
 			$sBody .= '<titlePicture>'.$aArgs['titlePicture'].'</titlePicture>' . $sBreak;
 		}
 		$sBody .= '</common:attachment>' . $sBreak;
-		
 		$sBody .= '--' . $sMimeBoundary . $sBreak;
 		$sBody .= 'Content-Type: '.$aFileInfoMime.'; name=' . $aArgs['file'] . $sBreak;
 		$sBody .= 'Content-Transfer-Encoding: binary' . $sBreak;
 		$sBody .= 'Content-Disposition: form-data; name="attachment"; filename="' . $aArgs['file'] . '"' . $sBreak . $sBreak;
 		$sBody .= $sFileContent . $sBreak;
 		$sBody .= "--" . $sMimeBoundary . "--" . $sBreak . $sBreak;
-		
+
 		}
 		return $sBody;
 	}

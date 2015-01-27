@@ -762,15 +762,15 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	private function _exportObjectAttachment($aArgs)
 	{
 		$aRequired = array('username','estateid');
-		
+
 		if(!isset($aArgs['username']))
 		{
 			$aArgs['username'] = $this->_sDefaultUsername;
 		}
-		if(!isset($aArgs['title'])){ $aArgs['title'] = 'TESTTEST'; }
+		if(!isset($aArgs['title'])){ $aArgs['title'] = ''; }
 		if(!isset($aArgs['floorplan'])){ $aArgs['floorplan'] = 'false'; }
 		if(!isset($aArgs['titlePicture'])){ $aArgs['titlePicture'] = 'false'; }
-		if(!isset($aArgs['type'])){ $aArgs['type'] = 'Link'; }
+		if(!isset($aArgs['type'])){ $aArgs['type'] = ''; }
 		if(!isset($aArgs['externalId'])){ $aArgs['externalId'] = ''; }
 		$oToken = null;
 		$sSecret = null;
