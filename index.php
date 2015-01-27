@@ -469,6 +469,7 @@ array(
     'username'=>'USERNAME',
     'ontopplacementtype'=>'ONTOPPLACEMENTTYPE', //topplacement, premiumplacement oder showcaseplacement
     // Benutze "body" um den vollständigen Body mitzugeben or "realestateids" für eine komma separierte Liste
+    // in der Rest.php wird aus der Liste ein Array, falls "realestateids" genutzt wird
     //'body'=>
     //  '<ONTOPPLACEMENTTYPE:ONTOPPLACEMENTTYPEs xmlns:ONTOPPLACEMENTTYPE="http://rest.immobilienscout24.de/schema/offer/ONTOPPLACEMENTTYPE/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
     //    <ONTOPPLACEMENTTYPE realestateid="ScoutID"/>
@@ -533,6 +534,14 @@ echo '<h2>Liste von OnTop Platzierungen löschen</h2><br/>Diese Funktion wurde a
 //$res        = $oImmocaster->deletebylistOntopplacement($aParameter);
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
+/**
+ * Ein Video (Streaming) zu einem Objekt hochladen
+ * 1. Video Upload Ticket von ImmobilienScout24 erhalten
+ * 2. Video bei picesearch hochladen
+ * 3. Video von picsearch zu Objekt von ImmobilienScout24 referenzieren
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/attachments/post.html
+ *
+ */
 echo '<h2>Ein Video zu einem Objekt hochladen (3 Schritte).<br/><br/>';
 /*$aParameter = array ('username'=>'USERNAME', 'file' => 'LOCATION', 'estateid' => 'ESTATEID', 'title' => 'TITLE');
 $ticket        = $oImmocaster->getVideoUploadTicket($aParameter);
@@ -550,7 +559,40 @@ $postAttachment = $oImmocaster->exportObjectVideoAttachment($aParameter);
 echo '<h5>3. Bei ImmobilienScout24 Video von picsearch verknüpfen (POST Attachment@IS24).<br/><br/>';
 echo '<div class="codebox"><textarea>'.$postAttachment.'</textarea></div>';*/
 
-?>
+/**
+ * Attachmentreihenfolge eines Objektes über die ObjektID auslesen.
+ * Es werden nur Bilder und PDFs betrachtet.
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/attachments/attachmentsorder-get.html
+ *
+ */
+echo '<h2>Attachmentsreihenfolge eines Objektes über die ID auslesen.</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine aktuelle ObjektNr benötigt wird.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','estateid'=>'ESTATEID' /*ScoutID oder ext-ObjektNr*/);
+//$res        = $oImmocaster->getObjectAttachmentsorder($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
+/**
+ * Attachmentreihenfolge eines Objektes ändern.
+ * Es werden nur Bilder und PDFs betrachtet.
+ * Es ist im SDK möglich den XML Part direkt weiterzugeben oder sortierte Liste von ESTATEIDs.
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/attachments/attachmentsorder-put.html
+ */
+echo '<h2>Attachmentsreihenfolge eines Objektes über die ID ändern.</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*$aParameter =
+array(
+    'username'=>'USERNAME',
+    'estateid'=>'ESTATEID',
+     //Benutze "body" um den vollständigen Body mitzugeben or "attachmentids" für eine komma separierte Liste
+     // in der Rest.php wird aus der Liste ein Array, falls "attachmentids" genutzt wird
+     //'body'=>
+     //   <attachmentsorder:attachmentsorder xmlns:attachmentsorder="http://rest.immobilienscout24.de/schema/attachmentsorder/1.0">
+     //     <attachmentId>664055530</attachmentId>
+     //     <attachmentId>664055529</attachmentId>
+     //   </attachmentsorder:attachmentsorder>'
+    'attachmentids'=>'ATTACHMENTID1,ATTACHMENTID2,...' // ScoutIDs, _nicht_ externalID des Objektes
+);
+$res        = $oImmocaster->changeObjectAttachmentsorder($aParameter);
+echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';*/
+
+?>
 </body>
 </html>

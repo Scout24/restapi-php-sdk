@@ -1021,7 +1021,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 
 		// create body for request
-		if(isset($aArgs['realestateids']))
+		else if(isset($aArgs['realestateids']))
 		{
 			// make array from realestateids string and count the array length
 			$aRealestateids = explode ( ',' , $aArgs['realestateids']);
@@ -1552,5 +1552,50 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 			$req,
 			$sSecret
 		);
+	}
+
+	/**
+	 * Attachmentsreihenfolge ändern.
+	 * Als Input kann ein Array von ESTATEIDs dienen oder ein XML.
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _changeObjectAttachmentsorder($aArgs)
+	{
+		$aRequired = array('username','estateid');
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		if(isset($aArgs['body']))
+		{
+			$aArgs['request_body'] = $aArgs['body'];
+		}
+		// create body for request
+		else if(isset($aArgs['attachmentids']))
+		{
+			// make array from attachmentids string and count the array length
+			$aAttachmentids = explode ( ',' , $aArgs['attachmentids']);
+			$iArraysize = count($aAttachmentids);
+			$sBreak = "\r\n";
+			$sBody = '<attachmentsorder:attachmentsorder xmlns:attachmentsorder="http://rest.immobilienscout24.de/schema/attachmentsorder/1.0">' . $sBreak;
+			for ($i = 0; $i < $iArraysize; $i++) {
+				$sBody .= '<attachmentId>'.$aAttachmentids[$i]. '</attachmentId>' . $sBreak;
+			}
+			$sBody .= '</attachmentsorder:attachmentsorder>';
+			$aArgs['request_body'] = $sBody;
+		}
+		$oToken = null;
+		$sSecret = null;
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/realestate/'.$aArgs['estateid'].'/attachment/attachmentsorder',$aArgs,$aRequired,__FUNCTION__,$oToken,'PUT');
+		$req->unset_parameter('estateid');
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
 	}
 }
