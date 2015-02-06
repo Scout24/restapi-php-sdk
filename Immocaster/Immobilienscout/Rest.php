@@ -999,6 +999,34 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		return parent::getContent($req,$sSecret);
 	}
 
+    /**
+     * Kontakt bei ImmobilienScout24 löschen. Bestehende Immobilienzuordnungen werden durch den Standard Kontakt ersetzt.
+     * (Hierfür müssen besondere Berechtigungen bei ImmobilienScout24 beantragt werden.
+     * Bitte informieren Sie sich direkt bei IS24 darüber.)
+     *
+     * @param array $aArgs
+     * @return mixed
+     */
+    private function _deleteContact($aArgs)
+	{
+		$aRequired = array('username','contactid');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/user/'.$aArgs['username'].'/contact/'.$aArgs['contactid'],$aArgs,$aRequired,__FUNCTION__,$oToken,'DELETE');
+		$req->unset_parameter('contactid');
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
+	}
+
 	/**
 	 * OnTop Platzierungen für mehrere Objekte bei ImmobilienScout24 buchen.
 	 * Möglich sind folgende OnTop Platzierungen: Top, Premium und Schaufenster.
