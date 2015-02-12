@@ -460,6 +460,15 @@ echo '<h2>Kontaktadresse eines Maklers per ID auslesen</h2><br/>Diese Funktion w
 //echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
+ * Löscht eine Kontaktadresse (Contact) eines Maklers
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/contact/delete.html
+ */
+echo '<h2>Kontaktadresse eines Maklers löschen</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+//$aParameter = array('username'=>'USERNAME','contactid'=>'CONTACTID' /*id oder externalId*/);
+//$res        = $oImmocaster->deleteContact($aParameter);
+//echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+
+/**
  * Liste von Objekten OnTop platzieren
  * API Doku: http://api.immobilienscout24.de/our-apis/import-export/ontop-placement/post-by-list.html
  */
