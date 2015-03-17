@@ -623,6 +623,19 @@ array(
 $res        = $oImmocaster->changeObjectAttachment($aParameter);
 echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';*/
 
+/**
+ * Ermittelt die Publishchannels eines Objektes
+ * API Doku: http://api.immobilienscout24.de/our-apis/import-export/publish/get.html
+ */
+echo '<h2>Publishchannels eines Objektes:</h2><br/>Diese Funktion wurde auskommentiert, da dafür eine Zertifizierung nötig ist.<br/><br/>';
+/*$aParameter = array(
+  'username'=>'USERNAME',
+  'realestate'=>'ESTATEID' // ScoutID
+ // 'publishchannel'=>'10000' // optional: 10000=IS24, 10001=HP
+  );
+$res        = $oImmocaster->getPublish($aParameter);
+echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';*/
+
 ?>
 </body>
 </html>

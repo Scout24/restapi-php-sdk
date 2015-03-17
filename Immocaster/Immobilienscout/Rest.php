@@ -1672,4 +1672,30 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		$req->unset_parameter('type');
 		return parent::getContent($req,$sSecret);
 	}
+	/**
+	 * Publishchannels eines Objektes ermitteln
+	 * (Hierfür müssen besondere Berechtigungen
+	 * bei ImmobilienScout24 beantragt werden.)
+	 *
+	 * @param array $aArgs
+	 * @return mixed
+	 */
+	private function _getPublish($aArgs)
+	{
+		$aRequired = array('username','realestate');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest('offer/v1.0/publish',$aArgs,$aRequired,__FUNCTION__,$oToken);
+		$req->unset_parameter('username');
+		return parent::getContent($req,$sSecret);
+	}
 }

@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.75
+Immocaster PHP SDK v1.1.76
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,10 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.76
+- GET Publish zum Ermitteln der Publishchannels von einem Objekt möglich. Optional kann auch der Channel mitgegeben werden.
+- WICHTIG: Ab dem 01.06.2015 werden die Publishchannels nicht mehr in der GETbyID Reealestate Response auftachen. Diese Informationen spielt IS24 demnächst nur noch via GET Publish (SDK: getPublish()).
 
 SDK Version 1.1.75
 - DELETE Contact möglich. Powered by amenk.
