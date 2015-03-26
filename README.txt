@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.76
+Immocaster PHP SDK v1.1.77
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.77
+- Bugfix POST Attachment (Video): Das Verwenden einer statischen Request URL für den Videoupload ist nicht mehr zulässig. Nun wird die uploadUrl dynamisch aus der GET /videouploadticket geholt und verwendet.
 
 SDK Version 1.1.76
 - GET Publish zum Ermitteln der Publishchannels von einem Objekt möglich. Optional kann auch der Channel mitgegeben werden.

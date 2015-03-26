@@ -1509,7 +1509,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
                 'videofile' => '@'.$aParameter['file']
             );
 
-        $ch = curl_init('http://csp.picsearch.com/upload');
+        $ch = curl_init($aParameter['uploadUrl']);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postValues);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
