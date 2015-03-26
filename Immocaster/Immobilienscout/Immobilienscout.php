@@ -306,7 +306,7 @@ class Immocaster_Immobilienscout
 			$aFileInfo = finfo_open(FILEINFO_MIME_TYPE);
 			$aFileInfoMime = finfo_file($aFileInfo, $aArgs['file']);
 		}
-		else if($aFileInfoMime = mime_content_type($aArgs['file']))
+		else if(function_exists('mime_content_type') && $aFileInfoMime = mime_content_type($aArgs['file']))
 		{
 			$aFileInfoMime = mime_content_type($aArgs['file']);
 		}
