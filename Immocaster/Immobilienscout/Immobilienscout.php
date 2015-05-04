@@ -288,7 +288,6 @@ class Immocaster_Immobilienscout
 	protected function createAttachmentBody($sMimeBoundary,$aArgs)
 	{
 		if($aArgs['type'] == 'Link') {
-		echo 'Hallo Link';
 		$sBreak = "\r\n";
 		$sBody  = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'. $sBreak;
 		$sBody .= '<common:attachment xsi:type="common:Link" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0" xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'. $sBreak;
