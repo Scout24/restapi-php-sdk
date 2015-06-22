@@ -17,7 +17,7 @@ class Immocaster_Immobilienscout
      *
      * @var string
      */
-	protected $_sUri = 'http://rest.sandbox-immobilienscout24.de';
+	protected $_sUri = 'https://rest.sandbox-immobilienscout24.de';
 
     /**
      * REST-Pfad der für ImmobilienScout24 genutzt werden soll.

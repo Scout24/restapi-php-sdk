@@ -131,12 +131,12 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	{
 		if($sUrl==false || $sUrl=='sandbox' || $sUrl=='test')
 		{
-			$this->_sUri = 'http://rest.sandbox-immobilienscout24.de';
+			$this->_sUri = 'https://rest.sandbox-immobilienscout24.de';
 			return true;
 		}
 		if($sUrl=='live')
 		{
-			$this->_sUri = 'http://rest.immobilienscout24.de';
+			$this->_sUri = 'https://rest.immobilienscout24.de';
 			return true;
 		}
 		$this->_sUri = $sUrl;

@@ -9,6 +9,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 History
 =======
 
+SDK Version 1.1.78
+- Ab sofort wird die API mit https angesprochen, nicht mehr mit http. Mittelfristig werden http Requests auf https umgeleitet.
+
 SDK Version 1.1.77
 - Bugfix POST Attachment (Video): Das Verwenden einer statischen Request URL für den Videoupload ist nicht mehr zulässig. Nun wird die uploadUrl dynamisch aus der GET /videouploadticket geholt und verwendet.
 
