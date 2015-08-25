@@ -35,6 +35,11 @@ $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout
 // $oImmocaster->setDataStorage(array('mysql','DB-Host','DB-User','DB-Password','DB-Name'));
 
 /**
+* HTTPS verwenden
+*/
+//$oImmocaster->useHttps(true);
+
+/**
  * JSON verwenden
  */
 // $oImmocaster->setContentResultType('json');

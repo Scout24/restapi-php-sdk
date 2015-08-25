@@ -185,6 +185,10 @@ class Immocaster_Immobilienscout
 			if($this->_sUrlReadingType=='curl')
 			{
 				$ch = curl_init();
+				if($this->_sProtocol =='https')
+				{
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
 				curl_setopt($ch,CURLOPT_HTTPHEADER,$sNewHeader);
 				curl_setopt($ch,CURLOPT_URL,$req->to_url());
 				curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);

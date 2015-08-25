@@ -50,6 +50,11 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	 protected $_bAuthenticateWithoutDB = false;
 
+	 /**
+	 * Requests standardmäßig mit http abgeschickt
+	 */
+	 protected $_sProtocol = 'http';
+
 	/**
      * Der Constructor legt die Einstellungen für die
 	 * Verbindung fest und startet diese.
@@ -131,12 +136,12 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	{
 		if($sUrl==false || $sUrl=='sandbox' || $sUrl=='test')
 		{
-			$this->_sUri = 'https://rest.sandbox-immobilienscout24.de';
+			$this->_sUri = $this->_sProtocol.'://rest.sandbox-immobilienscout24.de';
 			return true;
 		}
 		if($sUrl=='live')
 		{
-			$this->_sUri = 'https://rest.immobilienscout24.de';
+			$this->_sUri = $this->_sProtocol.'://rest.immobilienscout24.de';
 			return true;
 		}
 		$this->_sUri = $sUrl;
@@ -173,6 +178,24 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
  		else
  		{
  			$this->_bAuthenticateWithoutDB = false;
+ 		}
+ 		return true;
+     }
+
+    /**
+     * https / http nutzen
+     *
+     * @return boolean
+     */
+     public function useHttps($bUseHttps)
+     {
+     	if ($bUseHttps === true)
+     	{
+ 			$this->_sProtocol = 'https';
+ 		}
+ 		else
+ 		{
+ 			$this->_sProtocol = 'http';
  		}
  		return true;
      }
