@@ -206,6 +206,14 @@ class Immocaster_Immobilienscout
 				{
 					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 				}
+                if($this->_sProxyName)
+                {
+                    curl_setopt($ch, CURLOPT_PROXY, $this->_sProxyName);
+                    if($this->_sProxyPort)
+                    {
+                        curl_setopt($ch, CURLOPT_PROXYPORT, $this->_sProxyPort);
+                    }
+                }
 				$result = curl_exec($ch);
 				// Return information
 				if($this->_bRequestDebug==true)
