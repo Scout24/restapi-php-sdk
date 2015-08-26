@@ -55,6 +55,12 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	 */
 	 protected $_sProtocol = 'http';
 
+     /**
+      * Proxy
+      **/
+     protected $_sProxyName = NULL;
+     protected $_sProxyPort = NULL;
+
 	/**
      * Der Constructor legt die Einstellungen für die
 	 * Verbindung fest und startet diese.
@@ -163,6 +169,22 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		}
 		return false;
 	}
+
+    /**
+     * Proxy-Einstellungen
+     *
+     * @param  string  $sProxyName  Name (oder IP) des Proxy-Servers
+     * @param  string  $sProxyPort  optionaler Port (wird auf numeric geprueft)
+     * @return void
+     **/
+    public function setProxy($sProxyName,$sProxyPort=NULL)
+    {
+        $this->_sProxyName = $sProxyName;
+        if($sProxyPort&&is_numeric($sProxyPort))
+        {
+            $this->_sProxyPort = $sProxyPort;
+        }
+    }
 
 	/**
       * Authentifizierung ohne MySQL Datenbank aktivieren und deaktivieren.
@@ -1405,6 +1427,14 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1);
 				curl_setopt($ch, CURLOPT_HEADER, 0);
 				curl_setopt($ch, CURLOPT_HTTPHEADER, $opts['http']);
+                if($this->_sProxyName)
+                {
+                    curl_setopt($ch, CURLOPT_PROXY, $this->_sProxyName);
+                    if($this->_sProxyPort)
+                    {
+                        curl_setopt($ch, CURLOPT_PROXYPORT, $this->_sProxyPort);
+                    }
+                }
 				$result = curl_exec($ch);
 				curl_close($ch);
 			}else{
@@ -1536,6 +1566,15 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postValues);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		if($this->_sProxyName)
+		{
+    		curl_setopt($ch, CURLOPT_PROXY, $this->_sProxyName);
+    		if($this->_sProxyPort)
+    		{
+        		curl_setopt($ch, CURLOPT_PROXYPORT, $this->_sProxyPort);
+    		}
+		}
 
         try
         {
