@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.79
+Immocaster PHP SDK v1.1.80
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.80
+- Erlaubt die Verwendung eines eigenen Proxys. Vielen Dank, webbird!
 
 SDK Version 1.1.79
 - Sie können nun zwischen http und https Requests wählen. Für https verwenden Sie useHttps(true) und wie üblich setzen Sie die URL der Sandbox oder des Live-Systems via setRequestUrl().
