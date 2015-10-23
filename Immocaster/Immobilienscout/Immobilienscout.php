@@ -341,8 +341,9 @@ class Immocaster_Immobilienscout
 		$sBody .= 'xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" ';
 		$sBody .= 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $sBreak;
 		$sBody .= '<title>'.$aArgs['title'].'</title>' . $sBreak;
+		$sBody .= '<externalId>'.$aArgs['externalId'].'</externalId>' . $sBreak;
+		$sBody .= '<externalCheckSum>'.$aArgs['externalCheckSum'].'</externalCheckSum>' . $sBreak;
 		if( $aArgs['type']==='Picture' || $aArgs['type']==='PDFDocument') {
-			$sBody .= '<externalId>'.$aArgs['externalId'].'</externalId>' . $sBreak;
 			$sBody .= '<floorplan>'.$aArgs['floorplan'].'</floorplan>' . $sBreak;
 		}
 		if( $aArgs['type']==='Picture') {

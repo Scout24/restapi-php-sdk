@@ -817,6 +817,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		if(!isset($aArgs['titlePicture'])){ $aArgs['titlePicture'] = 'false'; }
 		if(!isset($aArgs['type'])){ $aArgs['type'] = ''; }
 		if(!isset($aArgs['externalId'])){ $aArgs['externalId'] = ''; }
+        if(!isset($aArgs['externalCheckSum'])){ $aArgs['externalCheckSum'] = ''; }
 		$oToken = null;
 		$sSecret = null;
 		$aHeader = array();
@@ -853,6 +854,7 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 		$req->unset_parameter('url');
 		$req->unset_parameter('type');
 		$req->unset_parameter('externalId');
+        $req->unset_parameter('externalCheckSum');
 		return parent::getContent(
 			$req,
 			$sSecret,

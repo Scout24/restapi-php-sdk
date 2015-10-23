@@ -9,17 +9,17 @@
  * @author     Norman Braun (medienopfer98.de)
  * @link       http://www.immobilienscout24.de
  */
- 
+
 class Immocaster_Sdk
 {
-	
+
     /**
      * Version and Application
 	 *
      * @var string
      */
 	 private $_sImmocasterApplication = 'SDK';
-	 private $_sImmocasterVersion = '1_1_x';	
+	 private $_sImmocasterVersion = '1_1_x';
 
     /**
      * Service Objekt
@@ -27,14 +27,14 @@ class Immocaster_Sdk
      * @var mixed
      */
 	 private $_oService = false;
-	 
+
     /**
      * Singleton Instanzen
      *
      * @var array
      */
 	static private $_instances = array();
-	
+
     /**
      * Singleton Pattern für die Erstellung
 	 * der Instanzen von Immocaster_Sdk.
@@ -55,7 +55,7 @@ class Immocaster_Sdk
 		}
 		return self::$_instances[$sName];
 	}
-	
+
     /**
      * Abhängige Dateien laden und Verbindung
 	 * zu einem Service aufbauen.
@@ -92,7 +92,7 @@ class Immocaster_Sdk
 		echo sprintf(IMMOCASTER_SDK_LANG_CANNOT_CONNECT_SERVICE,$sService,$sAuth.'/'.$sProtocol);
 		return false;
 	}
-	
+
     /**
      * Aufgerufene Methode in den jeweiligen
 	 * Service weiterleiten und dort aufrufen.
@@ -110,7 +110,7 @@ class Immocaster_Sdk
 		echo IMMOCASTER_SDK_LANG_NO_SERVICE_FOUND;
 		return false;
 	}
-	
+
 	/**
      * Haupt-URL zum Service ändern.
 	 *
@@ -126,7 +126,7 @@ class Immocaster_Sdk
 		echo IMMOCASTER_SDK_LANG_NO_SERVICE_FOR_CHANGE_URL;
 		return false;
 	}
-	
+
 	/**
      * Datenspeicherung Datenbank
 	 * initialisieren (für 3-legged-oauth).
@@ -148,5 +148,5 @@ class Immocaster_Sdk
 		require_once(dirname(__FILE__).'/Data/'.$sFileName.'.php');
 		return call_user_func(array('Immocaster_Data_'.$sFileName,'getInstance'),$aConnection,$sTableName);
 	}
-	
+
 }

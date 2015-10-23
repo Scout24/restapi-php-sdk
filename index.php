@@ -353,7 +353,8 @@ $aParameter = array(
   'type' => 'ATTACHMENTTYPE', // Picture, PDFDocument or Link
   'file' => 'LOCATION', // file path OR URL
   //'url' => 'URL',
-  'externalId' => 'EXTERNALID'); // optional
+  'externalId' => 'EXTERNALID', // optional
+  'externalCheckSum' => 'CHECKSUM'); // optional
 $res = $oImmocaster->exportObjectAttachment($aParameter);
 echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 */
