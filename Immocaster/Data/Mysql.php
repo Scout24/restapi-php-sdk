@@ -103,15 +103,12 @@ class Immocaster_Data_Mysql
      */
 	private function connectDatabase($aConnection=array())
 	{
-		if($db = @mysql_connect($aConnection[1],$aConnection[2],$aConnection[3]))
-		{
-			if(@mysql_select_db($this->_oDatabaseDb=$aConnection[4]))
-			{
-				$this->_oDataConnection = $db;
-				return true;
-			}
+		$this->_oDataConnection = mysqli_connect($aConnection[1],$aConnection[2],$aConnection[3],$aConnection[4]);
+		if (mysqli_connect_errno()) {
+			return FALSE;
 		}
-		return false;
+		$this->_oDatabaseDb=$aConnection[4];
+		return TRUE;
 	}
 
 	/**
@@ -122,9 +119,9 @@ class Immocaster_Data_Mysql
      */
 	private function getDataTable()
 	{
-		if($aLists = @mysql_list_tables($this->_oDatabaseDb))
+		if($aLists = mysqli_query($this->_oDataConnection,'SHOW TABLES'))
 		{
-			while ($row = mysql_fetch_row($aLists)) {
+		while ($row = mysqli_fetch_row($aLists)) {
 				if($row[0]==$this->_sTableName)
 				{
 					return true;
@@ -153,7 +150,7 @@ class Immocaster_Data_Mysql
             `ic_username` VARCHAR(60),
             PRIMARY KEY (  `ic_id` )
             ) ENGINE = MYISAM";
-			mysql_query($sql,$this->_oDataConnection);
+			mysqli_query($this->_oDataConnection,$sql);
 		}
 	}
 
@@ -170,8 +167,8 @@ class Immocaster_Data_Mysql
 			'ic_username' => 0
 		);
 		$sql = "SHOW COLUMNS FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."`";
-		$res = mysql_query($sql,$this->_oDataConnection);
-		while($record = mysql_fetch_array($res))
+		$res = mysqli_query($this->_oDataConnection,$sql);
+		while($record = mysqli_fetch_array($res))
 		{
 			$aFields[$record['0']] = 1;
 		}
@@ -181,7 +178,7 @@ class Immocaster_Data_Mysql
 			if($key=='ic_username' && $value==0)
 			{
 				$sql_username = "ALTER TABLE `".$this->_oDatabaseDb."`.`".$this->_sTableName."` ADD ic_username VARCHAR(60) NOT NULL;";
-				mysql_query($sql_username,$this->_oDataConnection);
+				mysqli_query($this->_oDataConnection,$sql_username);
 			}
 		}
 	}
@@ -204,7 +201,7 @@ class Immocaster_Data_Mysql
 			) VALUES (
 			'REQUEST','".$sToken."','".$sSecret."','".date("Y-m-d H:i:s", strtotime ("+".$this->_iRequestExpire." minutes"))."'
 			);";
-			if(mysql_query($sql,$this->_oDataConnection))
+			if(mysqli_query($this->_oDataConnection,$sql))
 			{
 				return true;
 			}
@@ -222,8 +219,8 @@ class Immocaster_Data_Mysql
 	{
 		if(strlen($sToken)<8){return false;}
 		$sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='REQUEST' AND ic_key='".$sToken."'";
-		$result = mysql_query($sql,$this->_oDataConnection);
-		$obj = mysql_fetch_object($result);
+		$result = mysqli_query($this->_oDataConnection,$sql);
+		$obj = mysqli_fetch_object($result);
 		return $obj;
 	}
 
@@ -235,8 +232,8 @@ class Immocaster_Data_Mysql
     public function getRequestTokenWithoutSession()
     {
         $sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='REQUEST' order by ic_id desc LIMIT 1";
-        $result = mysql_query($sql,$this->_oDataConnection);
-        $obj = mysql_fetch_object($result);
+        $result = mysqli_query($this->_oDataConnection,$sql);
+        $obj = mysqli_fetch_object($result);
         return $obj;
     }
 
@@ -250,8 +247,8 @@ class Immocaster_Data_Mysql
 	{
 		$dNow = date("Y-m-d H:i:s");
 		$sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='REQUEST'";
-		$result = mysql_query($sql,$this->_oDataConnection);
-		while($obj = mysql_fetch_object($result))
+		$result = mysqli_query($this->_oDataConnection,$sql);
+		while($obj = mysqli_fetch_object($result))
 		{
 			if($obj->ic_expire<$dNow)
 			{
@@ -269,7 +266,7 @@ class Immocaster_Data_Mysql
 	public function deleteRequestToken()
 	{
 		$sql = "DELETE FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='REQUEST'";
-		mysql_query($sql,$this->_oDataConnection);
+		mysqli_query($this->_oDataConnection,$sql);
 	}
 
 	/**
@@ -282,7 +279,7 @@ class Immocaster_Data_Mysql
 	public function deleteRequestTokenById($iId)
 	{
 		$sql = "DELETE FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='REQUEST' AND ic_id=".$iId;
-		if(mysql_query($sql,$this->_oDataConnection))
+		if(mysqli_query($this->_oDataConnection,$sql))
 		{
 			return true;
 		}
@@ -306,7 +303,7 @@ class Immocaster_Data_Mysql
 			) VALUES (
 			'APPLICATION','".$sToken."','".$sSecret."','0000-00-00 00:00:00.000000','".$sUser."'
 			);";
-			if(mysql_query($sql,$this->_oDataConnection))
+			if(mysqli_query($this->_oDataConnection,$sql))
 			{
 				@$this->deleteRequestToken();
 				return true;
@@ -324,8 +321,8 @@ class Immocaster_Data_Mysql
 	public function getApplicationToken($sUser)
 	{
 		$sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='APPLICATION' AND ic_username='".$sUser."'";
-		$result = mysql_query($sql,$this->_oDataConnection);
-		if($obj = mysql_fetch_object($result))
+		$result = mysqli_query($this->_oDataConnection,$sql);
+		if($obj = mysqli_fetch_object($result))
 		{
 			return $obj;
 		}
@@ -342,8 +339,8 @@ class Immocaster_Data_Mysql
 	{
 		$aUsers = array();
 		$sql = "SELECT * FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='APPLICATION'";
-		$result = mysql_query($sql,$this->_oDataConnection);
-		while($obj = mysql_fetch_object($result))
+		$result = mysqli_query($this->_oDataConnection,$sql);
+		while($obj = mysqli_fetch_object($result))
 		{
 			array_push($aUsers,$obj->ic_username);
 		}
@@ -359,7 +356,7 @@ class Immocaster_Data_Mysql
 	public function deleteApplicationToken()
 	{
 		$sql = "DELETE FROM `".$this->_oDatabaseDb."`.`".$this->_sTableName."` WHERE ic_desc='APPLICATION'";
-		mysql_query($sql,$this->_oDataConnection);
+		mysqli_query($this->_oDataConnection,$sql);
 	}
 
 }
