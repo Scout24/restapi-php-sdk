@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.81
+Immocaster PHP SDK v1.1.82
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,8 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.82
 
 SDK Version 1.1.81
 - externalCheckSum für effizientere Synchronisierung von Attachments verfügbar.
