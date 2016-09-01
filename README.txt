@@ -10,6 +10,7 @@ History
 =======
 
 SDK Version 1.1.82
+- Nutzen der mysqli, anstatt der veralteten mysql Funktionen. Powered by kalunari.
 
 SDK Version 1.1.81
 - externalCheckSum für effizientere Synchronisierung von Attachments verfügbar.
