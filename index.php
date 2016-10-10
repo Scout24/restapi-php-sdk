@@ -103,17 +103,33 @@ ausführliche Dokumentation befindet sich unter <a href="http://immocaster.com/s
 <?php
 
 /**
- * Regionen ermitteln.
+ * Geodaten (Suggestion) ermitteln.
  */
-echo '<h2>Regionen ermitteln</h2>';
-$aParameter = array('q'=>'Ber');
-$res        = $oImmocaster->getRegions($aParameter);
+echo '<h2>GIS - GeoAutoCompletion (GAC) v2 API Suggestion Ressource</h2><br>
+      API Dokumentation: https://api.immobilienscout24.de/our-apis/gis/geoautocompletion-v2.html#suggestion';
+$aParameter = array('country'=>'DEU', // DEU or AUT
+                    'i'=>'Berlin', // input search query
+                    'l'=>'10', // optional, limit max. 50
+                    't'=>'ALL');  // optional, entity types
+$res        = $oImmocaster->getGeoAutocompletionSuggestion($aParameter);
+echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
+ 
+/**
+ * Geodaten (Entity) ermitteln.
+ */
+echo '<h2>GIS - GeoAutocCmpletion (GAC) v2 API Entity Ressource</h2><br>
+      API Dokumentation: https://api.immobilienscout24.de/our-apis/gis/geoautocompletion-v2.html#entity';
+$aParameter = array('country'=>'DEU', // DEU or AUT
+                    'id'=>'1276003001', // The ID of the entity. You get IDs in the result of the suggestion resource.
+                    'g'=>'WGS84'); // optional, GeoCodingType: One of None, GeoId, Lambert, WGS84 (optional)
+$res        = $oImmocaster->getGeoAutocompletionEntity($aParameter);
 echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';
 
 /**
- * Geodaten ermitteln.
+ * Geodaten (Geohierarchy) ermitteln.
  */
-echo '<h2>GIS - Geo Service</h2>';
+echo '<h2>GIS - Geohierarchy</h2><br>
+      API Dokumentation: https://api.immobilienscout24.de/our-apis/gis/geohierarchy.html';
 $aParameter = array('country-id'=>276,'region-id'=>2,'list'=>true);
 $res        = $oImmocaster->geoService($aParameter);
 echo '<div class="codebox"><textarea>'.$res.'</textarea></div>';

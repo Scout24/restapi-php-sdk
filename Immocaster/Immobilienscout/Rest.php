@@ -444,16 +444,28 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
 	}
 
 	/**
-     * Abfrage der Geo-Informationen per Stadtname, oder
-	 * per Anfangsbuchstaben einer Region.
-	 *
+     * Abfrage von Geo-Objekten anhand eines Inputs
+     *
      * @param array $aArgs
      * @return mixed
      */
-	private function _getRegions($aArgs)
+	private function _getGeoAutocompletionSuggestion($aArgs)
 	{
-		$aRequired = array('q');
-		$req = $this->doRequest('search/v1.0/region',$aArgs,$aRequired,__FUNCTION__);
+		$aRequired = array('i','country');
+		$req = $this->doRequest('gis/v2.0/geoautocomplete/'.$aArgs['country'],$aArgs,$aRequired,__FUNCTION__);
+		return parent::getContent($req);
+	}
+
+	/**
+     * Abfrage von Geo-Objekten anhand einer Geo-Entity-ID
+     *
+     * @param array $aArgs
+     * @return mixed
+     */
+	private function _getGeoAutocompletionEntity($aArgs)
+	{
+		$aRequired = array('id','country');
+		$req = $this->doRequest('gis/v2.0/geoautocomplete/'.$aArgs['country'].'/entity/'.$aArgs['id'],$aArgs,$aRequired,__FUNCTION__);
 		return parent::getContent($req);
 	}
 

@@ -1,4 +1,4 @@
-Immocaster PHP SDK v1.1.82
+Immocaster PHP SDK v1.1.83
 ==========================
 Author:     Norman Braun (http://www.medienopfer98.de)
 Copyright:  Immobilien Scout GmbH
@@ -8,6 +8,9 @@ Das PHP SDK von ImmobilienScout24 steht unter der FreeBSD Lizenz zur Verfügung 
 
 History
 =======
+
+SDK Version 1.1.83
+- The GeoAutoCompletion (GAC) v2 API ersetzt die als DEPRECATED markierte Region auto completion API. Migrationshilfe: https://api.immobilienscout24.de/our-apis/gis/migrate-regionautocompletionv1-to-geoautocompletionv2.html 
 
 SDK Version 1.1.82
 - Nutzen der mysqli, anstatt der veralteten mysql Funktionen. Powered by kalunari.
