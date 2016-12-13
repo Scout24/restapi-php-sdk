@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 /**
  * ImmobilienScout24 PHP-SDK
  *  Nutzung der ImmobilienScout24 API per REST.
