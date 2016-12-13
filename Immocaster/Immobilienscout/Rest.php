@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 /**
  * ImmobilienScout24 PHP-SDK
  *  Nutzung der ImmobilienScout24 API per REST.
@@ -342,13 +342,25 @@ class Immocaster_Immobilienscout_Rest extends Immocaster_Immobilienscout
      * @param array $aArgs
      * @return mixed
      */
-	private function _getExpose($aArgs)
-	{
-		$aRequired = array('exposeid');
-		$req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__);
-		$req->unset_parameter('exposeid');
-		return parent::getContent($req);
-	}
+    private function _getExpose($aArgs)
+    {
+        $aRequired = array('username','exposeid');
+        $oToken = null;
+        $sSecret = null;
+        if(!isset($aArgs['username']))
+        {
+            $aArgs['username'] = $this->_sDefaultUsername;
+        }
+        list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+        if($oToken === NULL || $sSecret === NULL)
+        {
+            return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+        }
+        $req = $this->doRequest('search/v1.0/expose/'.$aArgs['exposeid'],$aArgs,$aRequired,__FUNCTION__, $oToken);
+        $req->unset_parameter('exposeid');
+        $req->unset_parameter('username');
+        return parent::getContent($req,$sSecret);
+    }
 
 	/**
      * Abfrage eines eigenen Exposes (Offer-API)
