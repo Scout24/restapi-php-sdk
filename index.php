@@ -19,8 +19,8 @@ require_once('Immocaster/Sdk.php');
  * Die Daten (Key und Secret) erhält man auf
  * http://developer.immobilienscout24.de.
  */
-$sImmobilienScout24Key    = 'Key für ImmobilienScout24';
-$sImmobilienScout24Secret = 'Secret für ImmobilienScout24';
+$sImmobilienScout24Key    = 'Key fuer ImmobilienScout24';
+$sImmobilienScout24Secret = 'Secret fuer ImmobilienScout24';
 $oImmocaster              = Immocaster_Sdk::getInstance('is24',$sImmobilienScout24Key,$sImmobilienScout24Secret);
 
 /**
