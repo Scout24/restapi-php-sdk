@@ -301,7 +301,7 @@ class Immocaster_Data_Mysql
 			$sql = "INSERT INTO `".$this->_oDatabaseDb."`.`".$this->_sTableName."` (
 			`ic_desc`,`ic_key`,`ic_secret`,`ic_expire`,`ic_username`
 			) VALUES (
-			'APPLICATION','".$sToken."','".$sSecret."','0000-00-00 00:00:00.000000','".$sUser."'
+			'APPLICATION','".$sToken."','".$sSecret."','1000-01-01 00:00:00.000000','".$sUser."'
 			);";
 			if(mysqli_query($this->_oDataConnection,$sql))
 			{
