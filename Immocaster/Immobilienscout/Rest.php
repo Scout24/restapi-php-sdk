@@ -1778,6 +1778,8 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 	/**
      * Füge Objekt einem Projekt hinzu
      *
+     * @author chris <chris@musicchris.de>
+     *
      * @param array $aArgs
      * @return mixed
      */
@@ -1810,6 +1812,14 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
         );
     }
 
+    /**
+     * Entferne Objekt aus einem Projekt
+     *
+     * @author chris <chris@musicchris.de>
+     *
+     * @param array $aArgs
+     * @return mixed
+     */
     public function deleteFromProject($aArgs)
     {
         $aRequired = array('username', 'estateid', 'project_id');
