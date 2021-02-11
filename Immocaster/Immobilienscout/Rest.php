@@ -1774,4 +1774,78 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
+
+    /**
+     * Füge Objekt einem Projekt hinzu
+     *
+     * @author chris <chris@musicchris.de>
+     *
+     * @param array $aArgs
+     * @return mixed
+     */
+    public function addToProject($aArgs)
+    {
+        $aRequired = array('username', 'estateid', 'project_id');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$aArgs['request_body'] = '<realestateproject:realEstateProjectEntries xmlns:realestateproject="http://rest.immobilienscout24.de/schema/offer/realestateproject/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns4="http://rest.immobilienscout24.de/schema/platform/gis/1.0">
+   <realEstateProjectEntry>
+      <realEstateExternalId>' . $aArgs["estateid"] . '</realEstateExternalId>
+   </realEstateProjectEntry>
+</realestateproject:realEstateProjectEntries>';
+
+		$req = $this->doRequest(
+            'offer/v1.0/user/'.$aArgs['username'].'/realestateproject/'.$aArgs["project_id"].'/realestateprojectentry',
+            $aArgs,
+            $aRequired,
+            __FUNCTION__,
+            $oToken,
+            'POST'
+        );
+
+        return parent::getContent($req,$sSecret);
+    }
+
+    /**
+     * Entferne Objekt aus einem Projekt
+     *
+     * @author chris <chris@musicchris.de>
+     *
+     * @param array $aArgs
+     * @return mixed
+     */
+    public function deleteFromProject($aArgs)
+    {
+        $aRequired = array('username', 'estateid', 'project_id');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest(
+            'offer/v1.0/user/'.$aArgs['username'].'/realestateproject/'.$aArgs["project_id"].'/realestateprojectentry/ext-'.$aArgs["estateid"],
+            $aArgs,
+            $aRequired,
+            __FUNCTION__,
+            $oToken,
+            'DELETE'
+        );
+
+        return parent::getContent($req,$sSecret);
+    }
 }
