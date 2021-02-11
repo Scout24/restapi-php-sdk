@@ -1775,7 +1775,7 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		return parent::getContent($req,$sSecret);
 	}
 
-	/**
+    /**
      * Füge Objekt einem Projekt hinzu
      *
      * @author chris <chris@musicchris.de>
@@ -1799,9 +1799,10 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		}
 		$aArgs['request_body'] = '<realestateproject:realEstateProjectEntries xmlns:realestateproject="http://rest.immobilienscout24.de/schema/offer/realestateproject/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns4="http://rest.immobilienscout24.de/schema/platform/gis/1.0">
    <realEstateProjectEntry>
-      <realEstateExtneralId>' . $aArgs["estateid"] . '</realEstateExternalId>
+      <realEstateExternalId>' . $aArgs["estateid"] . '</realEstateExternalId>
    </realEstateProjectEntry>
 </realestateproject:realEstateProjectEntries>';
+
 		$req = $this->doRequest(
             'offer/v1.0/user/'.$aArgs['username'].'/realestateproject/'.$aArgs["project_id"].'/realestateprojectentry',
             $aArgs,
@@ -1810,6 +1811,8 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
             $oToken,
             'POST'
         );
+
+        return parent::getContent($req,$sSecret);
     }
 
     /**
@@ -1842,5 +1845,7 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
             $oToken,
             'DELETE'
         );
+
+        return parent::getContent($req,$sSecret);
     }
 }
