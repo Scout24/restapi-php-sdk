@@ -1,5 +1,5 @@
 {
-    "name": "immocaster/php-sdk",
+    "name": "ideenkonzept/php-sdk",
     "type": "library",
     "description": "ImmobilienScout24 PHP-SDK",
     "keywords": ["immobilienscout24","estate","real estate","realtor"],
