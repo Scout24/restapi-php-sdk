@@ -1775,6 +1775,41 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		return parent::getContent($req,$sSecret);
 	}
 
+	/*
+     * Erfrage die Projekt-ID eines Objektes
+     *
+     * Hinweis: hierfür müssen gesonderte Rechte bei Immoscout erteilt werden!
+     *
+     * @author chris <chris@musicchris.de> / https://github.com/chris-blues
+     *
+     * @param array $aArgs
+     * @return mixed
+     */
+    public function getProjectId($aArgs)
+    {
+        $aRequired = array('username', 'estateid');
+		$oToken = null;
+		$sSecret = null;
+		if(!isset($aArgs['username']))
+		{
+			$aArgs['username'] = $this->_sDefaultUsername;
+		}
+		list($oToken, $sSecret) = $this->getApplicationTokenAndSecret($aArgs['username']);
+		if($oToken === NULL || $sSecret === NULL)
+		{
+			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
+		}
+		$req = $this->doRequest(
+            'offer/v1.0/user/'.$aArgs['username'].'/realestateproject?realestateid=ext-'.$aArgs["estateid"],
+            $aArgs,
+            $aRequired,
+            __FUNCTION__,
+            $oToken
+        );
+
+        return parent::getContent($req,$sSecret);
+    }
+
     /**
      * Füge Objekt einem Projekt hinzu
      *
