@@ -1778,7 +1778,9 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
     /**
      * Füge Objekt einem Projekt hinzu
      *
-     * @author chris <chris@musicchris.de>
+     * Hinweis: hierfür müssen gesonderte Rechte bei Immoscout erteilt werden!
+     *
+     * @author chris <chris@musicchris.de> / https://github.com/chris-blues
      *
      * @param array $aArgs
      * @return mixed
@@ -1818,7 +1820,9 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
     /**
      * Entferne Objekt aus einem Projekt
      *
-     * @author chris <chris@musicchris.de>
+     * Hinweis: hierfür müssen gesonderte Rechte bei Immoscout erteilt werden!
+     *
+     * @author chris <chris@musicchris.de> / https://github.com/chris-blues
      *
      * @param array $aArgs
      * @return mixed
