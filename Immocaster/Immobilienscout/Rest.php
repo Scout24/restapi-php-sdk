@@ -1780,6 +1780,8 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
      *
      * Hinweis: hierfür müssen gesonderte Rechte bei Immoscout erteilt werden!
      *
+     * Beware: Doesn't work with external ID! Triggers an error at Immoscout24!
+     *
      * @author chris <chris@musicchris.de> / https://github.com/chris-blues
      *
      * @param array $aArgs
@@ -1818,9 +1820,10 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
      * @author chris <chris@musicchris.de> / https://github.com/chris-blues
      *
      * @param array $aArgs
+     * @param bool  $externalID
      * @return mixed
      */
-    public function addToProject($aArgs)
+    public function addToProject($aArgs, $externalID = false)
     {
         $aRequired = array('username', 'estateid', 'project_id');
 		$oToken = null;
@@ -1834,11 +1837,22 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		{
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
-		$aArgs['request_body'] = '<realestateproject:realEstateProjectEntries xmlns:realestateproject="http://rest.immobilienscout24.de/schema/offer/realestateproject/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns4="http://rest.immobilienscout24.de/schema/platform/gis/1.0">
-   <realEstateProjectEntry>
-      <realEstateId>' . $aArgs["estateid"] . '</realEstateId>
-   </realEstateProjectEntry>
-</realestateproject:realEstateProjectEntries>';
+		$aArgs['request_body'] = '<realestateproject:realEstateProjectEntries xmlns:realestateproject="http://rest.immobilienscout24.de/schema/offer/realestateproject/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns4="http://rest.immobilienscout24.de/schema/platform/gis/1.0">';
+
+        $aArgs['request_body'] .= '    <realEstateProjectEntry>';
+
+        if ($externalID)
+        {
+            $aArgs['request_body'] .= '        <realEstateExternalId>' . $aArgs["estateid"] . '</realEstateExternalId>';
+        }
+        else
+        {
+            $aArgs['request_body'] .= '        <realEstateId>' . $aArgs["estateid"] . '</realEstateId>';
+        }
+
+        $aArgs['request_body'] .= '    </realEstateProjectEntry>';
+
+        $aArgs['request_body'] .= '</realestateproject:realEstateProjectEntries>';
 
 		$req = $this->doRequest(
             'offer/v1.0/user/'.$aArgs['username'].'/realestateproject/'.$aArgs["project_id"].'/realestateprojectentry',
