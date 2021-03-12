@@ -1884,7 +1884,6 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
             $oToken,
             'DELETE'
         );
-        dump_var($req);
 
         return parent::getContent($req,$sSecret);
     }
