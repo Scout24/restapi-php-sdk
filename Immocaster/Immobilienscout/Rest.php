@@ -1774,7 +1774,7 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		$req->unset_parameter('username');
 		return parent::getContent($req,$sSecret);
 	}
-	
+
 	/*
      * Erfrage die Projekt-ID eines Objektes
      *
@@ -1800,7 +1800,7 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
 		$req = $this->doRequest(
-            'offer/v1.0/user/'.$aArgs['username'].'/realestateproject?realestateid=ext-'.$aArgs["estateid"],
+            'offer/v1.0/user/'.$aArgs['username'].'/realestateproject?realestateid='.$aArgs["estateid"],
             $aArgs,
             $aRequired,
             __FUNCTION__,
@@ -1836,7 +1836,7 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 		}
 		$aArgs['request_body'] = '<realestateproject:realEstateProjectEntries xmlns:realestateproject="http://rest.immobilienscout24.de/schema/offer/realestateproject/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns4="http://rest.immobilienscout24.de/schema/platform/gis/1.0">
    <realEstateProjectEntry>
-      <realEstateExternalId>' . $aArgs["estateid"] . '</realEstateExternalId>
+      <realEstateId>' . $aArgs["estateid"] . '</realEstateId>
    </realEstateProjectEntry>
 </realestateproject:realEstateProjectEntries>';
 
@@ -1877,13 +1877,14 @@ xmlns:ns3="http://rest.immobilienscout24.de/schema/platform/gis/1.0" xmlns:xlink
 			return IMMOCASTER_SDK_LANG_APPLICATION_NOT_CERTIFIED;
 		}
 		$req = $this->doRequest(
-            'offer/v1.0/user/'.$aArgs['username'].'/realestateproject/'.$aArgs["project_id"].'/realestateprojectentry/ext-'.$aArgs["estateid"],
+            'offer/v1.0/user/'.$aArgs['username'].'/realestateproject/'.$aArgs["project_id"].'/realestateprojectentry/'.$aArgs["estateid"],
             $aArgs,
             $aRequired,
             __FUNCTION__,
             $oToken,
             'DELETE'
         );
+        dump_var($req);
 
         return parent::getContent($req,$sSecret);
     }
