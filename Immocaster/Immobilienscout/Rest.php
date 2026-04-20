@@ -1,5 +1,9 @@
 <?php
-session_start();
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 /**
  * ImmobilienScout24 PHP-SDK
  *  Nutzung der ImmobilienScout24 API per REST.
